@@ -28,13 +28,13 @@ public class MemberController {
     @GetMapping("/sign-up")
     public String signUpForm(Model model) {
         model.addAttribute(new SignUpForm());
-        return "member/signUpForm";
+        return "member/signup-form";
     }
 
     @PostMapping("/sign-up")
     public String signUp(@Valid SignUpForm signUpForm, Errors errors) {
         if (errors.hasErrors()) {
-            return "member/signUpForm";
+            return "member/signup-form";
         }
         memberService.processSignUp(signUpForm);
         return "redirect:/";
