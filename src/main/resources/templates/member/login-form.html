@@ -18,12 +18,12 @@
                 <form th:action="@{/login}" method="post"
                       class="needs-validation form-box" novalidate>
                     <div class="form-group">
-                        <input type="text" id="username" name="username" class="form-control"
+                        <input type="text" id="username" name="username" class="form-control login-input"
                                placeholder="아이디를 입력해 주세요" minlength="5" maxlength="11">
                         <small class="invalid-feedback">아이디를 입력하세요.</small>
                     </div>
                     <div class="form-group">
-                        <input type="password" id="password" name="password" class="form-control"
+                        <input type="password" id="password" name="password" class="form-control login-input"
                                placeholder="비밀번호를 입력해 주세요" minlength="8" maxlength="30">
                         <small class="invalid-feedback">비밀번호를 입력하세요.</small>
                     </div>
@@ -35,6 +35,13 @@
                         <label class="form-check-label" for="rememberMe" aria-describedby="rememberMeHelp">자동로그인</label>
                     </div>
                 </form>
+            </div>
+            <div class="loginMenu">
+                <ul>
+                    <li class="join">회원가입</li>
+                    <li class="idSearch">아이디찾기</li>
+                    <li class="pwSearch">비밀번호 찾기</li>
+                </ul>
             </div>
         </div>
     </div>

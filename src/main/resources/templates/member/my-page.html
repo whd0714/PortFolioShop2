@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragment.html :: head">
+</head>
+<body>
+    <div th:replace="fragment.html :: header"></div>
+
+    <div class="my-page-info">
+        <div th:replace="fragment.html :: my-page-head">
+        </div>
+        <div class="my-page-body">
+            <div th:replace="fragment.html :: my-page-nav"></div>
+            <div class="my-page-main-content first-head">
+                <h3 class="blind">마이페이지 메인</h3>
+                <div class="my-page-content-head">
+                    <span class="page-title">주문내역 조회</span>
+                    <ul class="order-state">
+                        <li><a href="">입금/결제 0</a></li>
+                        <li><a href="">배송중 0</a></li>
+                        <li><a href="">배송완료 0</a></li>
+                        <li><a href="">구매확정 0</a></li>
+                        <li><a href="">교환 0</a></li>
+                        <li><a href="">교환완료 0</a></li>
+                        <li><a href="">환불 0</a></li>
+                        <li><a href="">환불완료 0   </a></li>
+                    </ul>
+                </div>
+                <table class="table-setting">
+                    <thead>
+                        <tr>
+                            <th colspan="2">상품정보</th>
+                            <th>주문일자</th>
+                            <th>주문번호</th>
+                            <th>주문금액(수량)</th>
+                            <th>주문상태</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                <p class="item-zero">
+                    <span>최근 구매내역이 없습니다.</span>
+                </p>
+            </div>
+
+            <div class="my-page-main-content">
+                <h3 class="blind">장바구니 조회</h3>
+                <div class="my-page-content-head">
+                    <span class="page-title">장바구니</span>
+                </div>
+                <table class="table-setting">
+                    <colgroup>
+                        <col style="width:3%">
+                        <col style="width:auto">
+                        <col style="width: 9%">
+                        <col style="width: 12%">
+                        <col style="width: 9%">
+                        <col style="width: 17%">
+                        <col style="width: 12%">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th><input type="checkbox" class="all-check"></th>
+                        <th>상품정보</th>
+                        <th>상품금액</th>
+                        <th>수량</th>
+                        <th>주문금액</th>
+                        <th>배송형태/배송비</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                <p class="item-zero">
+                    <span>장바구니에 담김 상품이 없습니다.</span>
+                </p>
+                <div class="btns">
+                    <div class="del-btn">
+                        <a href="#">선택삭제</a>
+                    </div>
+                    <div class="order-btn">
+                        <a href="#">결제하기</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="my-page-main-content">
+                <h3 class="blind">쿠폰 조회</h3>
+                <div class="my-page-content-head">
+                    <span class="page-title">쿠폰 <em>0장</em></span>
+
+                </div>
+                <table class="table-setting">
+                    <colgroup>
+                        <col style="width:10%">
+                        <col style="width:auto">
+                        <col style="width: 12%">
+                        <col style="width: 12%">
+                        <col style="width: 12%">
+                        <col style="width: 12%">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>쿠폰번호</th>
+                        <th>쿠폰명</th>
+                        <th>할인금액</th>
+                        <th>적용 범위</th>
+                        <th>유효기간</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                <p class="item-zero">
+                    <span>사용가능한 쿠폰이 없습니다.</span>
+                </p>
+            </div>
+
+            <div class="my-page-main-content">
+                <h3 class="blind">쿠폰 조회</h3>
+                <div class="my-page-content-head">
+                    <span class="page-title">좋아요</span>
+                    <div class="like-btns">
+                        <div class="item-btn">
+                            <a href="#">상품</a>
+                        </div>
+                        <div class="brand-btn">
+                            <a href="#">브랜드</a>
+                        </div>
+                    </div>
+                </div>
+                <table class="table-setting">
+                    <colgroup>
+                        <col style="width:10%">
+                        <col style="width:auto">
+                        <col style="width: 12%">
+                        <col style="width: 12%">
+                        <col style="width: 12%">
+                        <col style="width: 12%">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>쿠폰번호</th>
+                        <th>쿠폰명</th>
+                        <th>할인금액</th>
+                        <th>적용 범위</th>
+                        <th>유효기간</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                <p class="item-zero">
+                    <span>사용가능한 쿠폰이 없습니다.</span>
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

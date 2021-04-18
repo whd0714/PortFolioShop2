@@ -39,4 +39,9 @@ public class MemberController {
         memberService.processSignUp(signUpForm);
         return "redirect:/";
     }
+
+    @GetMapping("/myPage")
+    public String myPageView() {
+        return "/member/my-page";
+    }
 }

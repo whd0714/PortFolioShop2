@@ -1,0 +1,364 @@
+@import "/css/reset.css";
+* {
+    box-sizing: content-box;
+}
+
+body {
+    font-family: 'Verdana', "gulim", "굴림", sans-serif;
+    font-size: 12px;
+    color: black;
+}
+
+.blind {
+    position: absolute;
+    clip: rect(0 0 0 0);
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+}
+
+header {
+    position: relative;
+    z-index: 101;
+    border-bottom: 1px solid #dcdcdc;
+}
+
+.header-top {
+    background-color: black;
+    height: auto;
+    display: flex;
+    padding: 23px 0;
+
+}
+
+.title {
+    color: white;
+    width: 195px;
+    position: relative;
+    font-size: 22px;
+    flex-shrink: 0;
+    height: 19px;
+    margin-left: 20px;
+}
+
+.page-title {
+    font-size: 24px;
+    font-family: "Musinsa", sans-serif;
+    font-weight: normal;
+    line-height: 30px;
+}
+
+.search-time {
+    width: 491px;
+    height: 30px;
+    background-color: black;
+    position: relative;
+    margin-left: 20px;
+    flex-shrink: 0;
+    display: flex;
+}
+
+    .search-box {
+        width: 260px;
+        height: 30px;
+        background-color: white;
+    }
+
+        #search-query {
+            width: 195px;
+            border: none;
+            height: 30px;
+            vertical-align: middle;
+            outline: none;
+            line-height:30px;
+            text-indent: 3px;
+        }
+
+        #search-button {
+            background: black;
+            display: inline-block;
+            width: 28px;
+            height: 28px;
+            padding: 6px;
+            left: 32px;
+            vertical-align: middle;
+            position: relative;
+        }
+
+            #search-button>i {
+                vertical-align: middle;
+                position: relative;
+                top: -3px;
+                left: 3px;
+                color: white;
+            }
+
+
+        .popularSearch {
+            background-color: black;
+            width: 217px;
+            height: 32px;
+            margin-left: 14px;
+        }
+
+
+.header-nav {
+    width: 650px;
+
+    flex-shrink: 0;
+}
+
+.main-txt {
+    display: inline-block;
+    margin-bottom: 19px;
+    font-size: 20px;
+    font-family: 'Musinsa',sans-serif !important;
+}
+
+    .header-nav-ul {
+        margin-left: 20px;
+        display: flex;
+        vertical-align: top;
+        position: relative;
+        top: 11px;
+        margin-bottom: -12px;
+        float: right;
+
+    }
+
+        .header-nav-li {
+            padding: 15px 9px;
+            font-size: 18px;
+            color: white;
+            flex-shrink: 0;
+            font-family: 'Malgun Gothic','맑은 고딕', sans-serif;
+            font-weight: bold;
+
+        }
+
+
+        .header-nav-li:hover{
+            background-color:#000;
+        }
+
+            .hoverTarget {
+                margin-top:7px;
+                background-color:#fff;
+                display: none;
+            }
+
+.header-member {
+    display: flex;
+    height: 50px;
+    padding-left: 8px;
+    font-size: 12px;
+    font-family: "-apple-system","Apple SD Gothic Neo",Roboto,"Noto Sans KR",helvetica,Gulim,sans-serif;
+    line-height: 1.5;
+    align-items: center;
+}
+    .header-member-login {
+        width: 150px;
+        height: 28px;
+        margin: 0 3px 0 7px;
+        padding-top: 1px;
+        border: 1px solid #000;
+        line-height: 26px;
+        background-color: white;
+    }
+
+    .header-member-login:hover {
+        background-color: black;
+        color: white;
+    }
+
+    .header-member-block {
+        display: flex;
+        position: relative;
+        box-sizing: border-box;
+        height: 100%;
+        padding: 0 9px 0 8px;
+        align-items: center;
+    }
+
+        .header-member-block::after {
+            display: block;
+            position: absolute;
+            top: 50%;
+            right: 0;
+            width: 1px;
+            height: 12px;
+            margin-top: -6px;
+            background-color: #eee;
+            content: '';
+        }
+
+        .header-member-block-link {
+            display: inline-flex;
+            padding: 5px 4px 4px 4px;
+        }
+
+        .header-member-block-link:hover {
+            text-decoration: underline;
+        }
+        .header-member-block-like {
+            color: red;
+        }
+        .header-member-block-like:hover {
+            color: red;
+        }
+            .header-badge {
+                display: inline-block;
+                min-width: 8px;
+                height: 16px;
+                margin: -1px 4px 0 0;
+                padding: 3px 5px 0 5px;
+                border-radius: 18px;
+                background-color: #0078ff;
+                font-size: 11px;
+                font-family: Musinsa,"-apple-system","Apple SD Gothic Neo",Roboto,"Noto Sans KR",helvetica,Gulim,sans-serif;
+                line-height: normal;
+                color: #fff;
+                text-align: center;
+                vertical-align: top;
+            }
+
+    .header-top::after {
+
+    }
+
+.body-aside {
+    position: relative;
+    z-index: 90;
+}
+
+    .aside {
+        position: relative;
+    }
+
+        .menu-btn {
+            position: absolute;
+            top: -1px;
+            left: 268px;
+            background: #fff;
+            z-index: 99;
+            border-right: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .icon-bars {
+            font-size: 19px;
+            padding: 10px 10px;
+        }
+
+        .main-category-out-box {
+            position: relative;
+            float: left;
+            width: 269px;
+            border-right: 1px solid #ddd;
+        }
+
+            .main-category-inner-box {
+                margin-top: 15px;
+                margin-bottom: 15px;
+                padding-bottom: 5px;
+            }
+
+                .sub-menu {
+                    width: 240px;
+                    margin: 0 15px
+                }
+
+            .main-category-inner-box .sub-menu .box-tab {
+                box-sizing: border-box;
+                line-height: 38px;
+                text-align: center;
+                border: 1px solid #dddddd;
+                border-left: none;
+                color: #b2b2b2;
+                background-color: #f3f3f3;
+                font-weight: bold;
+                float: left;
+                width: 33.33333333%;
+            }
+
+            .main-category-inner-box .sub-menu .box-tab:first-child {
+                border-left: 1px solid #ddd;
+            }
+
+.main-area {
+    position: absolute;
+    left: 268px;
+    top: 0;
+    right: 0;
+    min-width: 1229px;
+    border-left: 1px solid #ddd;
+}
+
+.main-box {
+    position: relative;
+}
+.main-container {
+    clear: both;
+    padding: 10px 0 10px 15px;
+    border-bottom: 1px solid #ddd;
+}
+.txt-detail-link {
+    float: right;
+    padding-top: 4px;
+    font-size: 12px;
+    text-decoration: underline;
+    color: #b2b2b2;
+}
+    .main-rank-category {
+        position: relative;
+        float: left;
+        width: 172px;
+        padding: 13px 0 0 0;
+    }
+
+    .main-container>.main-rank-category {
+        z-index: 20;
+        padding-top: 10px;
+    }
+
+    .main-rank-category>h2 {
+        margin: 0 0 15px 0;
+        color: black;
+        padding-left: 36px;
+    }
+
+.renew-rank {
+    position: relative;
+}
+
+.renew-rank .renew-rank-date{
+    display: none;
+    margin-left: 5px;
+    font-size: 12px;
+    color: #aaa;
+    vertical-align: bottom;
+}
+
+.rank-menu-category {
+    width: 180px;
+    margin: 14px 0 2px -5px;
+    font-family: "굴림", "Gulim",sans-serif;
+    font-size: 12px;
+    color: #b2b2b2;
+}
+
+.rank-item-box {
+    height: 600px;
+    overflow: hidden;
+    position: relative;
+}
+
+.rank-item {
+    padding-top: 25px;
+    padding-left: 45px;
+    margin-left: 0;
+    overflow: visible;
+}
+
+

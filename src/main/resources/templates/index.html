@@ -2,9 +2,46 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head th:replace="frfragment.html :: head">
+<head th:replace="fragment.html :: head">
 </head>
 <body>
+    <div th:replace="fragment.html :: header"></div>
+
+    <div>
+        <div th:replace="fragment.html :: body-aside"></div>
+        <div class="main-box">
+            <main class="main-area">
+                <div class="main-container">
+                    <h2 class="blind">랭킹 카테고리</h2>
+                    <div class="main-rank-category">
+                        <h2 class="main-txt">랭킹</h2>
+                        <span class="txt-detail-link">
+                            전체
+                        </span>
+                        <div class="renew-rank">
+                            <a href="javascript:void(0)"> <!-- 클릭시 상품랭킹 갱신 -->
+                                상품
+                                <span class="renew-rank-date">0분 전 갱신</span>
+                            </a>
+                        </div>
+                        <ul class="rank-menu-category">
+                            <li>
+                                <a href="">전체</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <h3 class="blind">랭킹 상품목록</h3>
+                    <div class="rank-item-box">
+                        <div class="rank-item">
+                            아이템 <목록></목록>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
 
 </body>
 </html>
