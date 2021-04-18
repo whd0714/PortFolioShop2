@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="/node_modules/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="/css/fragment.css" type="text/css">
     <link rel="stylesheet" href="/css/my-page.css" type="text/css">
+    <link rel="stylesheet" href="/css/order-list.css" type="text/css">
+    <link rel="stylesheet" href="/css/goods.css" type="text/css">
 
 
     <script src="/node_modules/jquery/dist/jquery.min.js"></script>
@@ -209,7 +211,7 @@
         <div class="my-page-info-inner">
             <div class="my-page-profile">
                 <div class="profile-img">
-                    <svg width="150" height="150" data-jdenticon-value="user127"></svg>
+                    <svg width="170" height="170" data-jdenticon-value="user127"></svg>
                 </div>
                 <em class="my-name">이름</em>
                 <a th:href="@{/myPage/info}" class="link-my-info">회원정보변경</a>
@@ -248,9 +250,8 @@
         <h3 class="blind">myPage nav</h3>
         <ul>
             <li class="my-page-nav-title">나의 쇼핑 활동</li>
-            <il><a href="">주문 내역 조회</a></il>
+            <il><a th:href="@{/myPage/order-list}">주문 내역 조회</a></il>
             <il><a href="">구매후기</a></il>
-            <il><a href="">래플 응모내역</a></il>
             <il><a href="">상품문의</a></il>
             <il><a href="">최근 본 상품</a></il>
             <il><a href="">좋아요</a></il>

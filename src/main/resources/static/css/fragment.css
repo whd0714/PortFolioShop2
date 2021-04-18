@@ -327,7 +327,10 @@ header {
         color: black;
         padding-left: 36px;
     }
-
+.my-info-detail p {
+    position: relative;
+    top: 9px;
+}
 .renew-rank {
     position: relative;
 }

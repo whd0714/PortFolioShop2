@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragment.html :: head">
+</head>
+<body>
+    <div th:replace="fragment.html :: header"></div>
+
+    <div class="my-page-info">
+        <div th:replace="fragment.html :: my-page-head">
+        </div>
+        <div class="my-page-body">
+            <div th:replace="fragment.html :: my-page-nav"></div>
+            <div class="my-page-main-content first-head">
+                <h3 class="blind">마이페이지 메인</h3>
+                <div class="my-page-content-head">
+                    <span class="page-title">주문내역 조회</span>
+                    <ul class="order-state">
+                        <li><a href="">입금/결제 0</a></li>
+                        <li><a href="">배송중 0</a></li>
+                        <li><a href="">배송완료 0</a></li>
+                        <li><a href="">구매확정 0</a></li>
+                        <li><a href="">교환 0</a></li>
+                        <li><a href="">교환완료 0</a></li>
+                        <li><a href="">환불 0</a></li>
+                        <li><a href="">환불완료 0</a></li>
+                    </ul>
+                </div>
+                <form th:action="@{/}">
+                    <div class="order-list-form">
+                        <div class="select-date">
+                            <label for="select-date-radio1">1주일</label>
+                            <input type="radio" id="select-date-radio1" name="select-date-radio">
+                            <label for="select-date-radio2">1개월</label>
+                            <input type="radio" id="select-date-radio2" name="select-date-radio">
+                            <label for="select-date-radio3">3개월</label>
+                            <input type="radio" id="select-date-radio3" name="select-date-radio">
+                            <label for="select-date-radio4">전체 시기</label>
+                            <input type="radio" id="select-date-radio4" name="select-date-radio">
+                        </div>
+
+                        <div class="datepicker start">
+                            <input type="text" class="date-input">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+                        <div class="datepicker end">
+                            <input type="text" class="date-input">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+
+                        <div class="select-check-pay">
+                            <select name="" id="" class="select-item">
+                                <option value="all-state">전체상태</option>
+                                <option value="take-order">주문접수</option>
+                                <option value="check-deposit">입금확인</option>
+                            </select>
+                        </div>
+
+                        <input type="button" class="select-date-btn" value="조회">
+                    </div>
+                </form>
+                <table class="table-setting">
+                    <thead>
+                        <tr>
+                            <th colspan="2">상품정보</th>
+                            <th>주문일자</th>
+                            <th>주문번호</th>
+                            <th>주문금액(수량)</th>
+                            <th>주문상태</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                <p class="item-zero">
+                    <span>구매하신 내역이 없습니다.</span>
+                </p>
+
+
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>

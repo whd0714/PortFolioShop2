@@ -165,6 +165,7 @@
 .my-page-content-head .order-state li {
     display: inline-block;
     color: #ccc;
+    margin-right: 16px;
 }
 
 .table-setting {
@@ -253,4 +254,41 @@
 .page-title>em {
     color: #14aaff;
     margin-left: 4px;
+}
+
+.like-btns {
+    display: inline-block;
+    padding: 5px 0 0 18px;
+    vertical-align: top;
+}
+
+.item-btn {
+    font-size: 18px;
+    color: #ccc;
+    float: left;
+
+
+}
+
+.brand-btn {
+    font-size: 18px;
+    color: #ccc;
+    float: left;
+    margin-right: 8px;
+}
+
+.brand-btn:before {
+    content: "/";
+    display: inline-block;
+
+}
+
+.all-link {
+    position: absolute;
+    right: 0;
+    bottom: 20px;
+}
+
+.all-link:hover {
+    text-decoration: underline;
 }

@@ -24,8 +24,9 @@
                         <li><a href="">교환 0</a></li>
                         <li><a href="">교환완료 0</a></li>
                         <li><a href="">환불 0</a></li>
-                        <li><a href="">환불완료 0   </a></li>
+                        <li><a href="">환불완료 0</a></li>
                     </ul>
+                    <a th:href="@{/myPage/order-list}" class="all-link">전체</a>
                 </div>
                 <table class="table-setting">
                     <thead>
@@ -49,6 +50,7 @@
                 <h3 class="blind">장바구니 조회</h3>
                 <div class="my-page-content-head">
                     <span class="page-title">장바구니</span>
+                    <a href="#" class="all-link">전체</a>
                 </div>
                 <table class="table-setting">
                     <colgroup>
@@ -91,7 +93,7 @@
                 <h3 class="blind">쿠폰 조회</h3>
                 <div class="my-page-content-head">
                     <span class="page-title">쿠폰 <em>0장</em></span>
-
+                    <a href="#" class="all-link">전체</a>
                 </div>
                 <table class="table-setting">
                     <colgroup>
@@ -121,9 +123,10 @@
             </div>
 
             <div class="my-page-main-content">
-                <h3 class="blind">쿠폰 조회</h3>
+                <h3 class="blind">좋아요 조회</h3>
                 <div class="my-page-content-head">
                     <span class="page-title">좋아요</span>
+                    <a href="#" class="all-link">전체</a>
                     <div class="like-btns">
                         <div class="item-btn">
                             <a href="#">상품</a>
@@ -133,30 +136,69 @@
                         </div>
                     </div>
                 </div>
+                <p class="item-zero">
+                    <span>
+                        좋아하는 상품이 없습니다.<br />
+                        상품을 추가해보세요.
+                    </span>
+                </p>
+            </div>
+
+            <div class="my-page-main-content">
+                <h3 class="blind">상품문의 조회</h3>
+                <div class="my-page-content-head">
+                    <span class="page-title">상품문의</span>
+                    <a href="#" class="all-link">전체</a>
+                </div>
                 <table class="table-setting">
                     <colgroup>
-                        <col style="width:10%">
+                        <col style="width:26%">
                         <col style="width:auto">
-                        <col style="width: 12%">
                         <col style="width: 12%">
                         <col style="width: 12%">
                         <col style="width: 12%">
                     </colgroup>
                     <thead>
                     <tr>
-                        <th>쿠폰번호</th>
-                        <th>쿠폰명</th>
-                        <th>할인금액</th>
-                        <th>적용 범위</th>
-                        <th>유효기간</th>
-                        <th></th>
+                        <th>상품정보</th>
+                        <th>내용</th>
+                        <th>문의 유형</th>
+                        <th>작성일</th>
+                        <th>처리 상태</th>
                     </tr>
                     </thead>
                     <tbody>
                     </tbody>
                 </table>
                 <p class="item-zero">
-                    <span>사용가능한 쿠폰이 없습니다.</span>
+                    <span>상품문의가 존재하지 않습니다.</span>
+                </p>
+            </div>
+
+            <div class="my-page-main-content">
+                <h3 class="blind">구매후기 조회</h3>
+                <div class="my-page-content-head">
+                    <span class="page-title">구매후기</span>
+                    <a href="#" class="all-link">전체</a>
+                </div>
+                <table class="table-setting">
+                    <colgroup>
+                        <col style="width:24%">
+                        <col style="width:auto">
+                        <col style="width: 11%">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>상품정보</th>
+                        <th>내용 후기</th>
+                        <th>종류</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                <p class="item-zero">
+                    <span>등록한 후기가 존재하지 않습니다.</span>
                 </p>
             </div>
         </div>

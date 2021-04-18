@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragment.html :: head">
+</head>
+<body>
+    <div th:replace="fragment.html :: header"></div>
+
+    <div>
+        <div th:replace="fragment.html :: body-aside"></div>
+        <div class="main-box">
+            <div class="main-area">
+                <div class="goods-header">
+                    <div class="nav-ol">
+                        <div class="nav-home dir">
+                            <a th:href="@{/}">무신사 스토어</a>
+                        </div>
+                        <div class="nav-brand-shop dir">
+                            <a th:href="@{/}">브랜드 숍</a>
+                        </div>
+                        <div class="nav-brand">
+                            <a th:href="@{/}">MUSINSA STANDARD</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="brand-banner">
+                    <a th:href="@{/}">
+                        <p class="brand-banner-bg">
+                            <img src="/image/a.png" alt="">
+                        </p>
+                    </a>
+                </div>
+                <div class="main-goods-container">
+                    <div class="product-info">
+                        <div class="product-nav">
+                            <div class="dir">
+                                <a th:href="@{/}">상의</a>
+                            </div>
+                            <a th:href="@{/}">반팔 티셔츠 </a>
+                            <a th:href="@{/}">(무신사 스탠다드)</a>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div>
+                            {뱃지}
+                        </div>
+                    </div>
+
+                    <div class="product-title">
+                        <em>{레이어드 크루 넥 반팔 티셔츠 [화이트]}</em>
+                        <div class="product-title-eng">
+                            LAYERD CREW NECK T-SHIRT [WHITE]
+                        </div>
+                    </div>
+
+                    <div class="main-product">
+                        <div class="product-thumb-info">
+                            <div class="main-img">
+
+                            </div>
+                            <div class="sub-img">
+                                <ul class="sub-img-list"></ul>
+                            </div>
+                        </div>
+                        <div class="product-order-info">
+                            <div class="product-detail-info">
+                                <h4 class="product-info-title">
+                                    <b>Product Info</b>
+                                    <span class="product-info-title-detail">제품정보</span>
+                                </h4>
+                                <ul class="product-info-list">
+                                    <li>
+                                        <span class="product-info-list-title">
+                                            브랜드
+                                            <span class="div">
+                                                /
+                                            </span>
+                                            품번
+                                        </span>
+                                        <span class="product-info-list-content">
+                                            <b>
+                                                <a th:href="@{/}">MUSINSA STANDARD</a>
+                                                <span class="div">
+                                                    /
+                                                </span>
+                                                MMJTS113-WH
+                                            </b>
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span class="product-info-list-title">
+                                            시즌
+                                            <span class="div">
+                                                /
+                                            </span>
+                                            성별
+                                        </span>
+                                        <span class="product-info-list-content">
+                                            <b>
+                                                2022 ALL
+                                                <span class="div">
+                                                    /
+                                                </span>
+                                                남
+                                            </b>
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span class="product-info-list-title">
+                                            조회수(1개월)
+                                        </span>
+                                        <span class="product-info-list-content">
+                                            <b>
+                                                14.4만 회이상
+                                            </b>
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span class="product-info-list-title">
+                                            누적판매(1년)
+                                        </span>
+                                        <span class="product-info-list-content">
+                                            <b>
+                                                7.9만개 이상
+                                            </b>
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span class="product-info-list-title">
+                                            좋아요
+                                        </span>
+                                        <span class="product-info-list-content">
+                                            <b>
+                                                <i class="fa fa-like"></i> 28672
+                                            </b>
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span class="product-info-list-title">
+                                            구매후기
+                                        </span>
+                                        <span class="product-info-list-content">
+                                            <b>
+                                                4.6
+                                            </b>
+                                        </span>
+                                    </li>
+                                    <li>
+                                        태그목록
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="price_info">
+                                <h4 class="product-info-title">
+                                    <b>Price Info</b>
+                                    <span class="product-info-title-detail">가격정보</span>
+                                </h4>
+                                <ul class="product-info-list">
+                                    <li>
+                                        <span class="product-info-list-title">
+                                            무신사 판매가
+                                        </span>
+                                        <span class="product-info-list-content">
+                                            <b>
+                                                13,900원
+                                            </b>
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span class="product-info-list-title">
+                                            무신사 회원가
+                                        </span>
+                                        <span class="product-info-list-content">
+                                            <b>
+                                                13,344 ~ 13,900원
+                                            </b>
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span class="product-info-list-title">
+                                            무신사 적립금
+                                        </span>
+                                        <span class="product-info-list-content">
+                                            <b>
+                                                최대 556원
+                                            </b>
+                                        </span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="product-select-option">
+                                <div class="produce-option-select-box">
+                                    <div class="option-area">
+                                        <select name="" id="">
+                                            <option value="S">S</option>
+                                            <option value="M">M</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+</html>
