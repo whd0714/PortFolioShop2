@@ -11,7 +11,7 @@ import javax.persistence.EntityManager;
 
 @Component
 @RequiredArgsConstructor
-public class IntiDb {
+public class InitDb {
 
     private final InitService initService;
 
@@ -35,10 +35,18 @@ public class IntiDb {
             Category category4 = new Category("반바지");
             Category category5 = new Category("페딩");
             Category category6 = new Category("긴팔 티셔츠");
+            Category category7 = new Category("나시");
+            Category category8 = new Category("니트");
+            Category category9 = new Category("맨투맨");
+            Category category10 = new Category("후드");
             category3.changeCategory(category);
             category4.changeCategory(category1);
             category5.changeCategory(category2);
             category6.changeCategory(category);
+            category7.changeCategory(category);
+            category8.changeCategory(category);
+            category9.changeCategory(category);
+            category10.changeCategory(category);
             /*em.persist(category);
             em.persist(category1);
             em.persist(category2);
@@ -53,6 +61,10 @@ public class IntiDb {
             categoryRepository.save(category4);
             categoryRepository.save(category5);
             categoryRepository.save(category6);
+            categoryRepository.save(category7);
+            categoryRepository.save(category8);
+            categoryRepository.save(category9);
+            categoryRepository.save(category10);
             //category3.changeCategory(category1);
         }
     }

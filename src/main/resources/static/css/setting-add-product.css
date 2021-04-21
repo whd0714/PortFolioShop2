@@ -1,0 +1,131 @@
+.product-add-category-container {
+    width: 600px;
+}
+
+.product-add-category-box {
+    padding: 20px 20px;
+    display: flex;
+}
+
+.product-add-category-main-container, .product-add-category-sub-container {
+    width: 300px;
+    border: 1px solid #ddd;
+    height: 180px;
+    overflow:auto;
+
+}
+
+.product-add-category-main-title, .product-add-category-sub-title {
+    padding: 5px 5px;
+    border-bottom: 1px solid #ddd;
+
+}
+
+.product-add-category-main-title h3, .product-add-category-sub-title h3 {
+    font-size: 20px;
+}
+
+.product-add-category-main-content-box, .product-add-category-sub-content-box {
+    padding: 15px 15px;
+    cursor: pointer;
+    font-size: 18px;
+    text-align: center;
+}
+
+.product-add-category-main-content label, .product-add-category-sub-content label {
+    width: 100%;
+}
+
+.product-add-form-area {
+    padding: 20px;
+}
+
+.product-add-form-area h4{
+    font-size: 15px;
+    position: relative;
+    font-weight: bold;
+}
+
+.product-add-form-brandName {
+    width: 150px;
+}
+
+.product-add-form-area h3 {
+    font-size: 20px;
+    padding: 16px 0px;
+}
+
+.product-add-form-area input, option, select {
+    width: 300px;
+    height: 30px;
+    font-size: 14px;
+    text-indent: 10px;
+}
+
+.product-add-form-div {
+    display: flex;
+}
+
+.product-add-form-table {
+    width: 1050px;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+}
+
+.product-add-form-table-content {
+    display: flex;
+    align-items: start;
+}
+
+.product-add-form-table-content-box-left {
+    flex-grow: 1;
+    padding: 10px 10px;
+    margin-left: 15px;
+}
+
+.product-add-form-table-content-box-right {
+
+    flex-grow: 3;
+    padding: 10px 10px;
+}
+
+.product-add-form-table-content-left {
+    flex-grow: 1;
+    padding: 10px 10px;
+}
+
+.product-add-form-table-content-right {
+    flex-grow: 5;
+    padding: 10px 10px;
+}
+
+.product-add-form-table-right-content {
+    display: flex;
+    padding: 10px 0;
+}
+
+.product-add-form-table-right-content-title {
+    width: 120px;
+}
+
+.product-add-form-table-title {
+    vertical-align: top;
+    background: #f1f1f1;
+    text-align: center;
+}
+
+.product-add-form-table-right-content-title-padding {
+    padding: 10px 0;
+}
+
+.product-add-form-table-right-content-title-padding button {
+    width: 100%;
+    padding: 30px 30px;
+    background: none;
+}
+
+.product-add-form-table-right-content-title-padding button:hover {
+    background: #899af6;
+    border: none;
+    color: white;
+}

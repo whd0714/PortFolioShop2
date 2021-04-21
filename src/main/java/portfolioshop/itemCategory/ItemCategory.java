@@ -3,6 +3,7 @@ package portfolioshop.itemCategory;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import portfolioshop.brand.Brand;
 import portfolioshop.category.Category;
 import portfolioshop.item.Item;
 
@@ -35,4 +36,6 @@ public class ItemCategory {
         this.category = category;
         category.getItemCategories().add(this);
     }
+
+
 }

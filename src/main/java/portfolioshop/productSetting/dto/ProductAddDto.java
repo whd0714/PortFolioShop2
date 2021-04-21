@@ -1,11 +1,13 @@
 package portfolioshop.productSetting.dto;
 
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 import portfolioshop.item.enumType.Gender;
 import portfolioshop.item.enumType.Season;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.Lob;
 
 @Data
 public class ProductAddDto {
@@ -14,7 +16,7 @@ public class ProductAddDto {
 
     private String subCategory;
 
-    private String brandName;
+    private String itemBrandName;
 
     private String itemNo;
 
@@ -24,12 +26,15 @@ public class ProductAddDto {
 
     private int itemPrice;
 
-    private String season;
+    private Season season;
 
-    private String gender;
+    private Gender gender;
 
     private String subDescription;
 
+    @Lob
     private String description;
 
+    @Lob
+    private MultipartFile itemImage;
 }

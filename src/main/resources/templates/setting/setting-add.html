@@ -17,6 +17,7 @@
                 <h3 class="blind">상품관리 메뉴</h3>
                 <ul class="sub-menu">
                     <a th:href="@{/setting/category}"><li class="setting-sub-list">카테고리관리</li></a>
+                    <a th:href="@{/setting/brand}"><li class="setting-sub-list">브랜드등록</li></a>
                     <a th:href="@{/setting/add}"><li class="setting-sub-list">상품등록</li></a>
                     <a href=""><li class="setting-sub-list">상품수정</li></a>
                 </ul>
@@ -30,75 +31,273 @@
                 <h2 class="product-add-title">상품등록</h2>
 
                 <div class="product-add-container">
-                    <form th:action="@{/setting/add}" method="post" th:object="${productAddDto}">
-                        <div>
-                            <label for="mainCategory">대분류</label>
-                            <select name="" id="mainCategory" th:field="*{mainCategory}">
+                    <form th:action="@{/setting/add(${_csrf.parameterName}=${_csrf.token})}" enctype="multipart/form-data" method="post" th:object="${productAddDto}">
+                    <div class="product-add-category-container">
+                        <div class="product-add-category-box">
+                            <div class="product-add-category-main-container">
+                                <div class="product-add-category-main-title">
+                                    <h3>대분류 카테고리</h3>
+                                </div>
+                                <div class="product-add-category-main-content-box">
+                                    <div class="product-add-category-main-content" th:each="mainCategory : ${collect}" th:if="${mainCategory.getParent() == null}">
+                                        <label><input hidden type="checkbox"  th:value="${mainCategory.getName()}" th:text="${mainCategory.getName()}" class="product-add-category-main-value"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="product-add-category-sub-container">
+                                <div class="product-add-category-sub-title">
+                                    <h3>중분류 카테고리</h3>
+                                </div>
+                                <div class="product-add-category-sub-content-box">
+                                    <div class="product-add-category-sub-content">
+                                        <label><input hidden type="checkbox"   class="product-add-category-sub-value"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                            </select>
-                        </div>
-                        <div>
-                            <label for="subCategory">중분류</label>
-                            <input id="subCategory" type="text" list="sub-category-select" th:field="*{subCategory}">
-                            <datalist id="sub-category-select">
+                    <div class="product-add-form-area">
 
-                            </datalist>
-                        </div>
-                        <div>
-                            <label for="brandName">브랜드</label>
-                            <input id="brandName" type="text" list="brand-name-list" th:field="*{brandName}">
-                            <datalist id="brand-name-list">
+                            <div hidden>
+                                <label for="mainCategory">대분류</label>
+                                <input name="" id="mainCategory" th:field="*{mainCategory}">
+                            </div>
+                            <div hidden>
+                                <label for="subCategory">중분류</label>
+                                <input id="subCategory" type="text"  th:field="*{subCategory}">
 
-                            </datalist>
-                        </div>
-                        <div>
-                            <label for="itemNo">품번</label>
-                            <input id="itemNo" type="text" th:field="*{itemNo}">
-                        </div>
-                        <div>
-                            <label for="itemName">상품명</label>
-                            <input id="itemName" type="text" th:field="*{itemName}">
-                        </div>
-                        <div>
-                            <label for="itemNameEng">상품명(영어)</label>
-                            <input id="itemNameEng" type="text" th:field="*{itemNameEng}">
-                        </div>
-                        <div>
-                            <label for="itemPrice">상품가격</label>
-                            <input id="itemPrice" type="number" th:field="*{itemPrice}">
-                        </div>
-                        <div>
-                            <label for="season">시즌</label>
-                            <select name="" id="season">
-                                <option value="spring">봄</option>
-                                <option value="summer">여름</option>
-                                <option value="autumn">가을</option>
-                                <option value="winter">겨울</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label for="gender">성별</label>
-                            <select name="" id="gender">
-                                <option value="man">남</option>
-                                <option value="woman">여</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label for="subDescription">상품요약설명</label>
-                            <input id="subDescription" type="text" th:field="*{subDescription}">
-                        </div>
-                        <div>
-                            <label for="description">상품상세설명</label>
-                            <input id="description" type="text" th:field="*{description}">
-                        </div>
-                        <div>
-                            <input type="submit" value="상품등록">
-                        </div>
-                    </form>
+                            </div>
+                            <table class="product-add-form-table">
+                                <colgroup>
+                                    <col style="width:15%">
+                                    <col style="width:auto">
+                                </colgroup>
+                                <tbody>
+                                    <tr>
+                                        <td class="product-add-form-table-title">
+                                            <h4>제품 정보</h4>
+                                        </td>
+                                        <td>
+                                            <div class="product-add-form-table-content">
+                                                <div class="product-add-form-table-content-box-left">
+                                                    <div>
+                                                        <div class="product-add-form-table-right-content-title product-add-form-table-right-content-title-padding">
+                                                            <h4>제품이미지</h4>
+                                                        </div>
+                                                        <div>
+                                                            <input th:field="*{itemImage}" type="file">
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <div class="product-add-form-table-right-content-title product-add-form-table-right-content-title-padding">
+                                                            <h4>브랜드</h4>
+                                                        </div>
+                                                        <div class="product-add-form-table-right-content-title-padding">
+                                                            <select th:each="brandName : ${brandNames}" th:field="*{itemBrandName}">
+                                                                <option th:value="${brandName}" th:text="${brandName}"></option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <div class="product-add-form-table-right-content-title product-add-form-table-right-content-title-padding">
+                                                            <h4>시즌</h4>
+                                                        </div>
+                                                        <div class="product-add-form-table-right-content-title-padding">
+                                                            <select  th:field="*{season}">
+                                                                <div th:each="seasonName : ${seasons}">
+                                                                    <option th:value="${seasonName}" th:text="${seasonName}"></option>
+                                                                </div>
+                                                            </select>
+
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <div class="product-add-form-table-right-content-title product-add-form-table-right-content-title-padding">
+                                                            <h4>성별</h4>
+                                                        </div>
+                                                        <div class="product-add-form-table-right-content-title-padding">
+                                                            <select th:field="*{gender}">
+                                                                <div th:each="gender : ${genders}">
+                                                                    <option th:value="${gender}" th:text="${gender}"></option>
+                                                                </div>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <div class="product-add-form-table-right-content-title product-add-form-table-right-content-title-padding">
+                                                           <button type="submit">제품 등록</button>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="product-add-form-table-content-box-right">
+                                                    <div class="product-add-form-table-right-content">
+                                                        <div class="product-add-form-table-right-content-title">
+                                                            <h4>품명</h4>
+                                                        </div>
+                                                        <div>
+                                                            <input th:field="*{itemNo}" type="text">
+                                                        </div>
+                                                    </div>
+                                                    <div class="product-add-form-table-right-content">
+                                                        <div class="product-add-form-table-right-content-title">
+                                                            <h4>상품명</h4>
+                                                        </div>
+                                                        <div>
+                                                            <input th:field="*{itemName}" type="text">
+                                                        </div>
+                                                    </div>
+                                                    <div class="product-add-form-table-right-content">
+                                                        <div class="product-add-form-table-right-content-title">
+                                                            <h4>상품명(영어)</h4>
+                                                        </div>
+                                                        <div>
+                                                            <input th:field="*{itemNameEng}" type="text">
+                                                        </div>
+                                                    </div>
+                                                    <div class="product-add-form-table-right-content">
+                                                        <div class="product-add-form-table-right-content-title">
+                                                            <h4>판매 가격</h4>
+                                                        </div>
+                                                        <div>
+                                                            <input th:field="*{itemPrice}" type="text">
+                                                        </div>
+                                                    </div>
+                                                    <div class="product-add-form-table-right-content">
+                                                        <div class="product-add-form-table-right-content-title">
+                                                            <h4>상품요약설명</h4>
+                                                        </div>
+                                                        <div>
+                                                            <input th:field="*{subDescription}" type="text">
+                                                        </div>
+                                                    </div>
+                                                    <div class="product-add-form-table-right-content">
+                                                        <div class="product-add-form-table-right-content-title">
+                                                            <h4>상품상세설명</h4>
+                                                        </div>
+                                                        <div>
+                                                            <textarea th:field="*{description}" name="" id="" cols="39" rows="10"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </form>
+                    </div>
+
+
+
                 </div>
             </div>
         </main>
     </div>
 </div>
+<script th:replace="fragment.html::csrf"></script>
+<script>
+    window.addEventListener("load", function (){
+       //대분류 선택값
+        let productAddCategoryMainValue = document.querySelector('.product-add-category-main-value');
+
+        //대분류 선택 버블링 영역 변수
+        let productAddCategoryMainContentBox = document.querySelector('.product-add-category-main-content-box');
+
+        //중분류 선택 버블링 영역 변수
+        let productAddCategorySubContentBox = document.querySelector('.product-add-category-sub-content-box');
+
+        //form 메인 카테고리 변수
+        let mainCategory = document.querySelector('#mainCategory');
+
+        //form 서브 카테고리 변수
+        let subCategory = document.querySelector('#subCategory');
+
+        //중분류 선택 버블링 영역
+        productAddCategorySubContentBox.onclick = function (e) {
+
+            if(!e.target.classList.contains('product-add-category-sub-value')) return;
+
+            let inputs = productAddCategorySubContentBox.querySelectorAll('input[type="checkbox"]:checked');
+
+            if(inputs.length > 1) {
+                for(let i = 0; i < inputs.length; i++) {
+                    console.log(inputs[i].value)
+                    inputs[i].checked = false;
+                    inputs[i].parentElement.style.background = "none";
+                }
+                e.target.checked = true;
+            }
+
+            if(e.target.checked == true) {
+                e.target.parentElement.style.background = "#eaeaea";
+                subCategory.value = e.target.value;
+            }
+        }
+
+        //대분류 선택 버블링 영역
+        productAddCategoryMainContentBox.onclick = function (e) {
+            if(!e.target.classList.contains('product-add-category-main-value')) return;
+
+            let inputs = productAddCategoryMainContentBox.querySelectorAll('input[type="checkbox"]:checked');
+
+            if(inputs.length > 1) {
+                for(let i = 0; i < inputs.length; i++) {
+                    console.log(inputs[i].value)
+                    inputs[i].checked = false;
+                    inputs[i].parentElement.style.background = "none";
+                }
+                e.target.checked = true;
+            }
+
+
+            if(e.target.checked == true) {
+
+                e.target.parentElement.style.background = "#eaeaea";
+                let data = {"name" : e.target.value};
+                mainCategory.value = e.target.value;
+                //var data = {"name" : value, "size" : itemType};
+
+                $.ajax({
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    url: "/getSubCategory",
+                    type: "POST",
+                    data: JSON.stringify(data),
+                    success : function (value){
+                        let productAddCategorySubValue = document.querySelector('.product-add-category-sub-value');
+                        productAddCategorySubContentBox.innerHTML = "";
+
+                        for(let i = 0; i <value.length; i++) {
+                            let labelNode = document.createElement('label');
+                            let inputNode = document.createElement('input');
+                            let divNode = document.createElement('div');
+
+                            inputNode.type= "checkbox";
+                            inputNode.style.display = "none";
+                            inputNode.className = "product-add-category-sub-value";
+                            inputNode.value = value[i];
+                            labelNode.textContent = value[i];
+                            divNode.className = "product-add-category-sub-content";
+                            labelNode.append(inputNode);
+                            divNode.append(labelNode);
+                            productAddCategorySubContentBox.append(divNode);
+                        }
+
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        alert("ERROR : " + textStatus + " : " + errorThrown);
+                    }
+                });
+            } else {
+                e.target.parentElement.style.background = "none";
+            }
+
+
+        }
+    });
+</script>
 </body>
 </html>

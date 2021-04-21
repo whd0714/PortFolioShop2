@@ -40,7 +40,11 @@ public class Item {
 
     private String description;
 
+    @Lob
     private String subDescription;
+
+    @Lob
+    private byte[] itemImage;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "brand_id")
@@ -60,22 +64,20 @@ public class Item {
         brand.getItems().add(this);
     }
 
-    public Item(String itemNo, String itemName, String itemNameEng, int itemPrice, String season, String gender,
-                String subDescription, String description) {
+    public Item(String itemNo, String itemName, String itemNameEng, int itemPrice, Season season, Gender gender,
+                String subDescription, String description, byte[] itemImage) {
         this.itemNo = itemNo;
         this.itemName = itemName;
         this.itemNameEng = itemNameEng;
         this.itemPrice = itemPrice;
-
-        //this.season = Season.valueOf(season);
-        //.gender = Gender.valueOf(gender);
+        this.season = season;
+        this.gender = gender;
         this.subDescription = subDescription;
         this.description = description;
-
-        //changeEnum(season, gender);
+        this.itemImage = itemImage;
     }
 
-    private void changeEnum(String season, String gender) {
-        System.out.println("aaaaaaaaaaaaaa= " + Season.valueOf(season));
-    }
+
+
+
 }

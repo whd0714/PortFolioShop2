@@ -16,6 +16,6 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
     @Query("select c from Category c where c.parent is not null")
     List<Category> findBySubCategory();
 
-
-
+    @Query("select c.name from Category c where c.parent.name =:mainName")
+    List<String> findSubCategoryFromMainCategory(String mainName);
 }

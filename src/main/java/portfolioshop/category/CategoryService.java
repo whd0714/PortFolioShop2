@@ -8,6 +8,8 @@ import portfolioshop.itemCategory.ItemCategoryService;
 import portfolioshop.productSetting.dto.CategoryDelDto;
 import portfolioshop.productSetting.dto.CategoryNameDto;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -53,5 +55,11 @@ public class CategoryService {
                 categoryRepository.delete(category);
             }
         }
+    }
+
+    public List<String> findSubCategory(String mainName) {
+        List<String> subCategoryNames = categoryRepository.findSubCategoryFromMainCategory(mainName);
+
+        return subCategoryNames;
     }
 }

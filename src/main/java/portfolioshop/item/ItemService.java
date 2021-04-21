@@ -10,8 +10,11 @@ import portfolioshop.category.Category;
 import portfolioshop.category.CategoryRepository;
 import portfolioshop.category.CategoryService;
 import portfolioshop.itemCategory.ItemCategory;
+import portfolioshop.itemCategory.ItemCategoryRepository;
 import portfolioshop.itemCategory.ItemCategoryService;
 import portfolioshop.productSetting.dto.ProductAddDto;
+
+import java.io.IOException;
 
 @Service
 @Transactional
@@ -19,19 +22,34 @@ import portfolioshop.productSetting.dto.ProductAddDto;
 public class ItemService {
 
     private final ItemRepository itemRepository;
-    private final BrandService brandService;
-    private final CategoryService categoryService;
-    private final ItemCategoryService itemCategoryService;
+    private final BrandRepository brandRepository;
+    private final ItemCategoryRepository itemCategoryRepository;
+    private final CategoryRepository categoryRepository;
+
+    public void saveProduct(ProductAddDto productAddDto) throws IOException {
+        String fileName = productAddDto.getItemImage().getOriginalFilename();
+
+        byte[] bytes = productAddDto.getItemImage().getBytes();
 
 
-    public void addItem(ProductAddDto productAddDto) {
         Item item = new Item(productAddDto.getItemNo(), productAddDto.getItemName(), productAddDto.getItemNameEng(),
-                productAddDto.getItemPrice(), productAddDto.getGender(), productAddDto.getGender(),
-                productAddDto.getSubCategory(), productAddDto.getDescription());
+                productAddDto.getItemPrice(), productAddDto.getSeason(), productAddDto.getGender(),
+                productAddDto.getSubDescription(), productAddDto.getDescription(), bytes);
+
         itemRepository.save(item);
-        brandService.confirm(productAddDto.getBrandName(), item);
-        categoryService.confirm(productAddDto.getMainCategory(), item);
-        categoryService.confirm(productAddDto.getSubCategory(), item);
-        //categoryService.categoryRelation(productAddDto.getMainCategory(), productAddDto.getSubCategory());
+
+        Brand brand = brandRepository.findByBrandName(productAddDto.getItemBrandName());
+        item.changeBrand(brand);
+
+        Category mainCategory = categoryRepository.findByName(productAddDto.getMainCategory());
+        Category subCategory = categoryRepository.findByName(productAddDto.getSubCategory());
+
+        ItemCategory itemCategory = new ItemCategory();
+        itemCategory.changeItem(item);
+        itemCategory.changeCategory(mainCategory);
+        itemCategory.changeCategory(subCategory);
+        itemCategoryRepository.save(itemCategory);
     }
+
+
 }

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragment.html :: head">
+</head>
+<body>
+
+<header class="setting-header">
+    <h1><b>상품관리</b></h1>
+</header>
+
+<div>
+    <div class="body-aside">
+        <aside class="main-category-out-box box-end">
+            <div class="main-category-inner-box">
+                <h3 class="blind">상품관리 메뉴</h3>
+                <ul class="sub-menu">
+                    <a th:href="@{/setting/category}"><li class="setting-sub-list">카테고리관리</li></a>
+                    <a th:href="@{/setting/brand}"><li class="setting-sub-list">브랜드등록</li></a>
+                    <a th:href="@{/setting/add}"><li class="setting-sub-list">상품등록</li></a>
+                    <a href=""><li class="setting-sub-list">상품수정</li></a>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+    <div class="main-box">
+        <main class="main-area">
+            <div class="main-container">
+                <h2 class="product-add-title">브랜드 등록</h2>
+
+                <div class="product-add-container">
+                    <div class="brand-add-container">
+                        <div class="brand-add-box">
+                            <form method="post" th:object="${addBrandDto}" th:action="@{/setting/brand(${_csrf.parameterName}=${_csrf.token})}" enctype="multipart/form-data">
+                                <div>
+                                    <h3>브랜드 이름</h3>
+                                </div>
+                                <div class="brand-name-box">
+                                    <input type="text" th:field="*{brandName}">
+                                </div>
+                                <div>
+                                    <h3>브랜드 배너 추가</h3>
+                                </div>
+                                <div>
+                                    <input type="file" th:field="*{brandBanner}" name="file">
+                                </div>
+                                <div class="brand-add-btn-box">
+                                    <button type="submit">추가</button>
+                                </div>
+                            </form>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+<script th:replace="fragment.html::csrf"></script>
+
+<script>
+    $("#profile-image-file").change(function(e) {
+        if (e.target.files.length === 1) {
+            const reader = new FileReader();
+            reader.onload = e => {
+                if (e.target.result) {
+                    let img = document.createElement("img");
+                    img.id = 'new-profile';
+                    img.src = e.target.result;
+                    img.width = 250;
+
+                    $newProfileImage.html(img);
+                    $newProfileImage.show();
+                    $currentProfileImage.hide();
+
+                    let $newImage = $(img);
+                    $newImage.cropper({aspectRatio: 1});
+                    cropper = $newImage.data('cropper');
+
+                    $cutBtn.show();
+                    $confirmBtn.hide();
+                    $resetBtn.show();
+                }
+            };
+
+            reader.readAsDataURL(e.target.files[0]);
+        }
+    });
+
+</script>
+</body>
+</html>

@@ -21,12 +21,16 @@ public class Brand {
 
     private String brandName;
 
-    private String brand_banner;
+    @Lob
+    private byte[] brandBanner;
 
     @OneToMany(mappedBy = "brand")
     private List<Item> items = new ArrayList<>();
 
-    public Brand(String brandName) {
+    public Brand(String brandName, byte[] brandBanner) {
         this.brandName = brandName;
+        this.brandBanner = brandBanner;
     }
+
+
 }
