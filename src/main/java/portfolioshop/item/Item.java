@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import portfolioshop.brand.Brand;
 import portfolioshop.goods.Goods;
+import portfolioshop.item.enumType.Gender;
+import portfolioshop.item.enumType.Season;
 import portfolioshop.itemCategory.ItemCategory;
 import portfolioshop.itemTag.ItemTag;
 
@@ -26,11 +28,19 @@ public class Item {
 
     private String itemName;
 
-    private String itemPrice;
+    private String itemNameEng;
 
-    private String season;
+    private int itemPrice;
 
-    private String gender;
+    @Enumerated(EnumType.STRING)
+    private Season season;
+
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
+
+    private String description;
+
+    private String subDescription;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "brand_id")
@@ -45,4 +55,27 @@ public class Item {
     @OneToMany(mappedBy = "item")
     private List<ItemCategory> itemCategories = new ArrayList<>();
 
+    public void changeBrand(Brand brand) {
+        this.brand = brand;
+        brand.getItems().add(this);
+    }
+
+    public Item(String itemNo, String itemName, String itemNameEng, int itemPrice, String season, String gender,
+                String subDescription, String description) {
+        this.itemNo = itemNo;
+        this.itemName = itemName;
+        this.itemNameEng = itemNameEng;
+        this.itemPrice = itemPrice;
+
+        //this.season = Season.valueOf(season);
+        //.gender = Gender.valueOf(gender);
+        this.subDescription = subDescription;
+        this.description = description;
+
+        //changeEnum(season, gender);
+    }
+
+    private void changeEnum(String season, String gender) {
+        System.out.println("aaaaaaaaaaaaaa= " + Season.valueOf(season));
+    }
 }

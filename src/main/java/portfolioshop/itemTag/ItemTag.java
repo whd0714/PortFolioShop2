@@ -25,4 +25,14 @@ public class ItemTag {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tag_name")
     private Tag tag;
+
+    public void changeItem(Item item) {
+        this.item = item;
+        item.getItemTags().add(this);
+    }
+
+    public void changeTag(Tag tag) {
+        this.tag = tag;
+        tag.getItemTags().add(this);
+    }
 }

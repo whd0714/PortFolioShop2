@@ -19,8 +19,14 @@ public class Brand {
     @Column(name = "brand_id")
     private Long id;
 
+    private String brandName;
+
     private String brand_banner;
 
-    @OneToMany(mappedBy = "item")
+    @OneToMany(mappedBy = "brand")
     private List<Item> items = new ArrayList<>();
+
+    public Brand(String brandName) {
+        this.brandName = brandName;
+    }
 }

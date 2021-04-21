@@ -28,4 +28,9 @@ public class Goods {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id")
     private Item item;
+
+    public void changeItem(Item item) {
+        this.item = item;
+        item.getGoods().add(this);
+    }
 }

@@ -1,0 +1,33 @@
+.setting-header {
+    border-bottom: 2px solid #ddd;
+    font-size: 25px;
+    padding: 10px 10px;
+}
+
+.box-end {
+    border-bottom: 1px solid #ddd;
+}
+
+.setting-sub-list{
+    border: 1px solid #ddd;
+    background-color: #e5e5e5;
+    font-size: 20px;
+    padding: 11px 13px;
+    color: #777777;
+}
+
+.setting-sub-list:hover {
+    background-color: white;
+}
+
+.product-add-title {
+    font-size: 20px;
+    padding: 10px 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.product-add-container {
+    padding: 10px 10px;
+}
+
+

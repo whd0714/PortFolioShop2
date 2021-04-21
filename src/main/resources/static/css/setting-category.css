@@ -1,0 +1,112 @@
+.category-box {
+    padding: 25px 25px;
+    display: flex;
+}
+
+.category-list-box {
+    width: 300px;
+
+}
+
+.category-btns {
+    padding: 5px 5px;
+    border: 1px solid #727272;
+}
+
+.fa-plus {
+    color: #1cd786;
+}
+
+.fa-minus{
+    color: #e70035;
+}
+
+.category-list-box-main{
+    margin-top: 12px;
+    padding: 15px 20px;
+    border: 1px solid #ddd;
+
+}
+
+.category-list-box-main .from-main, .from-main-title {
+    font-size: 20px;
+    padding: 10px 10px;
+    --border-bottom: 1px solid #ddd;
+    width: 258px;
+}
+
+.category-add-box {
+    width: 500px;
+    padding: 19px 25px;
+    margin-left: 15px;
+    margin-top: 10px;
+}
+.main-category-area {
+    margin-top: 10px;
+}
+
+.main-category-area label {
+    display: inline-block;
+    width:100%;
+    overflow:auto;
+}
+
+.category-add-main-category {
+    padding: 5px 5px;
+    border: 1px solid #727272;
+}
+
+.category-list-box-main label, category-add-main-category {
+    cursor: pointer;
+    margin: 0px;
+}
+
+.category-add-main-container {
+    margin: 20px;
+    border: 1px solid #ddd;
+}
+.category-add-main-container>div {
+    padding: 15px 20px;
+}
+.category-add-main-container h3 {
+    font-size: 20px;
+}
+
+.sub-category-name, .main-category-name {
+    width: 80%;
+}
+.category-sub-btn {
+    position: relative;
+    left: 0;
+}
+
+.sub-add-btn, .sub-can-btn {
+    border: 1px solid #ddd;
+    padding: 10px 10px;
+    cursor: pointer;
+    background: white;
+}
+
+.sub-add-btn:hover {
+    background-color: #1cd786;
+    color: white;
+}
+
+.sub-can-btn:hover {
+    background-color: #e70035;
+    color: white;
+}
+
+.main-category-label {
+    margin-top: 2px;
+    margin-bottom: 2px;
+    font-size: 20px;
+    padding: 3px 10px;
+}
+
+.sub-category-label {
+    margin: 2px 0px;
+    font-size: 13px;
+    padding: 3px 30px;
+}
+

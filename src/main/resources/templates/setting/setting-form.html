@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragment.html :: head">
+</head>
+<body>
+
+    <header class="setting-header">
+        <h1><b>상품관리</b></h1>
+    </header>
+
+    <div>
+        <div class="body-aside">
+            <aside class="main-category-out-box box-end">
+                <div class="main-category-inner-box">
+                    <h3 class="blind">상품관리 메뉴</h3>
+                    <ul class="sub-menu">
+                        <a th:href="@{/setting/category}"><li class="setting-sub-list">카테고리관리</li></a>
+                        <a th:href="@{/setting/add}"><li class="setting-sub-list">상품등록</li></a>
+                        <a href=""><li class="setting-sub-list">상품수정</li></a>
+                    </ul>
+                </div>
+            </aside>
+        </div>
+        <div class="main-box">
+            <main class="main-area">
+                <div class="main-container">
+                    <h2 class="product-add-title">상품등록</h2>
+
+                    <div>
+                        <h3 class="blind">상품등록 폼</h3>
+                        <form action="">
+
+                        </form>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+</body>
+</html>

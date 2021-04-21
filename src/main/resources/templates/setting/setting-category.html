@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragment.html :: head">
+</head>
+<body>
+
+<header class="setting-header">
+    <h1><b>상품관리</b></h1>
+</header>
+
+<div>
+    <div class="body-aside">
+        <aside class="main-category-out-box box-end">
+            <div class="main-category-inner-box">
+                <h3 class="blind">상품관리 메뉴</h3>
+                <ul class="sub-menu">
+                    <a th:href="@{/setting/category}"><li class="setting-sub-list">카테고리관리</li></a>
+                    <a th:href="@{/setting/add}"><li class="setting-sub-list">상품등록</li></a>
+                    <a href=""><li class="setting-sub-list">상품수정</li></a>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+    <div class="main-box">
+        <main class="main-area">
+            <div class="main-container">
+                <h2 class="product-add-title">카테고리 관리</h2>
+                <div class="category-box">
+                    <div class="category-list-box">
+                        <div>
+                            <a href="#" class="category-btns category-btns-add"><i class="fa fa-plus"></i><span> 카테고리 추가</span></a>
+                            <a href="#" class="category-btns category-btns-sub"><i class="fa fa-minus"></i><span> 카테고리 삭제</span></a>
+                        </div>
+                        <div class="category-list-box-main">
+                            <div class="category-add-main-category">
+                                <label class="from-main-title"><input type="checkbox" class="main-add" hidden><i class="fa fa-plus"></i><span> 대분류카테고리 추가</span></label>
+                            </div>
+
+                            <div class="main-category-area">
+                                <div th:each="mainCategoryList : ${mainCategory}">
+                                    <label class="main-category-label"><input class="click-main" hidden type="checkbox" th:text="${mainCategoryList.name}" th:value="${mainCategoryList.name}"></label>
+                                    <div th:each="subCategoryList : ${subCategory}" th:if="${subCategoryList.getParent().name.equals(mainCategoryList.name)}">
+                                        <label class="sub-category-label"><i class="fa fa-arrow-right"></i><input class="click-sub" type="checkbox" hidden th:text="${subCategoryList.name}" th:value="${subCategoryList.name}"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <form hidden th:action="@{/category/addSubCategory}" method="post" id="sub-category-name-add">
+                        <input hidden >
+                    </form>
+                    <div class="category-add-box">
+                        <div class="category-add-main-container category-display-sub" style="display: none">
+                            <div class="category-add-main-title">
+                                <h3><b>중분류 카테고리 추가</b></h3>
+                            </div>
+                            <div> <form th:object="${categoryNameDto}" th:action="@{/category/addSubCategory}" method="post" id="addForm">
+                                <input th:field="*{subName}" class="sub-category-name" type="text" placeholder="중분류명을 입력하세요">
+                                <input th:field="*{mainName}" class="main-category-name2" hidden type="text">
+
+                            </form>
+
+                            </div>
+                            <div class="category-sub-btn">
+                                <!--<button class="sub-add-btn sub-display-add-btn" form="addForm" type="submit">추가</button>-->
+                                <button class="sub-add-btn sub-display-add-btn">추가</button>
+                                <button class="sub-can-btn sub-display-del-btn">취소</button>
+                            </div>
+                        </div>
+
+                        <div class="category-add-main-container category-display-main" style="display: none">
+                            <div class="category-add-main-title">
+                                <h3><b>대분류 카테고리 추가</b></h3>
+                            </div>
+                            <div>
+                                <form th:action="@{/category/addMainCategory}" th:object="${mainCategoryDto}" method="post" id="addMain">
+                                    <input class="main-category-name" type="text" th:field="*{name}" placeholder="대분류명을 입력하세요">
+                                </form>
+
+                            </div>
+                            <div class="category-sub-btn">
+                                <button class="sub-add-btn main-display-add-btn" form="addMain" type="submit">추가</button>
+                                <button class="sub-can-btn main-display-del-btn">취소</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<form id="del-form" th:action="@{/cateory/delCategory}"  method="post" th:object="${categoryDelDto}">
+    <input hidden class="del-vales" type="text" th:field="*{delNames}">
+
+</form>
+
+<script th:replace="fragment.html::csrf"></script>
+
+
+
+<script>
+window.addEventListener("load", function () {
+
+    let categoryListBoxMain = document.querySelector('.category-list-box-main');
+
+    let mainCategoryArea = document.querySelector('.main-category-area');
+    let categoryBtnsAdd = document.querySelector('.category-btns-add');
+
+    let categoryDisplaySub = document.querySelector('.category-display-sub');
+
+    let subDisplayDelBtn = document.querySelector('.sub-display-del-btn');
+    let subDisplayAddBtn = document.querySelector('.sub-display-add-btn');
+
+    let mainCategoryName2 = document.querySelector('.main-category-name2');
+
+    //대분류카테고리 추가 버튼
+    let mainAdd = document.querySelector('.main-add');
+
+    //대분류 카테고리 추가버튼
+    let categoryAddMainCategory = document.querySelector('.category-add-main-category');
+    let categoryDisplayMain = document.querySelector('.category-display-main');
+
+    //대분류 박스 취소
+    let mainDisplayDelBtn = document.querySelector('.main-display-del-btn');
+
+    //카테고리 삭제
+    let categoryBtnsSub = document.querySelector('.category-btns-sub');
+
+    //대분류 카테고리 추가창 띄우기
+    mainAdd.onchange = function (e) {
+        if(mainAdd.checked == true) {
+            categoryAddMainCategory.style.background = "#eaeaea";
+            subDisplayDelBtn.onclick();
+        } else {
+            mainOff();
+        }
+    }
+
+    //카테고리 목록 체크 해제
+    function offDownCategory() {
+        let inputs = mainCategoryArea.querySelectorAll('input[type="checkbox"]:checked');
+        for(let i = 0; i < inputs.length; i++) {
+            inputs[i].checked = false;
+            inputs[i].parentElement.style.background = "none";
+        }
+    }
+
+    function mainOff() {
+        categoryAddMainCategory.style.background = "none";
+        categoryDisplayMain.style.display="none";
+    }
+
+    categoryBtnsSub.onclick = function (e) {
+        let inputs = mainCategoryArea.querySelectorAll('input[type="checkbox"]:checked');
+        let arr = [];
+        let delVales = document.querySelector('.del-vales');
+
+        for(let i of inputs) {
+            arr.push(i.value);
+        }
+
+        delVales.value = arr;
+
+        let delForm = document.querySelector('#del-form');
+        delForm.submit();
+
+    }
+
+    mainDisplayDelBtn.onclick = function () {
+        mainOff();
+        mainAdd.checked = false;
+    }
+
+    categoryAddMainCategory.onclick = function (e) {
+        categoryDisplayMain.style.display = "block";
+    }
+
+    subDisplayAddBtn.onclick = function (e) {
+
+        let input =  mainCategoryArea.querySelector('input[type="checkbox"]:checked');
+        mainCategoryName2.value = input.value;
+        let addForm = document.querySelector('#addForm');
+        addForm.submit();
+    }
+
+    //카테고리 목록 체크 true or false;
+    mainCategoryArea.onclick = function (e) {
+
+        if(categoryDisplaySub.style.display.valueOf() == "block") {
+            alert("중분류 카테고리 추가는 한번에 하나만 가능합니다.");
+            return ;
+        }
+
+        if(e.target.checked == true) {
+            //mainAdd.checked = false;
+            mainDisplayDelBtn.onclick();
+            categoryAddMainCategory.style.background = "none";
+            e.target.parentElement.style.background = "#eaeaea";
+        } else {
+            e.target.parentElement.style.background = "none";
+        }
+    }
+
+    subDisplayDelBtn.onclick = function () {
+        categoryDisplaySub.style.display = "none";
+        offDownCategory();
+    }
+
+    categoryBtnsAdd.onclick = function (e) {
+        let inputs = categoryListBoxMain.querySelectorAll('input[type="checkbox"]:checked');
+        if(inputs.length > 1) {
+            alert('하위 카테고리 추가시 상위 카테고리를 하나만 선택해야합니다.');
+            return ;
+        }
+        if(inputs.length < 1) {
+            return ;
+        }
+
+        let input =  mainCategoryArea.querySelector('input[type="checkbox"]:checked');
+
+        if(!input.classList.contains('click-main')) {
+            alert('중분류 카테고리는 하위카테고리를 추가 할 수 없습니다.');
+            return ;
+        }
+        categoryDisplaySub.style.display = "block";
+    }
+});
+
+</script>
+</body>
+</html>
