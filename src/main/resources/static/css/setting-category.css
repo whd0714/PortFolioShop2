@@ -13,11 +13,11 @@
     border: 1px solid #727272;
 }
 
-.fa-plus {
+.category-list-box .fa-plus {
     color: #1cd786;
 }
 
-.fa-minus{
+.category-list-box .fa-minus{
     color: #e70035;
 }
 

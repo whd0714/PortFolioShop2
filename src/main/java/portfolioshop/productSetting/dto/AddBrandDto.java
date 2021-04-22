@@ -10,6 +10,7 @@ public class AddBrandDto {
 
     private String brandName;
 
+    private String brandNameEng;
 //    @Lob
 //    private String brandBanner;
     @Lob

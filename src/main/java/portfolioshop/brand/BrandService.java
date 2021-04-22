@@ -10,6 +10,7 @@ import portfolioshop.item.Item;
 import portfolioshop.productSetting.dto.AddBrandDto;
 
 import java.io.IOException;
+import java.util.Base64;
 
 @Service
 @Transactional
@@ -20,11 +21,13 @@ public class BrandService {
 
 
     public void saveBrand(AddBrandDto file) throws IOException {
-       // Brand brand = new Brand(file.getBrandName(), file.getBrandBanner());
-        String fileName = file.getBrandBanner().getOriginalFilename();
+
 
         byte[] bytes = file.getBrandBanner().getBytes();
-        Brand brand = new Brand(file.getBrandName(), bytes);
+        byte[] encode = Base64.getEncoder().encode(bytes);
+        String img = new String(encode, "UTF-8");
+
+        Brand brand = new Brand(file.getBrandName(), file.getBrandNameEng(), img);
         brandRepository.save(brand);
     }
 }

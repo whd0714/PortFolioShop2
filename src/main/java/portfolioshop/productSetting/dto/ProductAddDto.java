@@ -32,6 +32,8 @@ public class ProductAddDto {
 
     private String subDescription;
 
+    private String itemTag;
+
     @Lob
     private String description;
 

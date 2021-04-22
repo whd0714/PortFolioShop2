@@ -7,7 +7,7 @@
 <body>
 
     <header class="setting-header">
-        <h1><b>상품관리</b></h1>
+        <h1><b><a th:href="@{/setting}">상품관리</a></b></h1>
     </header>
 
     <div>
@@ -28,13 +28,50 @@
         <div class="main-box">
             <main class="main-area">
                 <div class="main-container">
-                    <h2 class="product-add-title">상품등록</h2>
+                    <h2 class="product-add-title">상품관리 메인</h2>
 
                     <div>
-                        <h3 class="blind">상품등록 폼</h3>
-                        <form action="">
+                        <table class="table-setting">
+                            <colgroup>
+                                <col style="width:5%">
+                                <col style="width: 5%">
+                                <col style="width: auto">
+                                <col style="width: 10%">
+                                <col style="width: 15%">
+                                <col style="width: 15%">
+                            </colgroup>
+                            <thead>
+                            <tr>
+                                <th><input type="checkbox"></th>
+                                <th>No</th>
+                                <th>상품명 / 품번</th>
+                                <th>판매가</th>
+                                <th>진열상태</th>
+                                <th>판매상태</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="setting-product-main-page-tr" th:each="item : ${items}" >
+                                    <th><input type="checkbox"></th>
+                                    <th>0</th>
+                                    <th class="aaa">
+                                        <a th:href="@{'/setting/update/product/' + ${item.getId()}}">
+                                            <div class="bbb">
 
-                        </form>
+                                                <img class="setting-product-main-page-img" th:src="@{'data:image/jpg;base64,'+ ${item.getItemImage()}}" alt="#" />
+                                                <span th:text="${item.getItemName()}"></span> /
+                                                <span th:text="${item.getItemNo()}"></span>
+                                            </div>
+                                        </a>
+                                    </th>
+                                    <th>
+                                        <span th:text="${item.getItemPrice()}"></span>
+                                    </th>
+                                    <th>진열불가능</th>
+                                    <th>판매불가능</th>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </main>

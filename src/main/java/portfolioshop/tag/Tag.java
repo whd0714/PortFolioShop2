@@ -27,4 +27,9 @@ public class Tag {
 
     @OneToMany(mappedBy = "tag")
     private List<ItemTag> itemTags = new ArrayList<>();
+
+    public Tag(String tagName, TagType tagType) {
+        this.tagName = tagName;
+        this.tagType = tagType;
+    }
 }

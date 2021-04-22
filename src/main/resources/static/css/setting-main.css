@@ -30,4 +30,20 @@
     padding: 10px 10px;
 }
 
+.setting-product-main-page-img {
+    width: 60px;
+    height: 72px;
+}
 
+.setting-product-main-page-tr {
+    height: 90px;
+}
+
+.aaa {
+    position: relative;
+    left: 0;
+}
+
+.bbb {
+    float: left;
+}

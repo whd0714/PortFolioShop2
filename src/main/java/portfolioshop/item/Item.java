@@ -44,7 +44,7 @@ public class Item {
     private String subDescription;
 
     @Lob
-    private byte[] itemImage;
+    private String itemImage;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "brand_id")
@@ -65,7 +65,7 @@ public class Item {
     }
 
     public Item(String itemNo, String itemName, String itemNameEng, int itemPrice, Season season, Gender gender,
-                String subDescription, String description, byte[] itemImage) {
+                String subDescription, String description, String itemImage) {
         this.itemNo = itemNo;
         this.itemName = itemName;
         this.itemNameEng = itemNameEng;

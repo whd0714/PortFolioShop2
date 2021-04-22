@@ -7,7 +7,7 @@
 <body>
 
 <header class="setting-header">
-    <h1><b>상품관리</b></h1>
+    <h1><b><a th:href="@{/setting}">상품관리</a></b></h1>
 </header>
 
 <div>
@@ -58,7 +58,6 @@
                     </div>
 
                     <div class="product-add-form-area">
-
                             <div hidden>
                                 <label for="mainCategory">대분류</label>
                                 <input name="" id="mainCategory" th:field="*{mainCategory}">
@@ -94,8 +93,10 @@
                                                             <h4>브랜드</h4>
                                                         </div>
                                                         <div class="product-add-form-table-right-content-title-padding">
-                                                            <select th:each="brandName : ${brandNames}" th:field="*{itemBrandName}">
-                                                                <option th:value="${brandName}" th:text="${brandName}"></option>
+                                                            <select  th:field="*{itemBrandName}">
+                                                                <idv th:each="brandName : ${brandNames}">
+                                                                    <option th:value="${brandName}" th:text="${brandName}"></option>
+                                                                </idv>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -126,9 +127,13 @@
                                                     </div>
                                                     <div>
                                                         <div class="product-add-form-table-right-content-title product-add-form-table-right-content-title-padding">
-                                                           <button type="submit">제품 등록</button>
+                                                            <h4>태그</h4>
                                                         </div>
-
+                                                        <div class="product-add-form-table-right-content-title-padding">
+                                                            <div>
+                                                                <input type="text" th:field="*{itemTag}">
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="product-add-form-table-content-box-right">
@@ -180,19 +185,22 @@
                                                             <textarea th:field="*{description}" name="" id="" cols="39" rows="10"></textarea>
                                                         </div>
                                                     </div>
+                                                    <div class="product-add-form-table-right-content-title product-add-form-table-right-content-title-padding">
+                                                        <button type="submit">제품 등록</button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </td>
                                     </tr>
-
                                 </tbody>
                             </table>
+
+                    </div>
                         </form>
                     </div>
 
-
-
                 </div>
+        </main>
             </div>
         </main>
     </div>
@@ -252,7 +260,6 @@
                 e.target.checked = true;
             }
 
-
             if(e.target.checked == true) {
 
                 e.target.parentElement.style.background = "#eaeaea";
@@ -285,7 +292,6 @@
                             divNode.append(labelNode);
                             productAddCategorySubContentBox.append(divNode);
                         }
-
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
                         alert("ERROR : " + textStatus + " : " + errorThrown);
@@ -294,8 +300,6 @@
             } else {
                 e.target.parentElement.style.background = "none";
             }
-
-
         }
     });
 </script>

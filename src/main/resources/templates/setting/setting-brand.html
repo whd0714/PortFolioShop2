@@ -7,7 +7,7 @@
 <body>
 
 <header class="setting-header">
-    <h1><b>상품관리</b></h1>
+    <h1><b><a th:href="@{/setting}">상품관리</a></b></h1>
 </header>
 
 <div>
@@ -39,6 +39,12 @@
                                 </div>
                                 <div class="brand-name-box">
                                     <input type="text" th:field="*{brandName}">
+                                </div>
+                                <div>
+                                    <h3>브랜드 이름(영어)</h3>
+                                </div>
+                                <div class="brand-name-box">
+                                    <input type="text" th:field="*{brandNameEng}">
                                 </div>
                                 <div>
                                     <h3>브랜드 배너 추가</h3>

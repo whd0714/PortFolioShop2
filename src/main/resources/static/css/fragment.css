@@ -256,6 +256,8 @@ header {
             float: left;
             width: 269px;
             border-right: 1px solid #ddd;
+            display: flex;
+            flex-flow: column;
         }
 
             .main-category-inner-box {
@@ -364,4 +366,48 @@ header {
     overflow: visible;
 }
 
+.main-category-main-menu-box {
+    padding: 10px 15px;
+}
+
+.sub-main-menu-box {
+   padding: 5px 5px;
+    border-bottom: 1px solid #ddd;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.sub-main-menu-mainCategory {
+    padding: 5px 0;
+    cursor: pointer;
+}
+
+.sub-main-menu-subCategory, .subCategory-all {
+    font-size: 12px;
+    font-weight: normal;
+    padding: 5px 0;
+    width: 114px;
+}
+
+.sub-main-menu-sub-category-align {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.sub-main-menu-sub-category-align-detail{
+
+}
+
+.sub-main-menu-mainCategory-title {
+    display: inline-block;
+    width: 90%;
+}
+
+.sub-main-menu-mainCategory-plus {
+    display: inline-block;
+}
+
+.sub-main-menu-mainCategory-minus {
+    display: inline-block;
+}
 

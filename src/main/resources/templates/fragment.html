@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="/css/setting-category.css" type="text/css">
     <link rel="stylesheet" href="/css/setting-add-product.css" type="text/css">
     <link rel="stylesheet" href="/css/setting-brand.css" type="text/css">
-
+    <link rel="stylesheet" href="/css/setting-update-product.css" type="text/css">
 
     <script src="/node_modules/jquery/dist/jquery.min.js"></script>
     <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -203,8 +203,54 @@
                         <li class="box-tab">브랜드</li>
                         <li class="box-tab">숍인숍</li>
                     </ul>
+                </div>
+                <div class="main-category-main-menu-box">
+                    <div class="sub-main-menu">
+                        <div th:each="mainCategory :${mainCategories}" class="sub-main-menu-box">
+                            <div class="sub-content-close">
+                                <div class="sub-main-menu-mainCategory">
+                                    <div class="sub-main-menu-mainCategory-title content-item-close"
+                                         th:text="${mainCategory.getName()}"></div>
+                                    <div class="sub-main-menu-mainCategory-plus" >
+                                        <i class="fa fa-plus"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="sub-content-open" style="display: none;">
+                                <div class="sub-main-menu-mainCategory">
+                                    <div class="sub-main-menu-mainCategory-title content-item-open"
+                                         th:text="${mainCategory.getName()}"></div>
+                                    <div class="sub-main-menu-mainCategory-minus">
+                                        <i class="fa fa-minus"></i>
+                                    </div>
+                                </div>
 
-                    <div>
+                                <div class="sub-main-menu-sub-category-content-area">
+                                    <div class="subCategory-all"><a href="">전체</a></div>
+
+                                    <div class="sub-main-menu-sub-category-align">
+                                        <div th:each="subCategory : ${subCategories}"
+                                             th:if="${mainCategory.getName() == subCategory.getParent().getName()}"
+                                             class="sub-main-menu-subCategory">
+
+                                            <ul class="sub-main-menu-sub-category-align-detail">
+                                                <a href="">
+                                                    <li>
+                                                        <div>
+                                                            <span href="" th:text="${subCategory.getName()}"></span>
+                                                            <span>(</span>
+                                                            <span></span>
+                                                            <span>)</span>
+                                                        </div>
+                                                    </li>
+                                                </a>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
 
                     </div>
                 </div>
@@ -283,6 +329,20 @@
             });
         });
     </script>
+    <script th:fragment="main-nav-category">
+        window.addEventListener("load", function () {
+            let subMainMenu = document.querySelector('.sub-main-menu');
 
+            subMainMenu.onclick = function(e) {
+                if(e.target.classList.contains('content-item-close')) {
+                    e.target.parentElement.parentElement.parentElement.children[1].style.display="block";
+                    e.target.parentElement.parentElement.style.display ="none";
+                } else if(e.target.classList.contains('content-item-open')) {
+                    e.target.parentElement.parentElement.parentElement.children[0].style.display="block";
+                    e.target.parentElement.parentElement.style.display ="none";
+                }
+            }
+        });
+    </script>
 </body>
 </html>

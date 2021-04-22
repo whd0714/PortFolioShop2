@@ -9,15 +9,21 @@ import portfolioshop.brand.BrandService;
 import portfolioshop.category.Category;
 import portfolioshop.category.CategoryRepository;
 import portfolioshop.category.CategoryService;
+import portfolioshop.item.Item;
+import portfolioshop.item.ItemRepository;
 import portfolioshop.item.ItemService;
 import portfolioshop.item.enumType.Gender;
 import portfolioshop.item.enumType.Season;
+import portfolioshop.itemTag.ItemTagRepository;
 import portfolioshop.productSetting.dto.*;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Controller
@@ -29,9 +35,19 @@ public class ProductSettingController {
     private final CategoryRepository categoryRepository;
     private final BrandService brandService;
     private final BrandRepository brandRepository;
+    private final ItemRepository itemRepository;
+    private final ItemTagRepository itemTagRepository;
 
     @GetMapping("/setting")
-    public String settingForm() {
+    public String settingForm(Model model, HttpServletResponse response) throws UnsupportedEncodingException {
+
+        List<Item> all = itemRepository.findAll();
+        List<Item> items = all.stream().collect(Collectors.toList());
+        List<String> imgs = new ArrayList<>();
+        if(items != null) {
+            model.addAttribute("items", items);
+
+        }
         return "setting/setting-form";
     }
 
@@ -146,6 +162,41 @@ public class ProductSettingController {
         brandService.saveBrand(file);
 
         return "redirect:/setting/brand";
+    }
+
+    @GetMapping("/setting/update/product/{itemId}")
+    public String updateProductForm(@PathVariable("itemId") Long itemId, Model model) {
+        Optional<Item> byId = itemRepository.findById(itemId);
+        byId.ifPresent(item -> {
+            model.addAttribute(item);
+
+            model.addAttribute("tagNames",itemTagRepository.findByAllTagByItemId(item.getId()));
+        });
+
+        List<Category> all = categoryRepository.findAll();
+
+        List<Category> collect = all.stream().collect(Collectors.toList());
+
+        List<String> brandNames = brandRepository.findAllBrandName();
+
+        model.addAttribute(new ProductAddDto());
+        if(collect != null) {
+            model.addAttribute("collect", collect);
+        }
+        if(brandNames != null) {
+            model.addAttribute("brandNames", brandNames);
+        }
+
+        model.addAttribute("seasons",Season.values());
+        model.addAttribute("genders",Gender.values());
+
+        return "setting/product-update";
+    }
+
+    @PostMapping("/setting/update/product/{itemId}")
+    public String updateProduct(@PathVariable("itemId") Long itemId){
+
+        return "redirect:/setting";
     }
 }
 
