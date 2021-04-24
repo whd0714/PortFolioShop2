@@ -1,5 +1,122 @@
 .file-trigger-btn {
     border: 1px solid;
-    padding: 5px 15px;
+    padding: 5px 5px;
     margin: 0 4px 0 0;
+    cursor: pointer;
+}
+
+
+.product-add-size-btn {
+    border: 1px solid;
+    display: inline-block;
+    padding: 5px 5px;
+    cursor: pointer;
+}
+
+.product-add-size-btn:hover {
+    background: black;
+    color: white;
+}
+
+.product-del-size-btn {
+    display: inline-block;
+}
+
+.product-add-size-value-box {
+    display: inline-block;
+}
+
+.product-update-tbody select {
+    width: 100px;
+
+}
+
+.product-update-form-table {
+    text-align: center;
+}
+
+.product-update-form-table input {
+    width: 100px;
+}
+.product-update-form-table tr th:nth-child(4) input {
+    height: 30px;
+    width: 150px;
+}
+.product-update-form-table {
+    width: 1049px;
+    line-height: 2.5;
+    font-size: 14px;
+    border-collapse: collapse;
+    table-layout: fixed;
+    border-bottom: 1px solid #ddd;
+    border-top: 1px solid #ddd;
+}
+
+.product-update-form-table thead {
+    border-bottom: 1px solid #ddd;
+}
+
+.product-update-form-table input[type="checkbox"] {
+    text-align: center;
+}
+
+.product-update-category {
+    padding: 20px 20px 0;
+}
+
+.product-update-option {
+    padding: 0 20px 0;
+}
+
+.option-input {
+    display: inline-block;
+}
+
+.product-option-del {
+    display: inline-block;
+    padding: 5px 5px;
+    border: 1px solid;
+    cursor: pointer;
+    margin-bottom: 5px;
+}
+
+.product-option-del:hover {
+    background: black;
+    color: white;
+}
+
+.product-update-category-content {
+    display: inline-block;
+    font-size: 15px;
+    margin-right: 10px;
+}
+
+.update-category-box {
+    display: none;
+}
+
+.product-update-category-btn {
+    padding: 5px 5px;
+    border: 1px solid;
+    display: inline-block;
+    margin-top: 5px;
+    cursor: pointer;
+}
+
+.product-update-category-btn:hover {
+    background: black;
+    color: white;
+}
+
+.option-add-btn {
+    padding: 5px 5px;
+    border: 1px solid;
+    display: inline-block;
+    margin-top: 5px;
+    cursor: pointer;
+}
+
+.option-add-btn:hover {
+    background: black;
+    color: white;
 }

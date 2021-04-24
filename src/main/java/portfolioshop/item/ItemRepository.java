@@ -9,4 +9,6 @@ import java.util.List;
 public interface ItemRepository extends JpaRepository<Item, Long> {
 
 
+    @Query("select i from Item i where i.id = :itemId")
+    Item findByUpdateProductByItemId(Long itemId);
 }

@@ -25,11 +25,15 @@ public class Tag {
     @Enumerated(EnumType.STRING)
     private TagType tagType;
 
-    @OneToMany(mappedBy = "tag")
+    @OneToMany(mappedBy = "tag",  orphanRemoval = true)
     private List<ItemTag> itemTags = new ArrayList<>();
 
     public Tag(String tagName, TagType tagType) {
         this.tagName = tagName;
         this.tagType = tagType;
+    }
+
+    public void removeItem(ItemTag itemTag) {
+        this.getItemTags().remove(itemTag);
     }
 }

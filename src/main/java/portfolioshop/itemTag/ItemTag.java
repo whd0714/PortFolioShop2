@@ -23,7 +23,7 @@ public class ItemTag {
     private Item item;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "tag_name")
+    @JoinColumn(name = "tag_id")
     private Tag tag;
 
     public void changeItem(Item item) {
@@ -34,5 +34,10 @@ public class ItemTag {
     public void changeTag(Tag tag) {
         this.tag = tag;
         tag.getItemTags().add(this);
+    }
+
+    public void cutItem() {
+        this.item = null;
+        this.tag = null;
     }
 }

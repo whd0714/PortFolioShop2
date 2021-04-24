@@ -31,9 +31,29 @@
                 <h2 class="product-add-title">상품수정</h2>
 
                 <div class="product-add-container">
-                    <form th:action="@{'/setting/update/product/'+${item.getId}(${_csrf.parameterName}=${_csrf.token})}" enctype="multipart/form-data" method="post" th:object="${productAddDto}">
+                    <form th:action="@{'/setting/update/product/'+${item.getId}(${_csrf.parameterName}=${_csrf.token})}" enctype="multipart/form-data" method="post" th:object="${productUpdateDto}">
                         <div class="product-add-category-container">
-                            <div class="product-add-category-box">
+                            <div class="product-update-category">
+                                <div>
+                                    <div>
+                                        <span class="product-add-form-area"><h4>현재카테고리</h4></span>
+                                    </div>
+                                    <div class="product-update-category-content">
+                                        <span>대분류</span>
+                                        <span th:text="${categories.getParent().getName()}"></span>
+                                    </div>
+                                    <div class="product-update-category-content">
+                                        <span>중분류</span>
+                                        <span th:text="${categories.getName()}"></span>
+                                    </div>
+                                    <div>
+                                        <div class="product-update-category-btn">
+                                            <span>카테고리변경</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="product-add-category-box update-category-box">
                                 <div class="product-add-category-main-container">
                                     <div class="product-add-category-main-title">
                                         <h3>대분류 카테고리</h3>
@@ -57,42 +77,112 @@
                             </div>
                         </div>
 
-                        <div>
-                            <template>
-                                <tr>
-                                    <th><input type="checkbox"></th>
-                                    <th><span><input type="text"></span></th>
-                                    <th><span><input type="text"></span></th>
-                                </tr>
-                            </template>
-                            <table class="product-update-form-table">
-                                <colgroup>
-                                    <col style="width:15%">
-                                    <col style="width:40%">
-                                    <col style="width:auto">
-                                </colgroup>
-                                <tbody>
-                                <tr>
-                                    <td>
-                                        <div>
-                                            <span>삭제</span>
-                                            <span>추가</span>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th><input type="checkbox"></th>
-                                    <th><span>사이즈</span></th>
-                                    <th><span>수량</span></th>
-                                    <th><span>상태</span></th>
-                                </tr>
-                                <tr>
-                                    <th><input type="checkbox"></th>
-                                    <th><span><input type="text"></span></th>
-                                    <th><span><input type="text"></span></th>
-                                </tr>
-                                </tbody>
-                            </table>
+                        <div class="product-update-option">
+                            <div>
+                                <div>
+                                    <span class="product-add-form-area"><h4>옵션</h4></span>
+                                </div>
+                                <div class="option-input">
+                                    <!--<div class="product-add-size-value-box">
+                                        <input class="product-add-size-value" type="text">
+                                    </div>-->
+                                    <div class="product-add-size-btn">
+                                        옵션추가
+                                    </div>
+                                </div>
+
+                                <div class="product-del-size-btn">
+                                    <div class="product-option-del">
+                                        옵션삭제
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div>
+
+                                <template class="product-update-template">
+                                    <tr>
+                                        <th><input type="checkbox"></th>
+                                        <th><span><input  th:field="*{sizes}" type="text"></span></th>
+                                        <th><span class="option-value-count2" ></span></th>
+                                        <th><span><input  th:field="*{counts}" class="option-count-input2" type="number"></span></th>
+                                        <th>
+                                            <select  th:field="*{saleStatuses}">
+                                                <div th:each="sale : ${sales}">
+                                                    <option th:value="${sale}" th:text="${sale}"></option>
+                                                </div>
+                                            </select>
+                                        </th>
+                                        <th><span class="option-add-btn">등록</span></th>
+                                    </tr>
+                                </template>
+                                <table class="product-update-form-table">
+                                    <colgroup>
+                                        <col style="width:10%">
+                                        <col style="width:17%">
+                                        <col style="width:20.5%">
+                                        <col style="width:17%">
+                                        <col style="width:20.5%">
+                                        <col style="width:auto">
+
+                                    </colgroup>
+                                    <thead>
+                                    <tr>
+                                        <th><input class="option-all-check" type="checkbox"></th>
+                                        <th><span>사이즈</span></th>
+                                        <th><span>재고</span></th>
+                                        <th><span>재고추가</span></th>
+                                        <th><span>판매상태</span></th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="product-update-tbody">
+                                    <!--<tr th:each="itemOption :${item.getGoods()}">
+                                        <th><input type="checkbox"></th>
+                                        <th><span><input th:value="${itemOption.getSize()}" th:field="*{sizes}" type="text"></span></th>
+                                        <th><span></span></th>
+                                        <th><span><input th:value="${itemOption.getCount()}" th:field="*{counts}" type="number"></span></th>
+                                        <th>
+                                            <div>
+                                                <select th:field="*{saleStatuses}">
+                                                    <option th:value="${itemOption.getSaleStatus()}"></option>
+                                                    <div th:each=" sale : ${sales}">
+                                                        <option th:value="${sale}" th:text="${sale}"></option>
+                                                    </div>
+                                                </select>
+
+                                            </div>
+                                        </th>
+                                    </tr>-->
+                                    <tr th:each="itemOptions : ${goods}">
+                                        <th><input type="checkbox"></th>
+                                        <th><span><input  th:value="${itemOptions.getSize()}" class="option-value-size" th:field="*{sizes2}" type="text"><span style="display: none" th:text="${itemOptions.getId()}"></span></span></th>
+                                        <th><span th:value="${itemOptions.getCount()}" class="option-value-count" ></span></th>
+                                        <th><span><input  class="option-count-input" th:field="*{counts2}" type="number"></span></th>
+
+                                        <th>
+                                            <div>
+                                                <select class="option-value-sale-status" th:field="*{saleStatuses2}">
+                                                    <option value="" th:text="${itemOptions.getSaleStatus()}"></option>
+                                                    <div th:each=" sale : ${sales}">
+                                                        <option th:if="${sale != itemOptions.getSaleStatus()}"  th:value="${sale}" th:text="${sale}"></option>
+                                                    </div>
+                                                </select>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="item-options" hidden>
+                            <span  th:each="itemOp : ${goods}">
+                                <span class="item-option-size" th:text="${itemOp.getSize()}"></span>
+                                <span class="item-option-count" th:text="${itemOp.getCount()}"></span>
+                                <span class="item-option-sale-status" th:text="${itemOp.getSaleStatus()}"></span>
+                            </span>
                         </div>
 
                         <div class="product-add-form-area">
@@ -137,10 +227,9 @@
                                                     </div>
                                                     <div class="product-add-form-table-right-content-title-padding">
                                                         <select  th:field="*{itemBrandName}">
-                                                            <option value="" th:text="${item.getBrand().getBrandName()}"></option>
+                                                            <option th:value="${item.getBrand().getBrandName()}" th:text="${item.getBrand().getBrandName()}"></option>
                                                             <div th:each="brandName : ${brandNames}">
                                                                 <option th:if="${brandName != item.getBrand().getBrandName()}" th:value="${brandName}" th:text="${brandName}"></option>
-
                                                             </div>
                                                         </select>
                                                     </div>
@@ -197,6 +286,8 @@
                                                     <span class="update-product-sub-des" hidden th:text="${item.getSubDescription()}"></span>
                                                     <span class="update-product-des" hidden th:text="${item.getDescription()}"></span>
                                                     <span class="update-product-image" hidden th:text="${item.getItemImage()}"></span>
+                                                    <span class="update-product-main-category" hidden th:text="${categories.getParent().getName()}"></span>
+                                                    <span class="update-product-sub-category" hidden th:text="${categories.getName()}"></span>
 
                                                     <div>
                                                         <input class="update-no" th:field="*{itemNo}" type="text">
@@ -243,7 +334,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="product-add-form-table-right-content-title product-add-form-table-right-content-title-padding">
-                                                    <button type="submit">제품 등록</button>
+                                                    <!--<button type="submit">제품 등록</button>-->
+                                                    <button class="update-submit" >상품수정</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -266,7 +358,9 @@
 </div>
 <script th:replace="fragment.html::csrf"></script>
 <script>
+
     window.addEventListener("load", function (){
+
         //대분류 선택값
         let productAddCategoryMainValue = document.querySelector('.product-add-category-main-value');
 
@@ -287,6 +381,112 @@
         let updateImage = document.querySelector('.update-image');
         let fileTriggerBtn = document.querySelector('.file-trigger-btn');
 
+        let productUpdateCategoryBtn = document.querySelector('.product-update-category-btn');
+
+        let productAddSizeBtn = document.querySelector('.product-add-size-btn');
+        //let productAddSizeValue = document.querySelector('.product-add-size-value');
+        let productUpdateFormTable  = document.querySelector('.product-update-formTable');
+        let productUpdateTbody = document.querySelector('.product-update-tbody');
+
+        let optionAllCheck = document.querySelector('.option-all-check');
+        let productOptionDel = document.querySelector('.product-option-del');
+
+        let itemOptions = document.querySelector('.item-options');
+
+        let updateSubmit = document.querySelector('.update-submit');
+
+        updateSubmit.onclick = function () {
+
+            let optionCountInput = document.querySelectorAll('.option-count-input');
+            let optionCountCount = document.querySelectorAll('.option-value-count');
+
+            let optionCountInput2 = document.querySelectorAll('.option-count-input2');
+            let optionCountCount2 = document.querySelectorAll('.option-value-count2');
+            let itemOptionCount = document.querySelectorAll('.item-option-count');
+            for(let i = 0; i < optionCountCount2.length; i++) {
+               /* console.log("재고추가 = " + optionCountInput2[i].value);
+                console.log("재고추가 = " + optionCountInput2[i].textContent);
+
+                //optionCountCount2[i].value = optionCountInput2[i].value
+                console.log("재고 = " + optionCountCount2[i].value);*/
+            }
+            for(let i = 0; i < optionCountCount.length; i++) {
+                optionCountInput[i].value = parseInt(optionCountInput[i].value) + parseInt(itemOptionCount[i].textContent);
+                console.log("zzzzz" + optionCountInput[i].value);
+            }
+            updateSubmit.type="submit";
+            $("form:first").submit();
+
+        }
+
+        productUpdateCategoryBtn.onclick = function () {
+            let updateCategoryBox = document.querySelector('.update-category-box');
+            updateCategoryBox.style.display = "flex";
+        }
+
+        optionAllCheck.onchange = function (e) {
+            let inputs = productUpdateTbody.querySelectorAll('input[type="checkbox"]');
+
+            for(let i = 0; i < inputs.length; i++) {
+                inputs[i].checked = optionAllCheck.checked;
+            }
+        }
+
+        //옵션 삭제
+        productOptionDel.onclick = function (e) {
+            let inputs = productUpdateTbody.querySelectorAll('input[type="checkbox"]:checked');
+            let idx = {};
+            let arr = [];
+            let goodsId = [];
+            for(let i = 0; i < inputs.length; i++) {
+                inputs[i].parentElement.parentElement.remove();
+                let path = inputs[i].parentElement.parentElement.children[1].children[0].children[0];
+                arr.push(path.value);
+                goodsId.push(path.nextElementSibling.textContent);
+            }
+            idx.size = arr;
+            idx.path = goodsId;
+            console.log(idx);
+            console.log("goodsId =" + goodsId);
+
+            let data = JSON.stringify(idx);
+
+            console.log(data);
+
+
+            $.ajax({
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                url: "/option/delete",
+                type: "POST",
+                data: data,
+                success : function (value){
+                    console.log(value);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    alert("ERROR : " + textStatus + " : " + errorThrown);
+                }
+            });
+
+        }
+
+
+        //사이즈 수정 관련
+
+
+        productAddSizeBtn.onclick = function (e) {
+            let productUpdateTemplate = document.querySelector('.product-update-template');
+
+            let cloneNode = document.importNode(productUpdateTemplate.content, true);
+            let ths = cloneNode.querySelectorAll('th');
+
+            //ths[1].textContent = productAddSizeValue.value;
+            ths[2].textContent = '0';
+            ths[2].className += "option-value-count2";
+            //productAddSizeValue.value = "";
+            productUpdateTbody.append(cloneNode);
+        }
+
         fileTriggerBtn.onclick = function () {
             let event = new MouseEvent("click", {
                 'view':window,
@@ -297,33 +497,55 @@
 
             updateImage.dispatchEvent(event);
         }
-
         a();
-         function a() {
-             let itemNo = document.querySelector('.update-product-no');
-             let itemName = document.querySelector('.update-product-name');
-             let itemNameEng = document.querySelector('.update-product-eng');
-             let itemPrice = document.querySelector('.update-product-price');
-             let itemSubDes = document.querySelector('.update-product-sub-des');
-             let itemDes = document.querySelector('.update-product-des');
 
-             let updateNo = document.querySelector('.update-no');
-             let updateName = document.querySelector('.update-name');
-             let updateEng = document.querySelector('.update-eng');
-             let updatePrice = document.querySelector('.update-price');
-             let updateSubDes = document.querySelector('.update-sub-des');
-             let updateDes= document.querySelector('.update-des');
 
-             updateNo.value = itemNo.textContent;
-             updateName.value = itemName.textContent;
-             updateEng.value = itemNameEng.textContent;
-             updatePrice.value = itemPrice.textContent;
-             updateSubDes.value = itemSubDes.textContent;
-             updateDes.value = itemDes.textContent;
+        function a() {
+            let itemNo = document.querySelector('.update-product-no');
+            let itemName = document.querySelector('.update-product-name');
+            let itemNameEng = document.querySelector('.update-product-eng');
+            let itemPrice = document.querySelector('.update-product-price');
+            let itemSubDes = document.querySelector('.update-product-sub-des');
+            let itemDes = document.querySelector('.update-product-des');
+            let mainCate = document.querySelector('.update-product-main-category');
+            let subCate = document.querySelector('.update-product-sub-category');
 
-             let a = updateTagSpan.textContent;
-             let s = a.replace(/,/gi,'');
-             updateTag.value = s;
+            let updateNo = document.querySelector('.update-no');
+            let updateName = document.querySelector('.update-name');
+            let updateEng = document.querySelector('.update-eng');
+            let updatePrice = document.querySelector('.update-price');
+            let updateSubDes = document.querySelector('.update-sub-des');
+            let updateDes= document.querySelector('.update-des');
+
+            let optionValueSize = document.querySelectorAll('.option-value-size')
+            let optionValueCount = document.querySelectorAll('.option-value-count')
+            let itemOptionSize = document.querySelectorAll('.item-option-size');
+            let itemOptionCount = document.querySelectorAll('.item-option-count');
+            let itemOptionSaleStatus = document.querySelectorAll('.item-option-sale-status');
+
+            for(let i = 0; i < itemOptionSize.length; i++) {
+
+                optionValueSize[i].value += itemOptionSize[i].textContent;
+                optionValueCount[i].textContent += itemOptionCount[i].textContent;
+                console.log("cccccccccc" + optionValueSize[i].value);
+                console.log("cccccccccc" + optionValueSize[i].textContent);
+
+                console.log("ccccc" + itemOptionCount[i].textContent);
+            }
+
+            mainCategory.value = mainCate.textContent;
+            subCategory.value = subCate.textContent;
+            updateNo.value = itemNo.textContent;
+            updateName.value = itemName.textContent;
+            updateEng.value = itemNameEng.textContent;
+            updatePrice.value = itemPrice.textContent;
+            updateSubDes.value = itemSubDes.textContent;
+            updateDes.value = itemDes.textContent;
+
+            console.log(updateTagSpan.value);
+            let a = updateTagSpan.textContent;
+            let s = a.replace(/,/gi,'');
+            updateTag.value = s;
         }
 
         //중분류 선택 버블링 영역

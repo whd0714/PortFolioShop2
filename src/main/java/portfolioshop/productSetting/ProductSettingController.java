@@ -9,11 +9,14 @@ import portfolioshop.brand.BrandService;
 import portfolioshop.category.Category;
 import portfolioshop.category.CategoryRepository;
 import portfolioshop.category.CategoryService;
+import portfolioshop.goods.GoodsService;
+import portfolioshop.goods.enumType.SaleStatus;
 import portfolioshop.item.Item;
 import portfolioshop.item.ItemRepository;
 import portfolioshop.item.ItemService;
 import portfolioshop.item.enumType.Gender;
 import portfolioshop.item.enumType.Season;
+import portfolioshop.itemCategory.ItemCategoryRepository;
 import portfolioshop.itemTag.ItemTagRepository;
 import portfolioshop.productSetting.dto.*;
 
@@ -21,7 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Base64;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -37,13 +40,16 @@ public class ProductSettingController {
     private final BrandRepository brandRepository;
     private final ItemRepository itemRepository;
     private final ItemTagRepository itemTagRepository;
+    private final ItemCategoryRepository itemCategoryRepository;
+    private final GoodsService goodsService;
 
     @GetMapping("/setting")
     public String settingForm(Model model, HttpServletResponse response) throws UnsupportedEncodingException {
 
         List<Item> all = itemRepository.findAll();
         List<Item> items = all.stream().collect(Collectors.toList());
-        List<String> imgs = new ArrayList<>();
+
+
         if(items != null) {
             model.addAttribute("items", items);
 
@@ -169,8 +175,11 @@ public class ProductSettingController {
         Optional<Item> byId = itemRepository.findById(itemId);
         byId.ifPresent(item -> {
             model.addAttribute(item);
-
+            model.addAttribute("goods", item.getGoods());
             model.addAttribute("tagNames",itemTagRepository.findByAllTagByItemId(item.getId()));
+
+            model.addAttribute("categories", item.getItemCategories().get(0).getCategory());
+
         });
 
         List<Category> all = categoryRepository.findAll();
@@ -179,7 +188,8 @@ public class ProductSettingController {
 
         List<String> brandNames = brandRepository.findAllBrandName();
 
-        model.addAttribute(new ProductAddDto());
+        model.addAttribute(new ProductUpdateDto());
+
         if(collect != null) {
             model.addAttribute("collect", collect);
         }
@@ -187,6 +197,7 @@ public class ProductSettingController {
             model.addAttribute("brandNames", brandNames);
         }
 
+        model.addAttribute("sales", SaleStatus.values());
         model.addAttribute("seasons",Season.values());
         model.addAttribute("genders",Gender.values());
 
@@ -194,9 +205,20 @@ public class ProductSettingController {
     }
 
     @PostMapping("/setting/update/product/{itemId}")
-    public String updateProduct(@PathVariable("itemId") Long itemId){
+    public String updateProduct(@PathVariable("itemId") Long itemId, @Valid ProductUpdateDto productUpdateDto) throws IOException {
+        System.out.println("aaaaaaaaa" + productUpdateDto);
+        itemService.updateProduct(productUpdateDto, itemId);
 
         return "redirect:/setting";
+    }
+
+    @PostMapping("/option/delete")
+    @ResponseBody
+    public int deleteOption(@RequestBody DeleteOptionDto deleteOptionDto) {
+
+        goodsService.deleteGoods(deleteOptionDto);
+
+        return 1;
     }
 }
 

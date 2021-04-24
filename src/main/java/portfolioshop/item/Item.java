@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import portfolioshop.brand.Brand;
 import portfolioshop.goods.Goods;
+import portfolioshop.goods.enumType.DisplayStatus;
 import portfolioshop.item.enumType.Gender;
 import portfolioshop.item.enumType.Season;
 import portfolioshop.itemCategory.ItemCategory;
@@ -53,16 +54,19 @@ public class Item {
     @OneToMany(mappedBy = "item")
     private List<Goods> goods = new ArrayList<>();
 
-    @OneToMany(mappedBy = "item")
+    @OneToMany(mappedBy = "item", orphanRemoval = true)
     private List<ItemTag> itemTags = new ArrayList<>();
 
-    @OneToMany(mappedBy = "item")
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
     private List<ItemCategory> itemCategories = new ArrayList<>();
 
     public void changeBrand(Brand brand) {
         this.brand = brand;
         brand.getItems().add(this);
     }
+
+    @Enumerated(EnumType.STRING)
+    private DisplayStatus displayStatus;
 
     public Item(String itemNo, String itemName, String itemNameEng, int itemPrice, Season season, Gender gender,
                 String subDescription, String description, String itemImage) {
@@ -75,9 +79,15 @@ public class Item {
         this.subDescription = subDescription;
         this.description = description;
         this.itemImage = itemImage;
+        this.displayStatus = DisplayStatus.판매함;
     }
 
 
+    public void changeImg(String img) {
+        this.itemImage = img;
+    }
 
-
+    public void removeTag(ItemTag itemTag) {
+        this.getItemTags().remove(itemTag);
+    }
 }

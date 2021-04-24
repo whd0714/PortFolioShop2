@@ -20,15 +20,9 @@ public class Goods {
     @Column(name = "goods_id")
     private Long id;
 
-    private int size;
+    private String size;
 
     private int count;
-
-    @Enumerated(EnumType.STRING)
-    private GoodsStatus goodsStatus;
-
-    @Enumerated(EnumType.STRING)
-    private DisplayStatus displayStatus;
 
     @Enumerated(EnumType.STRING)
     private SaleStatus saleStatus;
@@ -40,5 +34,23 @@ public class Goods {
     public void changeItem(Item item) {
         this.item = item;
         item.getGoods().add(this);
+    }
+
+    public Goods(String size, int count, SaleStatus saleStatus) {
+        this.size = size;
+        this.count = count;
+        this.saleStatus = saleStatus;
+    }
+
+    public void changeSize(String size) {
+        this.size = size;
+    }
+
+    public void changeCount(Integer count) {
+        this.count = count;
+    }
+
+    public void changeSaleStatuses(SaleStatus saleStatus) {
+        this.saleStatus = saleStatus;
     }
 }

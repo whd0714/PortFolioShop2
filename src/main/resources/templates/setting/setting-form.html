@@ -68,7 +68,9 @@
                                         <span th:text="${item.getItemPrice()}"></span>
                                     </th>
                                     <th>진열불가능</th>
-                                    <th>판매불가능</th>
+                                    <th>
+                                        <span th:text="${item.getDisplayStatus()}"></span>
+                                    </th>
                                 </tr>
                             </tbody>
                         </table>
