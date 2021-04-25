@@ -33,18 +33,22 @@
                 <div class="product-add-container">
                     <div class="brand-add-container">
                         <div class="brand-add-box">
-                            <form method="post" th:object="${addBrandDto}" th:action="@{/setting/brand(${_csrf.parameterName}=${_csrf.token})}" enctype="multipart/form-data">
+                            <form th:name="brand-from"  method="post" th:object="${addBrandDto}" th:action="@{/setting/brand(${_csrf.parameterName}=${_csrf.token})}" enctype="multipart/form-data">
                                 <div>
                                     <h3>브랜드 이름</h3>
                                 </div>
-                                <div class="brand-name-box">
+                                <div th:name="brand-name" class="brand-name-box">
                                     <input type="text" th:field="*{brandName}">
+                                    <small class="form-text text-danger" th:if="${#fields.hasErrors('brandName')}"
+                                           th:errors="*{brandName}">brandName error</small>
                                 </div>
                                 <div>
                                     <h3>브랜드 이름(영어)</h3>
                                 </div>
                                 <div class="brand-name-box">
-                                    <input type="text" th:field="*{brandNameEng}">
+                                    <input type="text" th:field="*{brandNameEng}" th:class="${#fields.hasErrors('brandNameEng')}">
+                                    <small class="form-text text-danger" th:if="${#fields.hasErrors('brandNameEng')}"
+                                           th:errors="*{brandNameEng}">brandNameEng error</small>
                                 </div>
                                 <div>
                                     <h3>브랜드 배너 추가</h3>
@@ -66,36 +70,27 @@
     </div>
 </div>
 <script th:replace="fragment.html::csrf"></script>
+<script type="application/javascript" th:fragment="form-validation">
+    (function () {
+        'use strict';
 
-<script>
-    $("#profile-image-file").change(function(e) {
-        if (e.target.files.length === 1) {
-            const reader = new FileReader();
-            reader.onload = e => {
-                if (e.target.result) {
-                    let img = document.createElement("img");
-                    img.id = 'new-profile';
-                    img.src = e.target.result;
-                    img.width = 250;
+        window.addEventListener('load', function () {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation');
 
-                    $newProfileImage.html(img);
-                    $newProfileImage.show();
-                    $currentProfileImage.hide();
-
-                    let $newImage = $(img);
-                    $newImage.cropper({aspectRatio: 1});
-                    cropper = $newImage.data('cropper');
-
-                    $cutBtn.show();
-                    $confirmBtn.hide();
-                    $resetBtn.show();
-                }
-            };
-
-            reader.readAsDataURL(e.target.files[0]);
-        }
-    });
-
+            // Loop over them and prevent submission
+            Array.prototype.filter.call(forms, function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        }, false)
+    }())
 </script>
+
 </body>
 </html>

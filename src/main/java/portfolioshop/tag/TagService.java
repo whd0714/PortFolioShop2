@@ -21,8 +21,15 @@ public class TagService {
         String[] tags = tagString.split("#");
         if(tags.length != 0)  {
             for(int i = 1; i < tags.length; i++) {
+                Tag tag;
+                if(!tagRepository.existsByTagName("#"+tags[i])) {
+                    tag = new Tag("#"+tags[i], TagType.HASH);
+                    System.out.println("#"+tags[i] + "는 없는태그");
+                } else {
+                    tag = tagRepository.findByTagName("#"+tags[i]);
+                    System.out.println("#"+tags[i] + "는 있는태그");
+                }
 
-                Tag tag = new Tag("#"+tags[i], TagType.HASH);
 
                 ItemTag itemTag = new ItemTag();
                 itemTag.changeItem(item);
@@ -34,5 +41,7 @@ public class TagService {
 
             }
         }
+
+
     }
 }

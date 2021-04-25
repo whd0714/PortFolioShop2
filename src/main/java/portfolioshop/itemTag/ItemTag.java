@@ -36,8 +36,31 @@ public class ItemTag {
         tag.getItemTags().add(this);
     }
 
-    public void cutItem() {
+    public void removeAll(Item item, Tag tag) {
+        this.item = null;
+        this.tag = null;
+        item.removeTag(this);
+        tag.removeItem(this);
+    }
+
+  /*  public void cutItem(Item item, Tag tag) {
+        this.item = null;
+        this.tag = null;
+        item.removeTag(this);
+        tag.removeItem(this);
+
+    }*/
+
+/*    public void removeAll() {
         this.item = null;
         this.tag = null;
     }
+
+    public void removeItem() {
+        this.item = null;
+    }
+
+    public void removeTag() {
+        this.tag = null;
+    }*/
 }

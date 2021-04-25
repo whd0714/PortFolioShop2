@@ -1,4 +1,4 @@
-package portfolioshop.member.validator;
+package portfolioshop.member;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import portfolioshop.member.Member;

@@ -52,7 +52,7 @@ public class ItemService {
         String img = new String(encode, "UTF-8");
 
         Item item = new Item(productAddDto.getItemNo(), productAddDto.getItemName(), productAddDto.getItemNameEng(),
-                productAddDto.getItemPrice(), productAddDto.getSeason(), productAddDto.getGender(),
+                 productAddDto.getItemPrice(), productAddDto.getSeason(), productAddDto.getGender(),
                 productAddDto.getSubDescription(), productAddDto.getDescription(), img);
 
         itemRepository.save(item);

@@ -11,7 +11,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import portfolioshop.member.dto.SignUpForm;
-import portfolioshop.member.validator.MemberRepository;
 
 import java.util.List;
 

@@ -31,7 +31,7 @@
                 <h2 class="product-add-title">상품등록</h2>
 
                 <div class="product-add-container">
-                    <form th:action="@{/setting/add(${_csrf.parameterName}=${_csrf.token})}" enctype="multipart/form-data" method="post" th:object="${productAddDto}">
+                    <form class="needs-validation" th:action="@{/setting/add(${_csrf.parameterName}=${_csrf.token})}" enctype="multipart/form-data" method="post" th:object="${productAddDto}">
                     <div class="product-add-category-container">
                         <div class="product-add-category-box">
                             <div class="product-add-category-main-container">
@@ -55,16 +55,22 @@
                                 </div>
                             </div>
                         </div>
+                        <small class="form-text text-danger" th:if="${#fields.hasErrors('mainCategory')}"
+                               th:errors="*{mainCategory}">mainCategory error</small>
+                        <small class="form-text text-danger" th:if="${#fields.hasErrors('subCategory')}"
+                               th:errors="*{subCategory}">subCategory error</small>
                     </div>
 
                     <div class="product-add-form-area">
                             <div hidden>
                                 <label for="mainCategory">대분류</label>
                                 <input name="" id="mainCategory" th:field="*{mainCategory}">
+
                             </div>
                             <div hidden>
                                 <label for="subCategory">중분류</label>
                                 <input id="subCategory" type="text"  th:field="*{subCategory}">
+
 
                             </div>
                             <table class="product-add-form-table">
@@ -96,8 +102,12 @@
                                                             <select  th:field="*{itemBrandName}">
                                                                 <idv th:each="brandName : ${brandNames}">
                                                                     <option th:value="${brandName}" th:text="${brandName}"></option>
+
                                                                 </idv>
                                                             </select>
+                                                            <small class="form-text text-danger" th:if="${#fields.hasErrors('itemBrandName')}"
+                                                                   th:errors="*{itemBrandName}">brandName error</small>
+
                                                         </div>
                                                     </div>
                                                     <div>
@@ -110,19 +120,19 @@
                                                                     <option th:value="${seasonName}" th:text="${seasonName}"></option>
                                                                 </div>
                                                             </select>
-
                                                         </div>
                                                     </div>
                                                     <div>
                                                         <div class="product-add-form-table-right-content-title product-add-form-table-right-content-title-padding">
                                                             <h4>성별</h4>
                                                         </div>
-                                                        <div class="product-add-form-table-right-content-title-padding">
-                                                            <select th:field="*{gender}">
-                                                                <div th:each="gender : ${genders}">
-                                                                    <option th:value="${gender}" th:text="${gender}"></option>
+                                                        <div class="product-add-form-table-right-content-title-padding" >
+                                                            <select th:field="*{gender}" >
+                                                                <div th:each="gender : ${genders}" >
+                                                                    <option th:value="${gender}" th:text="${gender}" ></option>
                                                                 </div>
                                                             </select>
+
                                                         </div>
                                                     </div>
                                                     <div>
@@ -132,6 +142,8 @@
                                                         <div class="product-add-form-table-right-content-title-padding">
                                                             <div>
                                                                 <input type="text" th:field="*{itemTag}">
+                                                                <small class="form-text text-danger" th:if="${#fields.hasErrors('itemTag')}"
+                                                                       th:errors="*{itemTag}">itemTag error</small>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -143,6 +155,8 @@
                                                         </div>
                                                         <div>
                                                             <input th:field="*{itemNo}" type="text">
+                                                            <small class="form-text text-danger" th:if="${#fields.hasErrors('itemNo')}"
+                                                                   th:errors="*{itemNo}">itemNo error</small>
                                                         </div>
                                                     </div>
                                                     <div class="product-add-form-table-right-content">
@@ -151,6 +165,8 @@
                                                         </div>
                                                         <div>
                                                             <input th:field="*{itemName}" type="text">
+                                                            <small class="form-text text-danger" th:if="${#fields.hasErrors('itemName')}"
+                                                                   th:errors="*{itemName}">itemName error</small>
                                                         </div>
                                                     </div>
                                                     <div class="product-add-form-table-right-content">
@@ -159,6 +175,8 @@
                                                         </div>
                                                         <div>
                                                             <input th:field="*{itemNameEng}" type="text">
+                                                            <small class="form-text text-danger" th:if="${#fields.hasErrors('itemNameEng')}"
+                                                                   th:errors="*{itemNameEng}">itemNameEng error</small>
                                                         </div>
                                                     </div>
                                                     <div class="product-add-form-table-right-content">
@@ -166,7 +184,9 @@
                                                             <h4>판매 가격</h4>
                                                         </div>
                                                         <div>
-                                                            <input th:field="*{itemPrice}" type="text">
+                                                            <input th:field="*{itemPrice}" type="number" th:class="${#fields.hasErrors('itemPrice')}">
+                                                            <small class="form-text text-danger" th:if="${#fields.hasErrors('itemPrice')}"
+                                                                   th:errors="*{itemPrice}">brandName error</small>
                                                         </div>
                                                     </div>
                                                     <div class="product-add-form-table-right-content">
@@ -175,6 +195,8 @@
                                                         </div>
                                                         <div>
                                                             <input th:field="*{subDescription}" type="text">
+                                                            <small class="form-text text-danger" th:if="${#fields.hasErrors('subDescription')}"
+                                                                   th:errors="*{subDescription}">subDescription error</small>
                                                         </div>
                                                     </div>
                                                     <div class="product-add-form-table-right-content">
@@ -206,6 +228,7 @@
     </div>
 </div>
 <script th:replace="fragment.html::csrf"></script>
+<script th:replace="fragment.html::form-validation"></script>
 <script>
     window.addEventListener("load", function (){
        //대분류 선택값

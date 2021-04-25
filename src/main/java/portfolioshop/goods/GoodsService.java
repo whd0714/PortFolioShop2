@@ -68,8 +68,6 @@ public class GoodsService {
 
     public void deleteGoods(DeleteOptionDto deleteOptionDto) {
 
-        List<String> sizes = Arrays.stream(deleteOptionDto.getSize()).collect(Collectors.toList());
-
         List<Long> collect = Arrays.stream(deleteOptionDto.getPath()).collect(Collectors.toList());
 
         for (Long aLong : collect) {

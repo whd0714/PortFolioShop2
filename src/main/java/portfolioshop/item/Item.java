@@ -54,7 +54,7 @@ public class Item {
     @OneToMany(mappedBy = "item")
     private List<Goods> goods = new ArrayList<>();
 
-    @OneToMany(mappedBy = "item", orphanRemoval = true)
+    @OneToMany(mappedBy = "item", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<ItemTag> itemTags = new ArrayList<>();
 
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)

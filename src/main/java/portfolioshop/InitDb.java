@@ -5,6 +5,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import portfolioshop.category.Category;
 import portfolioshop.category.CategoryRepository;
+import portfolioshop.item.Item;
+import portfolioshop.item.enumType.Gender;
+import portfolioshop.item.enumType.Season;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
@@ -47,6 +50,9 @@ public class InitDb {
             category8.changeCategory(category);
             category9.changeCategory(category);
             category10.changeCategory(category);
+
+
+
             /*em.persist(category);
             em.persist(category1);
             em.persist(category2);

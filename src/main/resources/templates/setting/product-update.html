@@ -31,7 +31,7 @@
                 <h2 class="product-add-title">상품수정</h2>
 
                 <div class="product-add-container">
-                    <form th:action="@{'/setting/update/product/'+${item.getId}(${_csrf.parameterName}=${_csrf.token})}" enctype="multipart/form-data" method="post" th:object="${productUpdateDto}">
+                    <form class="needs-validation" th:action="@{'/setting/update/product/'+${item.getId}(${_csrf.parameterName}=${_csrf.token})}" enctype="multipart/form-data" method="post" th:object="${productUpdateDto}">
                         <div class="product-add-category-container">
                             <div class="product-update-category">
                                 <div>
@@ -113,19 +113,18 @@
                                                     <option th:value="${sale}" th:text="${sale}"></option>
                                                 </div>
                                             </select>
+                                            <small class="form-text text-danger" th:if="${#fields.hasErrors('saleStatuses')}"
+                                                   th:errors="*{saleStatuses}">saleStatuses error</small>
                                         </th>
-                                        <th><span class="option-add-btn">등록</span></th>
                                     </tr>
                                 </template>
                                 <table class="product-update-form-table">
                                     <colgroup>
-                                        <col style="width:10%">
-                                        <col style="width:17%">
-                                        <col style="width:20.5%">
-                                        <col style="width:17%">
-                                        <col style="width:20.5%">
                                         <col style="width:auto">
-
+                                        <col style="width:22.5%">
+                                        <col style="width:22.5%">
+                                        <col style="width:22.5%">
+                                        <col style="width:22.5%">
                                     </colgroup>
                                     <thead>
                                     <tr>
@@ -134,7 +133,6 @@
                                         <th><span>재고</span></th>
                                         <th><span>재고추가</span></th>
                                         <th><span>판매상태</span></th>
-                                        <th></th>
                                     </tr>
                                     </thead>
                                     <tbody class="product-update-tbody">
@@ -160,7 +158,6 @@
                                         <th><span><input  th:value="${itemOptions.getSize()}" class="option-value-size" th:field="*{sizes2}" type="text"><span style="display: none" th:text="${itemOptions.getId()}"></span></span></th>
                                         <th><span th:value="${itemOptions.getCount()}" class="option-value-count" ></span></th>
                                         <th><span><input  class="option-count-input" th:field="*{counts2}" type="number"></span></th>
-
                                         <th>
                                             <div>
                                                 <select class="option-value-sale-status" th:field="*{saleStatuses2}">
@@ -189,11 +186,14 @@
                             <div hidden>
                                 <label for="mainCategory">대분류</label>
                                 <input name="" id="mainCategory" th:field="*{mainCategory}">
+                                <small class="form-text text-danger" th:if="${#fields.hasErrors('mainCategory')}"
+                                       th:errors="*{mainCategory}">mainCategory error</small>
                             </div>
                             <div hidden>
                                 <label for="subCategory">중분류</label>
                                 <input id="subCategory" type="text"  th:field="*{subCategory}">
-
+                                <small class="form-text text-danger" th:if="${#fields.hasErrors('subCategory')}"
+                                       th:errors="*{subCategory}">subCategory error</small>
                             </div>
 
 
@@ -232,6 +232,8 @@
                                                                 <option th:if="${brandName != item.getBrand().getBrandName()}" th:value="${brandName}" th:text="${brandName}"></option>
                                                             </div>
                                                         </select>
+                                                        <small class="form-text text-danger" th:if="${#fields.hasErrors('itemBrandName')}"
+                                                               th:errors="*{itemBrandName}">itemBrandName error</small>
                                                     </div>
                                                 </div>
                                                 <div>
@@ -245,7 +247,8 @@
                                                                 <option th:if="${seasonName != item.getSeason()}"  th:value="${seasonName}" th:text="${seasonName}"></option>
                                                             </div>
                                                         </select>
-
+                                                        <small class="form-text text-danger" th:if="${#fields.hasErrors('season')}"
+                                                               th:errors="*{season}">season error</small>
                                                     </div>
                                                 </div>
                                                 <div>
@@ -259,6 +262,8 @@
                                                                 <option th:if="${gender != item.getGender()}" th:value="${gender}" th:text="${gender}"></option>
                                                             </div>
                                                         </select>
+                                                        <small class="form-text text-danger" th:if="${#fields.hasErrors('gender')}"
+                                                               th:errors="*{gender}">gender error</small>
                                                     </div>
                                                 </div>
                                                 <div>
@@ -267,9 +272,11 @@
                                                     </div>
                                                     <div class="product-add-form-table-right-content-title-padding">
                                                         <div>
-                                                            <span class="qqq" th:value="${item}"></span>
+
                                                             <span hidden class="update-tag-span" th:text="${#strings.arrayJoin(tagNames, ',')}"></span>
                                                             <input type="text" class="update-tag"  th:field="*{itemTag}">
+                                                            <small class="form-text text-danger" th:if="${#fields.hasErrors('itemTag')}"
+                                                                   th:errors="*{itemTag}">itemTag error</small>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -291,6 +298,8 @@
 
                                                     <div>
                                                         <input class="update-no" th:field="*{itemNo}" type="text">
+                                                        <small class="form-text text-danger" th:if="${#fields.hasErrors('itemNo')}"
+                                                               th:errors="*{itemNo}">itemNo error</small>
                                                     </div>
                                                 </div>
                                                 <div class="product-add-form-table-right-content">
@@ -299,6 +308,8 @@
                                                     </div>
                                                     <div>
                                                         <input class="update-name" th:field="*{itemName}" type="text">
+                                                        <small class="form-text text-danger" th:if="${#fields.hasErrors('itemName')}"
+                                                               th:errors="*{itemName}">itemName error</small>
                                                     </div>
                                                 </div>
                                                 <div class="product-add-form-table-right-content">
@@ -307,6 +318,8 @@
                                                     </div>
                                                     <div>
                                                         <input class="update-eng" th:value="${item}" th:field="*{itemNameEng}" type="text">
+                                                        <small class="form-text text-danger" th:if="${#fields.hasErrors('itemNameEng')}"
+                                                               th:errors="*{itemNameEng}">itemNameEng error</small>
                                                     </div>
                                                 </div>
                                                 <div class="product-add-form-table-right-content">
@@ -315,6 +328,8 @@
                                                     </div>
                                                     <div>
                                                         <input class="update-price" th:field="*{itemPrice}" type="text">
+                                                        <small class="form-text text-danger" th:if="${#fields.hasErrors('itemPrice')}"
+                                                               th:errors="*{itemPrice}">itemPrice error</small>
                                                     </div>
                                                 </div>
                                                 <div class="product-add-form-table-right-content">
@@ -323,6 +338,8 @@
                                                     </div>
                                                     <div>
                                                         <input class="update-sub-des" th:field="*{subDescription}" type="text">
+                                                        <small class="form-text text-danger" th:if="${#fields.hasErrors('subDescription')}"
+                                                               th:errors="*{subDescription}">subDescription error</small>
                                                     </div>
                                                 </div>
                                                 <div class="product-add-form-table-right-content">
@@ -357,6 +374,7 @@
 </div>
 </div>
 <script th:replace="fragment.html::csrf"></script>
+<script th:replace="fragment.html::form-validation"></script>
 <script>
 
     window.addEventListener("load", function (){
@@ -545,6 +563,8 @@
             console.log(updateTagSpan.value);
             let a = updateTagSpan.textContent;
             let s = a.replace(/,/gi,'');
+            console.log("ssssssss =" + s);
+            console.log("ssssssss =" + a);
             updateTag.value = s;
         }
 

@@ -25,7 +25,7 @@ public class Tag {
     @Enumerated(EnumType.STRING)
     private TagType tagType;
 
-    @OneToMany(mappedBy = "tag",  orphanRemoval = true)
+    @OneToMany(mappedBy = "tag",  orphanRemoval = true, cascade = CascadeType.ALL)
     private List<ItemTag> itemTags = new ArrayList<>();
 
     public Tag(String tagName, TagType tagType) {

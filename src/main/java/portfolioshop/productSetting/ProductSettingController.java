@@ -3,6 +3,8 @@ package portfolioshop.productSetting;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import portfolioshop.brand.BrandRepository;
 import portfolioshop.brand.BrandService;
@@ -17,8 +19,10 @@ import portfolioshop.item.ItemService;
 import portfolioshop.item.enumType.Gender;
 import portfolioshop.item.enumType.Season;
 import portfolioshop.itemCategory.ItemCategoryRepository;
+import portfolioshop.itemTag.ItemTag;
 import portfolioshop.itemTag.ItemTagRepository;
 import portfolioshop.productSetting.dto.*;
+import portfolioshop.productSetting.validator.ItemAddValidator;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -42,6 +46,12 @@ public class ProductSettingController {
     private final ItemTagRepository itemTagRepository;
     private final ItemCategoryRepository itemCategoryRepository;
     private final GoodsService goodsService;
+    private final ItemAddValidator itemAddValidator;
+
+    @InitBinder("productAddDto")
+    public void productAddValidator(WebDataBinder webDataBinder) {
+        webDataBinder.addValidators(itemAddValidator);
+    }
 
     @GetMapping("/setting")
     public String settingForm(Model model, HttpServletResponse response) throws UnsupportedEncodingException {
@@ -79,8 +89,27 @@ public class ProductSettingController {
     }
 
     @PostMapping("/setting/add")
-    public String addProduct(@Valid ProductAddDto productAddDto) throws IOException {
+    public String addProduct(@Valid ProductAddDto productAddDto, Errors errors, Model model) throws IOException {
+        if(errors.hasErrors()) {
+           List<Category> all = categoryRepository.findAll();
 
+            List<Category> collect = all.stream().collect(Collectors.toList());
+
+            //model.addAttribute(new ProductAddDto());
+            //if(collect != null) {
+                model.addAttribute("collect", collect);
+          //  }
+
+            List<String> brandNames = brandRepository.findAllBrandName();
+            if(brandNames != null) {
+                model.addAttribute("brandNames", brandNames);
+            }
+
+            model.addAttribute("seasons",Season.values());
+            model.addAttribute("genders",Gender.values());
+            return "setting/setting-add";
+            //return "redirect:/setting/add";
+        }
         itemService.saveProduct(productAddDto);
 
         return "redirect:/setting/add";
@@ -114,13 +143,13 @@ public class ProductSettingController {
 
         return "setting/setting-category";
     }
-    @PostMapping("/setting/category")
+/*    @PostMapping("/setting/category")
     public String addCategory22(@Valid CategoryNameDto categoryNameDto) {
         System.out.println(categoryNameDto);
         System.out.println("productAddDto");
 
         return "redirect:/setting/category";
-    }
+    }*/
 
     @PostMapping("/category/addSubCategory")
     public String addCategory(@Valid CategoryNameDto categoryNameDto) {
@@ -163,7 +192,11 @@ public class ProductSettingController {
     }
 
     @PostMapping("/setting/brand")
-    public String brandFile(@Valid AddBrandDto file) throws IOException {
+    public String brandFile(@Valid AddBrandDto file, Errors errors) throws IOException {
+
+        if(errors.hasErrors()) {
+            return "setting/setting-brand";
+        }
 
         brandService.saveBrand(file);
 
@@ -176,7 +209,14 @@ public class ProductSettingController {
         byId.ifPresent(item -> {
             model.addAttribute(item);
             model.addAttribute("goods", item.getGoods());
-            model.addAttribute("tagNames",itemTagRepository.findByAllTagByItemId(item.getId()));
+            List<ItemTag> itemTags = item.getItemTags();
+            List<String> tagNames = new ArrayList<>();
+
+            for (ItemTag itemTag : itemTags) {
+                tagNames.add(itemTag.getTag().getTagName());
+                System.out.println("ssssssssss = " + itemTag.getTag().getTagName());
+            }
+            model.addAttribute("tagNames",tagNames);
 
             model.addAttribute("categories", item.getItemCategories().get(0).getCategory());
 
@@ -205,8 +245,11 @@ public class ProductSettingController {
     }
 
     @PostMapping("/setting/update/product/{itemId}")
-    public String updateProduct(@PathVariable("itemId") Long itemId, @Valid ProductUpdateDto productUpdateDto) throws IOException {
-        System.out.println("aaaaaaaaa" + productUpdateDto);
+    public String updateProduct(@PathVariable("itemId") Long itemId, @Valid ProductUpdateDto productUpdateDto, Errors errors) throws IOException {
+        if(errors.hasErrors()) {
+            return "setting/product-update";
+        }
+        System.out.println("aaaaaaaaaa" + productUpdateDto);
         itemService.updateProduct(productUpdateDto, itemId);
 
         return "redirect:/setting";
