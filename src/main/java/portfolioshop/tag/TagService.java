@@ -9,6 +9,8 @@ import portfolioshop.itemTag.ItemTagRepository;
 import portfolioshop.productSetting.dto.ProductAddDto;
 import portfolioshop.tag.enumType.TagType;
 
+import java.util.List;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -40,6 +42,14 @@ public class TagService {
                 tagRepository.save(tag);
 
             }
+        }
+
+        List<Tag> nullTag = tagRepository.findNullTag();
+
+        int idx = nullTag.size();
+
+        for(int i = 0; i < idx; i++) {
+            tagRepository.delete(nullTag.get(i));
         }
 
 
