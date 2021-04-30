@@ -227,7 +227,15 @@
         </main>
     </div>
 </div>
-<script th:replace="fragment.html::csrf"></script>
+<script type="application/javascript" th:inline="javascript">
+    $(function() {
+        var csrfToken = /*[[${_csrf.token}]]*/ null;
+        var csrfHeader = /*[[${_csrf.headerName}]]*/ null;
+        $(document).ajaxSend(function (e, xhr, options) {
+            xhr.setRequestHeader(csrfHeader, csrfToken);
+        });
+    });
+</script>
 <script th:replace="fragment.html::form-validation"></script>
 <script>
     window.addEventListener("load", function (){

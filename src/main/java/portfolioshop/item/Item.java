@@ -12,6 +12,7 @@ import portfolioshop.itemCategory.ItemCategory;
 import portfolioshop.itemTag.ItemTag;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,6 +48,11 @@ public class Item {
     @Lob
     private String itemImage;
 
+    @Enumerated(EnumType.STRING)
+    private DisplayStatus displayStatus;
+
+    private LocalDateTime createItemTime;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "brand_id")
     private Brand brand;
@@ -65,8 +71,6 @@ public class Item {
         brand.getItems().add(this);
     }
 
-    @Enumerated(EnumType.STRING)
-    private DisplayStatus displayStatus;
 
     public Item(String itemNo, String itemName, String itemNameEng, int itemPrice, Season season, Gender gender,
                 String subDescription, String description, String itemImage) {
@@ -79,9 +83,9 @@ public class Item {
         this.subDescription = subDescription;
         this.description = description;
         this.itemImage = itemImage;
-        this.displayStatus = DisplayStatus.판매함;
+        this.displayStatus = DisplayStatus.진열함;
+        this.createItemTime = LocalDateTime.now();
     }
-
 
     public void changeImg(String img) {
         this.itemImage = img;
@@ -90,4 +94,21 @@ public class Item {
     public void removeTag(ItemTag itemTag) {
         this.getItemTags().remove(itemTag);
     }
+
+    public void updateItem(String itemNo, String itemName, String itemNameEng, int itemPrice, Season season, Gender gender, String subDescription, String description) {
+        this.itemNo = itemNo;
+        this.itemName = itemName;
+        this.itemNameEng = itemNameEng;
+        this.itemPrice = itemPrice;
+        this.season = season;
+        this.gender = gender;
+        this.subDescription = subDescription;
+        this.description = description;
+    }
+
+    public void changeDisplay(DisplayStatus displayStatus) {
+        this.displayStatus = displayStatus;
+    }
+
+
 }

@@ -47,3 +47,37 @@
 .bbb {
     float: left;
 }
+
+.select-display {
+    width: 100px;
+}
+
+.search-setting-main-box {
+    margin: 5px 0;
+}
+
+.search-setting-main-box .search-select-name{
+    width: 100px;
+
+}
+
+.search-setting-main-box .search-setting-input{
+    height: 30px;
+    width: 260px;
+}
+
+.search-setting-main-box button {
+    height: 30px;
+}
+
+.product-setting-page {
+    font-size: 20px;
+    width: 50%;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.product-setting-page li {
+    list-style: none;
+    display: inline-block;
+}

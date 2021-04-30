@@ -36,5 +36,8 @@ public class Brand {
 
     }
 
-
+    public Brand(String brandName, String brandNameEng) {
+        this.brandName = brandName;
+        this.brandNameEng = brandNameEng;
+    }
 }

@@ -3,6 +3,7 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="fragment.html :: head">
+    <meta name="_csrf" content="${_csrf.token}"/>
 </head>
 <body>
 
@@ -30,11 +31,21 @@
                 <div class="main-container">
                     <h2 class="product-add-title">상품관리 메인</h2>
 
+                    <div class="search-setting-main-box">
+                        <form th:action="@{/search-setting-main}">
+                            <select class="search-select-name">
+                                <option value="itemName">상품명</option>
+                                <option value="brandName">브랜드명</option>
+                            </select>
+                            <input class="search-setting-input" name="itemName" type="text">
+                            <button type="submit">검색</button>
+                        </form>
+                    </div>
+
                     <div>
-                        <table class="table-setting">
+                        <table class="table-setting" th:with="no = ${0}">
                             <colgroup>
-                                <col style="width:5%">
-                                <col style="width: 5%">
+                                <col style="width:15%">
                                 <col style="width: auto">
                                 <col style="width: 10%">
                                 <col style="width: 15%">
@@ -43,19 +54,19 @@
                             <thead>
                             <tr>
                                 <th><input type="checkbox"></th>
-                                <th>No</th>
                                 <th>상품명 / 품번</th>
                                 <th>판매가</th>
                                 <th>진열상태</th>
                                 <th>판매상태</th>
                             </tr>
                             </thead>
-                            <tbody>
-                                <tr class="setting-product-main-page-tr" th:each="item : ${items}" >
+                            <tbody class="table-setting-tbody" >
+                                <tr class="setting-product-main-page-tr" th:each="item : ${items2}" >
+                                    <input class="setting-form-item-id" type="hidden" th:value="${item.getItemId()}">
                                     <th><input type="checkbox"></th>
-                                    <th>0</th>
+
                                     <th class="aaa">
-                                        <a th:href="@{'/setting/update/product/' + ${item.getId()}}">
+                                        <a th:href="@{'/setting/update/product/' + ${item.getItemId()}}">
                                             <div class="bbb">
 
                                                 <img class="setting-product-main-page-img" th:src="@{'data:image/jpg;base64,'+ ${item.getItemImage()}}" alt="#" />
@@ -67,17 +78,123 @@
                                     <th>
                                         <span th:text="${item.getItemPrice()}"></span>
                                     </th>
-                                    <th>진열불가능</th>
                                     <th>
-                                        <span th:text="${item.getDisplayStatus()}"></span>
+                                        <div >
+                                            <select class="select-display">
+                                                <option th:value="${item.getDisplayStatus()}"  th:text="${item.getDisplayStatus()}"></option>
+                                               <div th:each="display : ${displays}">
+                                                   <option th:if="${display != item.getDisplayStatus()}" th:value="${display}"  th:text="${display}"></option>
+                                               </div>
+                                            </select>
+                                        </div>
+                                    </th>
+                                    <th>
+                                     <!--   <div th:if="${item.getGoods() != null}" th:each="goodsOption : ${item.getGoods()}">
+                                            <span th:if="${goodsOption.getSaleStatus().SALE.}">
+
+                                            </span>
+                                        </div>
+                                        <div th:if="${item.getGoods() == null}">
+                                            <span>옵션없음</span>
+                                        </div>-->
                                     </th>
                                 </tr>
                             </tbody>
                         </table>
+
+                        <div class="product-setting-page"
+                             th:with="start=${(pages.getNumber()/maxPage)*maxPage + 1},
+                  end=(${(pages.totalPages == 0) ? 1 : (start + (maxPage - 1) < pages.totalPages ? start + (maxPage - 1) : pages.totalPages)})" >
+                            <ul>
+                                <li th:if="${start > 1}">
+                                    <a th:href="@{/setting?(page=0)}" >
+                                        <i class="fa fa-angle-double-left"></i>
+                                    </a>
+                                </li>
+
+                                <li th:if="${start > 1}">
+                                    <a th:href="@{/setting?(page=${start - maxPage - 1})}">
+                                        <i class="fa fa-angle-left"></i>
+                                    </a>
+                                </li>
+
+                                <li th:each="page: ${#numbers.sequence(start, end)}">
+                                    <a th:href="@{/setting?(page=${page-1})}" th:text="${page}"></a>
+                                </li>
+
+                                <li th:if="${end < pages.totalPages}">
+                                    <a th:href="@{/setting?(page=${start + maxPage - 1})}">
+                                        <i class="fa fa-angle-right"></i>
+                                    </a>
+                                </li>
+
+                                <li th:if="${end < pages.totalPages}">
+                                    <a th:href="@{/setting?(page=${pages.getTotalPages()-1})}">
+                                        <i class="fa fa-angle-double-right"></i>
+                                    </a>
+
+                                </li>
+                            </ul>
+
+                        </div>
                     </div>
                 </div>
             </main>
         </div>
     </div>
+
+    <script type="application/javascript" th:inline="javascript">
+        $(function() {
+            var csrfToken = /*[[${_csrf.token}]]*/ null;
+            var csrfHeader = /*[[${_csrf.headerName}]]*/ null;
+            $(document).ajaxSend(function (e, xhr, options) {
+                xhr.setRequestHeader(csrfHeader, csrfToken);
+            });
+        });
+    </script>
+
+    <script>
+
+        window.addEventListener("load", function () {
+            let selectDisplay = document.querySelectorAll('.select-display');
+            let settingFormItemId = document.querySelectorAll('.setting-form-item-id');
+            let searchSelectName = document.querySelector('.search-select-name');
+            let searchSettingInput = document.querySelector('.search-setting-input');
+            let tableSettingTbody = document.querySelector('.table-setting-tbody');
+
+            searchSelectName.onchange = function () {
+                searchSettingInput.name = searchSelectName.value;
+                console.log(searchSettingInput.name);
+                console.log(searchSelectName.value);
+            }
+
+            tableSettingTbody.onclick = function (e) {
+                for(let i = 0; i < selectDisplay.length; i++) {
+                    selectDisplay[i].onchange = function (e) {
+                        console.log(selectDisplay[i].value);
+                        console.log(typeof selectDisplay[i].value);
+
+                        let data = {"display" : selectDisplay[i].value,
+                            "itemId" : settingFormItemId[i].value};
+                        console.log(data);
+                        $.ajax({
+                            dataType: "json",
+                            contentType: "application/json; charset=utf-8",
+                            url: "/update/selectDisplay",
+                            type: "POST",
+                            data: JSON.stringify(data),
+                            success : function (value){
+
+                            },
+                            error: function(jqXHR, textStatus, errorThrown) {
+                                alert("ERROR : " + textStatus + " : " + errorThrown);
+                            }
+                        });
+                    }
+                }
+            }
+        });
+    </script>
+
 </body>
 </html>

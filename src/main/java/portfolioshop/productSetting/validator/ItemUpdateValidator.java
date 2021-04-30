@@ -16,20 +16,12 @@ public class ItemUpdateValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> aClass) {
-        return ProductAddDto.class.isAssignableFrom(aClass);
+        return ProductUpdateDto.class.isAssignableFrom(aClass);
     }
 
     @Override
     public void validate(Object o, Errors errors) {
         ProductUpdateDto productUpdateDto = (ProductUpdateDto) o;
-        if(itemRepository.existsByItemNo(productUpdateDto.getItemNo())) {
-            errors.rejectValue("itemNo", "error.itemNo", null, "이미 존재하는 품명입니다.");
-        }
-        if(itemRepository.existsByItemName(productUpdateDto.getItemName())) {
-            errors.rejectValue("itemName", "error.itemName", null, "이미 존재하는 상품명입니다.");
-        }
-        if(itemRepository.existsByItemNameEng(productUpdateDto.getItemNameEng())) {
-            errors.rejectValue("itemNameEng", "error.itemNameEng", null, "이미 존재하는 상품명(영어)입니다.");
-        }
+
     }
 }

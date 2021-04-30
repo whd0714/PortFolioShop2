@@ -53,4 +53,6 @@ public class Goods {
     public void changeSaleStatuses(SaleStatus saleStatus) {
         this.saleStatus = saleStatus;
     }
+
+
 }

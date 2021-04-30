@@ -54,6 +54,10 @@
 }
 
 .main-goods-container {
+    border-bottom: 1px solid #ddd;
+}
+
+.main-goods-box {
     min-width: 960px;
     padding: 25px 20px 30px;
 }
@@ -91,7 +95,6 @@
 
 .product-title-eng {
     display: inline-block;
-
 }
 
 .product-title-eng::before {
@@ -109,6 +112,9 @@
 
 .main-product {
     margin-top: 20px;
+    display: flex;
+    --border-bottom: 1px solid #ddd;
+    padding-bottom: 20px;
 }
 
 .product-thumb-info {
@@ -187,8 +193,9 @@
 }
 
 .produce-option-select-box {
+    display: flex;
     position: relative;
-    padding: 12px 9px 7px 9px;
+    padding: 12px 9px 12px 9px;
     border-bottom: 1px solid #ddd;
     border-top: 1px solid #ddd;
     background: #f3f3f3;
@@ -199,4 +206,86 @@
 .option-area {
     width: 100%;
     float: left;
+}
+
+.option-area select {
+    width: 100%;
+}
+
+.product-total-payment {
+    font-size: 15px;
+    padding: 12px 9px 12px 9px;
+}
+
+.product-total-payment span:nth-child(2) {
+    float: right;
+}
+
+.product-recommendation-size {
+    background: #f3f3f3;
+    padding: 12px 9px 12px 9px;
+}
+
+.product-recommendation-size-box {
+    background: white;
+    margin-top: 10px;
+    overflow-y: scroll;
+    height: 160px;
+    border: 1px solid #ddd;
+}
+
+.product-recommendation-size ul {
+    --overflow-y: scroll;
+}
+
+.product-recommendation-size-list {
+    padding: 12px 9px 12px 9px;
+    border-bottom: 1px solid #ddd;
+}
+
+.product-recommendation-size-list div:first-child span:nth-child(2) {
+    float: right;
+}
+
+.product-select-btn-box {
+    margin-top: 20px;
+    display: flex;
+
+}
+
+.product-select-btn {
+    background: black;
+    width: 260px;
+    color: white;
+    padding: 20px 20px;
+    text-align: center;
+    font-size: 20px;
+}
+
+.product-select-like, .product-select-basket {
+    width: 65px;
+    margin-left: 5px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+.product-select-like .fa, .product-select-basket .fa {
+    font-size: 35px;
+
+}
+
+.product-select-basket .fa{
+    line-height: 2;
+}
+
+.product-select-like .fa{
+    line-height: 1.5;
+}
+
+.product-review-box {
+    padding: 25px 20px 30px;
+}
+
+.product-review-title {
+    font-size: 20px;
 }

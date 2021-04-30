@@ -20,58 +20,63 @@
                             <a th:href="@{/}">브랜드 숍</a>
                         </div>
                         <div class="nav-brand">
-                            <a th:href="@{/}">MUSINSA STANDARD</a>
+                            <a th:href="@{/}">
+                                <span th:text="${item.getBrand().getBrandNameEng()}"></span>
+                                (<span th:text="${item.getBrand().getBrandName()}"></span>)
+                            </a>
                         </div>
                     </div>
                 </div>
                 <div class="brand-banner">
                     <a th:href="@{/}">
                         <p class="brand-banner-bg">
-                            <img src="/image/a.png" alt="">
+                            <img class="setting-product-main-page-i mg" th:src="@{'data:image/jpg;base64,'+ ${item.getBrand().getBrandBanner()}}" alt="#" />
                         </p>
                     </a>
                 </div>
+
                 <div class="main-goods-container">
-                    <div class="product-info">
-                        <div class="product-nav">
-                            <div class="dir">
-                                <a th:href="@{/}">상의</a>
+                    <div class="main-goods-box">
+                        <div class="product-info">
+                            <div class="product-nav">
+                                <div class="dir">
+                                    <a th:href="@{/}"><span th:text="${item.getItemCategories().get(0).getCategory().getParent().getName()}"></span></a>
+                                </div>
+                                <a th:href="@{/}"><span th:text="${item.getItemCategories().get(0).getCategory().getName()}"></span></a>
+                                <a th:href="@{/}">(<span th:text="${item.getBrand().getBrandName()}"></span>)</a>
                             </div>
-                            <a th:href="@{/}">반팔 티셔츠 </a>
-                            <a th:href="@{/}">(무신사 스탠다드)</a>
                         </div>
-                    </div>
 
-                    <div>
                         <div>
-                            {뱃지}
-                        </div>
-                    </div>
-
-                    <div class="product-title">
-                        <em>{레이어드 크루 넥 반팔 티셔츠 [화이트]}</em>
-                        <div class="product-title-eng">
-                            LAYERD CREW NECK T-SHIRT [WHITE]
-                        </div>
-                    </div>
-
-                    <div class="main-product">
-                        <div class="product-thumb-info">
-                            <div class="main-img">
-
-                            </div>
-                            <div class="sub-img">
-                                <ul class="sub-img-list"></ul>
+                            <div>
+                                {뱃지}
                             </div>
                         </div>
-                        <div class="product-order-info">
-                            <div class="product-detail-info">
-                                <h4 class="product-info-title">
-                                    <b>Product Info</b>
-                                    <span class="product-info-title-detail">제품정보</span>
-                                </h4>
-                                <ul class="product-info-list">
-                                    <li>
+
+                        <div class="product-title">
+                            <em><span th:text="${item.getItemName()}"></span></em>
+                            <div class="product-title-eng">
+                                <span th:text="${item.getItemNameEng()}"></span>
+                            </div>
+                        </div>
+
+                        <div class="main-product">
+                            <div class="product-thumb-info">
+                                <div class="main-img">
+                                    <img class="setting-product-main-page-i mg" th:src="@{'data:image/jpg;base64,'+ ${item.getItemImage()}}" alt="#" />
+                                </div>
+                                <div class="sub-img">
+                                    <ul class="sub-img-list"></ul>
+                                </div>
+                            </div>
+                            <div class="product-order-info">
+                                <div class="product-detail-info">
+                                    <h4 class="product-info-title">
+                                        <b>Product Info</b>
+                                        <span class="product-info-title-detail">제품정보</span>
+                                    </h4>
+                                    <ul class="product-info-list">
+                                        <li>
                                         <span class="product-info-list-title">
                                             브랜드
                                             <span class="div">
@@ -79,17 +84,17 @@
                                             </span>
                                             품번
                                         </span>
-                                        <span class="product-info-list-content">
+                                            <span class="product-info-list-content">
                                             <b>
-                                                <a th:href="@{/}">MUSINSA STANDARD</a>
+                                                <a th:href="@{/}"><span th:text="${item.getBrand().getBrandNameEng()}"></span></a>
                                                 <span class="div">
                                                     /
                                                 </span>
-                                                MMJTS113-WH
+                                                <span th:text="${item.getItemNo()}"></span>
                                             </b>
                                         </span>
-                                    </li>
-                                    <li>
+                                        </li>
+                                        <li>
                                         <span class="product-info-list-title">
                                             시즌
                                             <span class="div">
@@ -97,110 +102,173 @@
                                             </span>
                                             성별
                                         </span>
-                                        <span class="product-info-list-content">
+                                            <span class="product-info-list-content">
                                             <b>
-                                                2022 ALL
+                                                <span th:text="${item.getSeason()}"></span>
                                                 <span class="div">
                                                     /
                                                 </span>
-                                                남
+                                                <span th:text="${item.getGender()}"></span>
                                             </b>
                                         </span>
-                                    </li>
-                                    <li>
+                                        </li>
+                                        <li>
                                         <span class="product-info-list-title">
                                             조회수(1개월)
                                         </span>
-                                        <span class="product-info-list-content">
+                                            <span class="product-info-list-content">
                                             <b>
-                                                14.4만 회이상
+                                                {14.4만 회이상}
                                             </b>
                                         </span>
-                                    </li>
-                                    <li>
+                                        </li>
+                                        <li>
                                         <span class="product-info-list-title">
                                             누적판매(1년)
                                         </span>
-                                        <span class="product-info-list-content">
+                                            <span class="product-info-list-content">
                                             <b>
-                                                7.9만개 이상
+                                                {7.9만개 이상}
                                             </b>
                                         </span>
-                                    </li>
-                                    <li>
+                                        </li>
+                                        <li>
                                         <span class="product-info-list-title">
                                             좋아요
                                         </span>
-                                        <span class="product-info-list-content">
+                                            <span class="product-info-list-content">
                                             <b>
-                                                <i class="fa fa-like"></i> 28672
+                                                <i class="fa fa-like"></i>{28672}
                                             </b>
                                         </span>
-                                    </li>
-                                    <li>
+                                        </li>
+                                        <li>
                                         <span class="product-info-list-title">
                                             구매후기
                                         </span>
-                                        <span class="product-info-list-content">
+                                            <span class="product-info-list-content">
                                             <b>
-                                                4.6
+                                                {4.6}
                                             </b>
                                         </span>
-                                    </li>
-                                    <li>
-                                        태그목록
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="price_info">
-                                <h4 class="product-info-title">
-                                    <b>Price Info</b>
-                                    <span class="product-info-title-detail">가격정보</span>
-                                </h4>
-                                <ul class="product-info-list">
-                                    <li>
+                                        </li>
+                                        <li>
+                                        <span th:each="tagName : ${item.getItemTags()}">
+                                            <span th:text="${tagName.getTag().getTagName()}"></span>
+
+                                        </span>
+                                            <span>{태그 css, 링크}</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="price_info">
+                                    <h4 class="product-info-title">
+                                        <b>Price Info</b>
+                                        <span class="product-info-title-detail">가격정보</span>
+                                    </h4>
+                                    <ul class="product-info-list">
+                                        <li>
                                         <span class="product-info-list-title">
                                             무신사 판매가
                                         </span>
-                                        <span class="product-info-list-content">
+                                            <span class="product-info-list-content">
                                             <b>
-                                                13,900원
+                                                <span th:text="${item.getItemPrice()}"></span>
                                             </b>
                                         </span>
-                                    </li>
-                                    <li>
+                                        </li>
+                                        <li>
                                         <span class="product-info-list-title">
                                             무신사 회원가
                                         </span>
-                                        <span class="product-info-list-content">
+                                            <span class="product-info-list-content">
                                             <b>
-                                                13,344 ~ 13,900원
+                                                {13,344 ~ 13,900원}
                                             </b>
                                         </span>
-                                    </li>
-                                    <li>
+                                        </li>
+                                        <li>
                                         <span class="product-info-list-title">
                                             무신사 적립금
                                         </span>
-                                        <span class="product-info-list-content">
+                                            <span class="product-info-list-content">
                                             <b>
-                                                최대 556원
+                                                {최대 556원}
                                             </b>
                                         </span>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="product-select-option">
-                                <div class="produce-option-select-box">
-                                    <div class="option-area">
-                                        <select name="" id="">
-                                            <option value="S">S</option>
-                                            <option value="M">M</option>
-                                        </select>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="product-select-option">
+                                    <div class="produce-option-select-box">
+                                        <div class="option-area">
+                                            <select>
+                                            <span th:each="options : ${item.getGoods()}">
+                                                <div th:if="${options.getSaleStatus() == saleStatusYes}">
+                                                    <option th:if="${options.getCount() > 0}" value="" th:text="${options.getSize()}"></option>
+                                                <option th:if="${options.getCount() == 0}" value="" th:text="${options.getSize()} + '(품절)'" ></option>
+                                                </div>
+                                            </span>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="product-total-payment">
+                                    <span>
+                                        <b>총 상품 금액</b>
+                                    </span>
+                                        <span>
+                                        <b>{0원}</b>
+                                    </span>
+                                    </div>
+
+                                    <div class="product-recommendation-size">
+                                        <span><b>사이즈 추천</b></span>
+                                        <div class="product-recommendation-size-box">
+                                            <ul>
+                                                <li>
+                                                    <div class="product-recommendation-size-list">
+                                                        <div>
+                                                            <span>{(남자 170cm/73kg)기준}</span>
+                                                            <span>{2021-04-29}</span>
+                                                        </div>
+                                                        <div>
+                                                        <span>
+                                                            {적당함 L Size 구매}
+                                                        </span>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
+
+                                <div class="product-select-btn-box">
+                                    <div class="product-select-btn">
+                                        <span><b>바로구매</b></span>
+                                    </div>
+                                    <div class="product-select-like">
+                                        <div>
+                                            <i class="fa fa-heart"></i>
+                                            <span>{30000}</span>
+                                        </div>
+                                    </div>
+                                    <div class="product-select-basket">
+                                        <div>
+                                            <i class="fa fa-shopping-bag"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
+                    </div>
+                </div>  <!--main-goods-container 끝-->
+
+                <div>
+                    <div class="product-review-box">
+                        <h3 class="product-review-title"><b>구매후기</b></h3>
                     </div>
                 </div>
             </div>

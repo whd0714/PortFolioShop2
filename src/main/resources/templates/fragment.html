@@ -26,6 +26,7 @@
     <scirpt src="/node_modules/cropper/dist/cropper.min.js"></scirpt>
     <scirpt src="/node_modules/jquery-cropper/dist/jquery-cropper.min.js"></scirpt>
 
+
     <meta name="_csrf" content="${_csrf.token}" />
     <!-- default header name is X-CSRF-TOKEN -->
     <meta name="_csrf_header" content="${_csrf.headerName}" />
@@ -320,15 +321,7 @@
         </ul>
     </nav>
 
-    <script type="application/javascript" th:inline="javascript" th:fragment="csrf">
-        $(function() {
-            var csrfToken = /*[[${_csrf.token}]]*/ null;
-            var csrfHeader = /*[[${_csrf.headerName}]]*/ null;
-            $(document).ajaxSend(function (e, xhr, options) {
-                xhr.setRequestHeader(csrfHeader, csrfToken);
-            });
-        });
-    </script>
+
     <script th:fragment="main-nav-category">
         window.addEventListener("load", function () {
             let subMainMenu = document.querySelector('.sub-main-menu');

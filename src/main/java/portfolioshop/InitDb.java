@@ -3,6 +3,8 @@ package portfolioshop;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import portfolioshop.brand.Brand;
+import portfolioshop.brand.BrandRepository;
 import portfolioshop.category.Category;
 import portfolioshop.category.CategoryRepository;
 import portfolioshop.item.Item;
@@ -29,14 +31,15 @@ public class InitDb {
     static class InitService {
 
         private final CategoryRepository categoryRepository;
+        private final BrandRepository brandRepository;
 
         public void db1() {
-            Category category = new Category("상의");
+            /*Category category = new Category("상의");
             Category category1 = new Category("하의");
             Category category2 = new Category("아우터");
             Category category3 = new Category("반팔");
             Category category4 = new Category("반바지");
-            Category category5 = new Category("페딩");
+            Category category5 = new Category("패딩");
             Category category6 = new Category("긴팔 티셔츠");
             Category category7 = new Category("나시");
             Category category8 = new Category("니트");
@@ -53,12 +56,12 @@ public class InitDb {
 
 
 
-            /*em.persist(category);
+            *//*em.persist(category);
             em.persist(category1);
             em.persist(category2);
             em.persist(category3);
             em.persist(category4);
-            em.persist(category5);*/
+            em.persist(category5);*//*
 
             categoryRepository.save(category);
             categoryRepository.save(category1);
@@ -72,6 +75,9 @@ public class InitDb {
             categoryRepository.save(category9);
             categoryRepository.save(category10);
             //category3.changeCategory(category1);
+
+            Brand brand = new Brand("나이키", "NIKE");
+            brandRepository.save(brand);*/
         }
     }
 }

@@ -11,6 +11,9 @@ import portfolioshop.category.Category;
 import portfolioshop.category.CategoryRepository;
 import portfolioshop.category.CategoryService;
 import portfolioshop.goods.GoodsService;
+import portfolioshop.goods.enumType.DisplayStatus;
+import portfolioshop.item.dto.DisplayStatusDto;
+import portfolioshop.item.enumType.Gender;
 import portfolioshop.itemCategory.ItemCategory;
 import portfolioshop.itemCategory.ItemCategoryRepository;
 import portfolioshop.itemCategory.ItemCategoryService;
@@ -27,6 +30,7 @@ import portfolioshop.tag.enumType.TagType;
 import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -99,11 +103,16 @@ public class ItemService {
 
         }*/
 
-        //toDo: 상품과 브랜드의 관계 설정(일대다 / 일대일)
+        Brand brand = brandRepository.findByBrandName(productUpdateDto.getItemBrandName());
+
+        item.changeBrand(brand);
 
         goodsService.createGoods(item, productUpdateDto);
         goodsService.updateGoods(item, productUpdateDto);
-        if(productUpdateDto.getItemImage() != null) {
+        item.updateItem(productUpdateDto.getItemNo(), productUpdateDto.getItemName(), productUpdateDto.getItemNameEng(),
+                productUpdateDto.getItemPrice(), productUpdateDto.getSeason(), productUpdateDto.getGender(), productUpdateDto.getSubDescription(), productUpdateDto.getDescription());
+        System.out.println("ccccccccccccc" + productUpdateDto.getItemImage());
+        if(productUpdateDto.getItemImage().getSize() != 0) {
             byte[] bytes = productUpdateDto.getItemImage().getBytes();
             byte[] encode = Base64.getEncoder().encode(bytes);
             String img = new String(encode, "UTF-8");
@@ -123,6 +132,17 @@ public class ItemService {
 
 
 
+    }
+
+    public void updateDisplay(DisplayStatusDto displayStatusDto) {
+        Optional<Item> byId = itemRepository.findById(displayStatusDto.getItemId());
+        byId.ifPresent(item -> {
+            if (DisplayStatus.진열안함.toString().equals(displayStatusDto.getDisplay())){
+                item.changeDisplay(DisplayStatus.진열안함);
+            } else if(DisplayStatus.진열함.toString().equals(displayStatusDto.getDisplay())) {
+                item.changeDisplay(DisplayStatus.진열함);
+            }
+        });
     }
 
    /* @Data

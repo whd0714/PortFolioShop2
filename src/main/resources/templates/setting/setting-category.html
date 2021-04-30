@@ -10,6 +10,7 @@
     <h1><b><a th:href="@{/setting}">상품관리</a></b></h1>
 </header>
 
+
 <div>
     <div class="body-aside">
         <aside class="main-category-out-box box-end">
@@ -99,8 +100,15 @@
 
 </form>
 
-<script th:replace="fragment.html::csrf"></script>
-
+<script type="application/javascript" th:inline="javascript">
+    $(function() {
+        var csrfToken = /*[[${_csrf.token}]]*/ null;
+        var csrfHeader = /*[[${_csrf.headerName}]]*/ null;
+        $(document).ajaxSend(function (e, xhr, options) {
+            xhr.setRequestHeader(csrfHeader, csrfToken);
+        });
+    });
+</script>
 
 
 <script>

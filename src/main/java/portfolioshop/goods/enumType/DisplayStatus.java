@@ -1,5 +1,5 @@
 package portfolioshop.goods.enumType;
 
 public enum  DisplayStatus {
-    판매함, 판매안함
+    진열함, 진열안함
 }

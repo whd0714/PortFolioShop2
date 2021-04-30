@@ -216,9 +216,10 @@
                                                         <h4>제품이미지</h4>
                                                     </div>
                                                     <div>
-                                                        <input class="update-image" hidden th:value="${item.getItemImage()}" type="file">
-                                                        <span class="file-trigger-btn">파일선택</span>
-                                                        <span>이미지를 바꾸려면 선택하세요</span>
+                                                        <input class="update-image" hidden th:field="*{itemImage}" type="file">
+                                                       <!-- <input class="file-trigger-btn"  text="클릭" type="button" th:value="${item.getItemImage()}">-->
+                                                        <span class="file-trigger-btn">이미지 변경</span>
+                                                        <span class="file-trigger-btn">이미지를 바꾸려면 선택하세요</span>
                                                     </div>
                                                 </div>
                                                 <div>
@@ -242,7 +243,7 @@
                                                     </div>
                                                     <div class="product-add-form-table-right-content-title-padding">
                                                         <select class="update-season" th:field="*{season}">
-                                                            <option value="" th:text="${item.getSeason()}"></option>
+                                                            <option th:value="${item.getSeason()}" th:text="${item.getSeason()}"></option>
                                                             <div th:each="seasonName : ${seasons}">
                                                                 <option th:if="${seasonName != item.getSeason()}"  th:value="${seasonName}" th:text="${seasonName}"></option>
                                                             </div>
@@ -257,7 +258,7 @@
                                                     </div>
                                                     <div class="product-add-form-table-right-content-title-padding">
                                                         <select class="update-gender" th:field="*{gender}">
-                                                            <option value="" th:text="${item.getGender()}"></option>
+                                                            <option  th:value="${item.getGender()}" th:text="${item.getGender()}"></option>
                                                             <div th:each="gender : ${genders}">
                                                                 <option th:if="${gender != item.getGender()}" th:value="${gender}" th:text="${gender}"></option>
                                                             </div>
@@ -292,7 +293,7 @@
                                                     <span class="update-product-price" hidden th:text="${item.getItemPrice()}"></span>
                                                     <span class="update-product-sub-des" hidden th:text="${item.getSubDescription()}"></span>
                                                     <span class="update-product-des" hidden th:text="${item.getDescription()}"></span>
-                                                    <span class="update-product-image" hidden th:text="${item.getItemImage()}"></span>
+                                                    <input type="hidden" class="update-product-image"  >
                                                     <span class="update-product-main-category" hidden th:text="${categories.getParent().getName()}"></span>
                                                     <span class="update-product-sub-category" hidden th:text="${categories.getName()}"></span>
 
@@ -373,9 +374,17 @@
     </main>
 </div>
 </div>
-<script th:replace="fragment.html::csrf"></script>
+<script type="application/javascript" th:inline="javascript">
+    $(function() {
+        var csrfToken = /*[[${_csrf.token}]]*/ null;
+        var csrfHeader = /*[[${_csrf.headerName}]]*/ null;
+        $(document).ajaxSend(function (e, xhr, options) {
+            xhr.setRequestHeader(csrfHeader, csrfToken);
+        });
+    });
+</script>
 <script th:replace="fragment.html::form-validation"></script>
-<script>
+<script th:inline="javascript">
 
     window.addEventListener("load", function (){
 
@@ -527,6 +536,17 @@
             let itemDes = document.querySelector('.update-product-des');
             let mainCate = document.querySelector('.update-product-main-category');
             let subCate = document.querySelector('.update-product-sub-category');
+            let img = document.querySelector('.update-product-image');
+            let updateImage2 = document.querySelector('.update-image');
+
+            /*<![CDATA[*/
+
+            let message = /*[[${item.getItemImage()}]]*/ 'default';
+            //console.log("bbbbbbbbb" + message);
+            //updateImage2.value = message;
+            /*]]>*/
+
+            console.log("bbbbbbbbb" + updateImage2.value);
 
             let updateNo = document.querySelector('.update-no');
             let updateName = document.querySelector('.update-name');
@@ -541,6 +561,13 @@
             let itemOptionCount = document.querySelectorAll('.item-option-count');
             let itemOptionSaleStatus = document.querySelectorAll('.item-option-sale-status');
 
+            console.log("aaaaaaa" + updateImage2);
+            console.log("aaaaaaa" + updateImage2.value);
+            console.log("aaaaaaa" + updateImage2.hasAttributes());
+            console.log("aaaaaaa" + updateImage2.textContent);
+
+
+
             for(let i = 0; i < itemOptionSize.length; i++) {
 
                 optionValueSize[i].value += itemOptionSize[i].textContent;
@@ -550,6 +577,7 @@
 
                 console.log("ccccc" + itemOptionCount[i].textContent);
             }
+            //updateImage2.value = img.textContent;
 
             mainCategory.value = mainCate.textContent;
             subCategory.value = subCate.textContent;
