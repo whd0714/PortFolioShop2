@@ -6,7 +6,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import portfolioshop.category.Category;
 import portfolioshop.category.CategoryRepository;
+import portfolioshop.item.Item;
 import portfolioshop.item.ItemRepository;
+import portfolioshop.item.searchQuery.ItemCategoryCondition;
 import portfolioshop.member.CurrentUser;
 import portfolioshop.member.Member;
 import portfolioshop.productSetting.dto.CategoryDelDto;
@@ -48,7 +50,9 @@ public class MainController {
 
         model.addAttribute("mainCategories", mainCategory);
         model.addAttribute("subCategories", subCategory);
+        //List<Item> newItemByCategory = itemRepository.findNewItemByCategory(condition);
 
+       // model.addAttribute("newItemByCategory", newItemByCategory);
 
         return "index";
     }

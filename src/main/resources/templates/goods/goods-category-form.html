@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragment.html :: head">
+</head>
+<body>
+    <div th:replace="fragment.html :: header"></div>
+
+    <div>
+        <div th:replace="fragment.html :: body-aside"></div>
+        <div class="main-box">
+            <main class="main-area">
+                <div class="goods-header" >
+                    <div class="nav-ol">
+                        <div class="nav-home dir">
+                            <a th:href="@{/}">무신사 스토어</a>
+                        </div>
+                        <div class="nav-brand-shop dir">
+                            <a th:href="@{/}">
+                                <span th:text="${subCate.getParent().getName()}"></span>
+
+                            </a>
+                        </div>
+
+                        <div class="nav-brand">
+                            <a th:href="@{/}">
+                                <span th:text="${subCate.getName()}"></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- 카테고리경로끝 -->
+                <div class="goods-category-container">
+                    <div class="goods-category-brand-box">
+                        <div class="goods-category-brand-title">
+                            <span><b>브랜드</b></span>
+                        </div>
+                        <div class="goods-category-brand-contents">
+                            <span th:each="brand : ${brands}">
+                                <span th:text="${brand.getBrandName()}"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div> <!--상품 리스트, 페이지-->
+                    <div class="goods-category-page"
+                         th:with="start=${(itemFetchJoin.getNumber()/maxPage)*maxPage + 1},
+                  end=(${(itemFetchJoin.getTotalPages() == 0) ? 1 : (start + (maxPage - 1) < itemFetchJoin.totalPages ? start + (maxPage - 1) : itemFetchJoin.totalPages)})">
+                        <ul>
+                            <li th:if="${start > 1}">
+                                <a th:href="@{'/goods/category/'+ ${categoryId} + '?brandName=' + ${condition.getBrandName()} + '&page=' + 0}" >
+                                    <i class="fa fa-angle-double-left"></i>
+                                </a>
+                            </li>
+
+                            <li th:if="${start > 1}">
+                                <a th:href="@{'/goods/category/'+ ${categoryId} + '?brandName=' + ${condition.getBrandName()} + '&page=' + ${start - maxPage - 1}}">
+                                    <i class="fa fa-angle-left"></i>
+                                </a>
+                            </li>
+
+                            <li th:each="page: ${#numbers.sequence(start, end)}">
+                                <a th:href="@{'/goods/category/'+ ${categoryId} + '?brandName=' + ${condition.getBrandName()} + '&page=' + ${page-1}}" th:text="${page}"></a>
+                            </li>
+
+                            <li th:if="${end < itemFetchJoin.totalPages}">
+                                <a th:href="@{'/goods/category/'+ ${categoryId} + '?brandName=' + ${condition.getBrandName()} + '&page=' + ${start + maxPage - 1}}">
+                                    <i class="fa fa-angle-right"></i>
+                                </a>
+                            </li>
+
+                            <li th:if="${end < itemFetchJoin.totalPages}">
+                                <a th:href="@{'/goods/category/'+ ${categoryId} + '?brandName=' + ${condition.getBrandName()} + '&page=' + ${itemFetchJoin.getTotalPages()-1}}">
+                                    <i class="fa fa-angle-double-right"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div><!--상품 페이지 끝-->
+
+                   <ul class="goods-list-options-container" >
+                       <li th:each="itemlist : ${itemFetchJoin}" class="goods-list-options-box">
+                           <div class="goods-list-container-box" >
+                               <div class="goods-list-container" >
+                                   <a th:href="@{'/goods/' + ${itemlist.getId()}}">
+                                       <div class="goods-list-box">
+                                           <img class="goods-list-box-img" th:src="@{'data:image/jpg;base64,'+ ${itemlist.getItemImage()}}" alt="#" />
+                                           <div class="goods-list-text">
+                                               <b><span th:text="${itemlist.getBrand().getBrandName()}"></span></b>
+                                               <span th:text="${itemlist.getItemName()}"></span>
+                                               <b><span th:text="${itemlist.getItemPrice()}"></span><span>원</span></b>
+                                               <span><i class="fa fa-heart"></i>{30000}</span>
+                                           </div>
+
+                                       </div>
+
+                                   </a>
+                                   <div class="goods-list-bottom">
+                                       <span class="goods-list-gender" th:text="${itemlist.getGender()}"></span>
+                                       <span class="goods-list-option-box" >OPTION</span>
+                                   </div>
+                               </div>
+                               <div class="good-option-container">
+                                   <div class="good-option-box" th:each="option : ${itemlist.getGoods()}">
+                                       <div th:if="${option.getCount() == 0}">
+                                           <ul class="good-option-ul">
+                                               <li class="good-option-list">
+                                                   <span th:text="${option.getSize()}"></span>
+                                                   <span>X</span>
+                                               </li>
+                                           </ul>
+                                       </div>
+                                       <div th:if="${option.getCount() != 0}">
+                                           <ul class="good-option-ul">
+                                               <li class="good-option-list">
+                                                   <span th:text="${option.getSize()}"></span>
+                                                   <span>O</span>
+                                               </li>
+                                           </ul>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div> <!-- 상품 리스트 끝-->
+
+                       </li>
+                   </ul>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script th:replace="fragment.html :: main-nav-category"></script>
+
+    <script>
+        window.addEventListener("load" ,function () {
+            let goodsListOptionsContainer = document.querySelector('.goods-list-options-container');
+
+            goodsListOptionsContainer.onclick = function (e) {
+                if(!e.target.classList.contains('goods-list-option-box'))
+                    return ;
+
+                if(e.target.parentElement.parentElement.parentElement.children[1].style.display=="") {
+
+                    e.target.parentElement.parentElement.parentElement.children[1].style.display="block"
+                } else if(e.target.parentElement.parentElement.parentElement.children[1].style.display=="block") {
+                    e.target.parentElement.parentElement.parentElement.children[1].style.display=""
+
+                }
+
+
+
+            }
+        })
+    </script>
+</body>
+</html>

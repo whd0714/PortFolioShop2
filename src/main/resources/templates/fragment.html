@@ -19,6 +19,9 @@
     <link rel="stylesheet" href="/css/setting-add-product.css" type="text/css">
     <link rel="stylesheet" href="/css/setting-brand.css" type="text/css">
     <link rel="stylesheet" href="/css/setting-update-product.css" type="text/css">
+    <link rel="stylesheet" href="/css/index.css" type="text/css">
+    <link rel="stylesheet" href="/css/goodsCategory.css" type="text/css">
+
 
     <script src="/node_modules/jquery/dist/jquery.min.js"></script>
     <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -235,13 +238,11 @@
                                              class="sub-main-menu-subCategory">
 
                                             <ul class="sub-main-menu-sub-category-align-detail">
-                                                <a href="">
+                                                <a th:href="@{'/goods/category/' + ${subCategory.getId()}}">
                                                     <li>
                                                         <div>
                                                             <span href="" th:text="${subCategory.getName()}"></span>
-                                                            <span>(</span>
-                                                            <span></span>
-                                                            <span>)</span>
+
                                                         </div>
                                                     </li>
                                                 </a>

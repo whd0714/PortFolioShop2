@@ -1,0 +1,135 @@
+.goods-category-container {
+    border-bottom: 1px solid #ddd;
+}
+
+.goods-category-brand-title {
+    display: inline-block;
+    width: 150px;
+    padding: 20px 20px;
+
+}
+
+.goods-category-brand-contents{
+    display: inline-block;
+}
+
+.goods-category-brand-contents span {
+    padding: 0 5px;
+}
+
+.goods-category-page {
+    font-size: 20px;
+    width: 50%;
+    --text-align: center;
+    margin: 0 auto;
+}
+
+.goods-category-page li {
+    list-style: none;
+    display: inline-block;
+}
+.goods-list-container {
+    display: inline-block;
+    border-right: 1px solid #ddd;
+    width: 200px;
+    height: 350px;
+    --text-align: center;
+    align-items: center;
+}
+
+.goods-list-container:hover {
+    background: #f1f1f1;
+}
+
+.goods-list-box {
+    width: 150px;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    padding: 15px 5px;
+    --align-items: center;
+}
+
+.goods-list-options-container {
+    display: flex;
+    margin: 10px 30px;
+    border: 1px solid #ddd;
+    width: 1002px;
+    flex-wrap: wrap;
+}
+
+.goods-list-container-box {
+    display: inline-block;
+    --width: 1200px;
+    --margin: 20px 20px;
+    border-bottom: 1px solid #ddd;
+    position: relative;
+}
+
+.goods-list-box-img {
+    display: inline-block;
+    width: 137px;
+    height: 170px;
+    align-self: center;
+}
+
+.goods-list-text .fa {
+    color: red;
+}
+
+.goods-list-text {
+    display: flex;
+    flex-direction: column;
+    margin-top: 5px;
+}
+
+.goods-list-text b:first-child {
+    font-size: 15px;
+}
+
+
+
+.good-option-container {
+    position: absolute;
+    padding: 10px 10px;
+    right: 0;
+    border: 1px solid #ddd;
+    display: none;
+    z-index: 200;
+    background: white;
+}
+
+.good-option-ul {
+    width: 120px;
+}
+
+.good-option-list {
+
+}
+
+.good-option-list span:nth-child(2) {
+    float: right;
+}
+
+.goods-list-bottom{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+
+}
+
+.goods-list-gender {
+    float: left;
+    padding: 10px 10px;
+}
+
+.goods-list-option-box {
+    float: right;
+    padding: 10px 10px;
+    border-top: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    background: white;
+    z-index: 101;
+    cursor: pointer;
+}

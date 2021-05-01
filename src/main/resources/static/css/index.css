@@ -1,0 +1,16 @@
+.new-product-box {
+    padding: 20px 0 0 20px;
+}
+
+.new-goods-sub-list {
+    display: inline-block;
+    padding: 5px 50px 5px 0;
+}
+.new-goods-sub-list li{
+    border-right: 30px;
+}
+
+.goods-rank-box, .goods-new-box {
+    padding: 10px 0 10px 15px;
+    border-bottom: 1px solid #ddd;
+}
