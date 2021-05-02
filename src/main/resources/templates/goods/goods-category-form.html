@@ -17,14 +17,11 @@
                             <a th:href="@{/}">무신사 스토어</a>
                         </div>
                         <div class="nav-brand-shop dir">
-                            <a th:href="@{/}">
-                                <span th:text="${subCate.getParent().getName()}"></span>
-
-                            </a>
+                            <a th:href="@{'/goods/mainCategory/' + ${subCate.getParent().getId()}}"><span th:text="${subCate.getParent().getName()}"></span></a>
                         </div>
 
                         <div class="nav-brand">
-                            <a th:href="@{/}">
+                            <a th:href="@{'/goods/category/' + ${subCate.getId()}}">
                                 <span th:text="${subCate.getName()}"></span>
                             </a>
                         </div>
@@ -38,46 +35,133 @@
                         </div>
                         <div class="goods-category-brand-contents">
                             <span th:each="brand : ${brands}">
-                                <span th:text="${brand.getBrandName()}"></span>
+                                <span class="gcf-brand" th:text="${brand.getBrandName()}"></span>
                             </span>
                         </div>
                     </div>
                 </div>
 
-                <div> <!--상품 리스트, 페이지-->
-                    <div class="goods-category-page"
-                         th:with="start=${(itemFetchJoin.getNumber()/maxPage)*maxPage + 1},
+                <form hidden id="gcf-form" th:object="${goForm}" th:action="@{'/goods/category/' + ${categoryId}}" method="get">
+                    <input type="text" class="new-goods-input">
+                    <input type="text" class="low-price-goods-input">
+                    <input type="text" class="high-price-goods-input">
+                    <input type="text" th:field="*{brandName}" class="brand-name-input">
+                </form>
+
+                <div>
+                    <div class="sort-query-box">
+                        <div class="sort-box">
+                            <ul>
+                                <li><span class="new-goods-value options-sort">신상품순</span></li>
+                                <div class="div">|</div>
+                                <li><span class="low-price-goods-value options-sort">낮은가격순</span></li>
+                                <div class="div">|</div>
+                                <li><span class="high-price-goods-value options-sort">높은가격순</span></li>
+                                <div class="div">|</div>
+                            </ul>
+                        </div>
+                        <div> <!--상품 리스트, 페이지-->
+                            <div class="goods-category-page"
+                                 th:with="start=${(itemFetchJoin.getNumber()/maxPage)*maxPage + 1},
                   end=(${(itemFetchJoin.getTotalPages() == 0) ? 1 : (start + (maxPage - 1) < itemFetchJoin.totalPages ? start + (maxPage - 1) : itemFetchJoin.totalPages)})">
-                        <ul>
-                            <li th:if="${start > 1}">
-                                <a th:href="@{'/goods/category/'+ ${categoryId} + '?brandName=' + ${condition.getBrandName()} + '&page=' + 0}" >
-                                    <i class="fa fa-angle-double-left"></i>
-                                </a>
-                            </li>
+                                <ul>
+                                    <!--<li th:if="${start > 1}">-->
+                                    <li>
+                                        <div th:if="${condition.getBrandName() == null}">
+                                            <a th:href="@{'/goods/category/'+ ${categoryId} + '?brandName=&page=' + 0}" >
+                                                <i class="fa fa-angle-double-left"></i>
+                                            </a>
+                                        </div>
+                                        <div th:if="${condition.getBrandName() != null}">
+                                            <a th:href="@{'/goods/category/'+ ${categoryId} + '?brandName=' + ${condition.getBrandName()} + '&page=' + 0}" >
+                                                <i class="fa fa-angle-double-left"></i>
+                                            </a>
+                                        </div>
+                                    </li>
 
-                            <li th:if="${start > 1}">
-                                <a th:href="@{'/goods/category/'+ ${categoryId} + '?brandName=' + ${condition.getBrandName()} + '&page=' + ${start - maxPage - 1}}">
-                                    <i class="fa fa-angle-left"></i>
-                                </a>
-                            </li>
+                                    <!--      <li th:if="${start > 1}">-->
+                                    <li>
+                                        <div th:if="${condition.getBrandName() != null}">
+                                            <!--    <a th:href="@{'/goods/mainCategory/'+ ${categoryId} + '?brandName=' + ${condition.getBrandName()} + '&page=' + ${start - maxPage - 1}}">-->
+                                            <div th:if="${nowPage > 0}">
+                                                <a th:href="@{'/goods/category/'+ ${categoryId} + '?brandName=' + ${condition.getBrandName()} + '&page=' + ${nowPage- 1}}">
+                                                    <i class="fa fa-angle-left"></i>
+                                                </a>
+                                            </div>
+                                            <div th:if="${nowPage <= 0}">
+                                                <span><i class="fa fa-angle-left"></i></span>
+                                            </div>
+                                        </div>
+                                        <div th:if="${condition.getBrandName() == null}">
+                                            <!--       <a th:href="@{'/goods/mainCategory/'+ ${categoryId} + '?brandName=&page=' + ${start - maxPage - 1}}">-->
+                                            <div th:if="${nowPage > 0}">
+                                                <a th:href="@{'/goods/category/'+ ${categoryId} + '?brandName=&page=' + ${nowPage - 1}}">
+                                                    <i class="fa fa-angle-left"></i>
+                                                </a>
+                                            </div>
+                                            <div th:if="${nowPage <= 0}">
+                                                <span><i class="fa fa-angle-left"></i></span>
+                                            </div>
+                                        </div>
+                                    </li>
 
-                            <li th:each="page: ${#numbers.sequence(start, end)}">
-                                <a th:href="@{'/goods/category/'+ ${categoryId} + '?brandName=' + ${condition.getBrandName()} + '&page=' + ${page-1}}" th:text="${page}"></a>
-                            </li>
+                                    <li th:each="page: ${#numbers.sequence(start, end)}">
+                                        <div th:if="${condition.getBrandName() != null}">
+                                            <a th:href="@{'/goods/category/'+ ${categoryId} + '?brandName=' + ${condition.getBrandName()} + '&page=' + ${page-1}}" th:text="${page}"></a>
+                                        </div>
+                                        <div th:if="${condition.getBrandName() == null}">
+                                            <a th:href="@{'/goods/category/'+ ${categoryId} + '?brandName=&page=' + ${page-1}}" th:text="${page}"></a>
+                                        </div>
 
-                            <li th:if="${end < itemFetchJoin.totalPages}">
-                                <a th:href="@{'/goods/category/'+ ${categoryId} + '?brandName=' + ${condition.getBrandName()} + '&page=' + ${start + maxPage - 1}}">
-                                    <i class="fa fa-angle-right"></i>
-                                </a>
-                            </li>
+                                    </li>
 
-                            <li th:if="${end < itemFetchJoin.totalPages}">
-                                <a th:href="@{'/goods/category/'+ ${categoryId} + '?brandName=' + ${condition.getBrandName()} + '&page=' + ${itemFetchJoin.getTotalPages()-1}}">
-                                    <i class="fa fa-angle-double-right"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </div><!--상품 페이지 끝-->
+                                    <!--        <li th:if="${end < itemFetchJoin.totalPages}">-->
+                                    <li>
+                                        <div th:if="${condition.getBrandName() == null}">
+                                            <div th:if="${nowPage < itemFetchJoin.getTotalPages() - 1}">
+                                                <a th:href="@{'/goods/category/'+ ${categoryId} + '?brandName=&page=' + ${nowPage+1}}">
+                                                    <i class="fa fa-angle-right"></i>
+                                                </a>
+                                            </div>
+                                            <div th:if="${nowPage >= itemFetchJoin.getTotalPages() - 1}">
+                                                <i class="fa fa-angle-right"></i>
+                                            </div>
+                                        </div>
+                                        <div th:if="${condition.getBrandName() != null}">
+                                            <div th:if="${nowPage < itemFetchJoin.getTotalPages() - 1}">
+                                                <a th:href="@{'/goods/category/'+ ${categoryId} + '?brandName=' + ${condition.getBrandName()} + '&page=' + ${nowPage+1}}">
+                                                    <i class="fa fa-angle-right"></i>
+                                                </a>
+                                            </div>
+
+                                            <div th:if="${nowPage >= itemFetchJoin.getTotalPages() - 1}">
+                                                <i class="fa fa-angle-right"></i>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <!--  <li th:if="${end < itemFetchJoin.totalPages}">-->
+                                    <li>
+                                        <div th:if="${condition.getBrandName() == null}">
+                                          <!--  <div th:if="${end < itemFetchJoin.totalPages}">-->
+                                            <div>
+                                                <a  th:href="@{'/goods/category/'+ ${categoryId} + '?brandName=&page=' + ${itemFetchJoin.getTotalPages()-1}}">
+                                                    <i class="fa fa-angle-double-right"></i>
+                                                </a>
+                                            </div>
+
+                                        </div>
+                                        <div th:if="${condition.getBrandName() != null}">
+                                            <a th:href="@{'/goods/category/'+ ${categoryId} + '?brandName=' + ${condition.getBrandName()} + '&page=' + ${itemFetchJoin.getTotalPages()-1}}">
+                                                <i class="fa fa-angle-double-right"></i>
+                                            </a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div><!--상품 페이지 끝-->
+
+                        </div>
+                    </div>
 
                    <ul class="goods-list-options-container" >
                        <li th:each="itemlist : ${itemFetchJoin}" class="goods-list-options-box">
@@ -122,7 +206,6 @@
                                    </div>
                                </div>
                            </div> <!-- 상품 리스트 끝-->
-
                        </li>
                    </ul>
                 </div>
@@ -136,20 +219,34 @@
         window.addEventListener("load" ,function () {
             let goodsListOptionsContainer = document.querySelector('.goods-list-options-container');
 
+            let newGoodsValue = document.querySelector('.new-goods-value');
+            let lowPriceGoodsValue = document.querySelector('.low-price-goods-value');
+            let highPriceGoodsValue = document.querySelector('.high-price-goods-value');
+            let newGoodsInput = document.querySelector('.new-goods-input');
+            let lowPriceGoodsInput = document.querySelector('.low-price-goods-input');
+            let highPriceGoodsInput = document.querySelector('.high-price-goods-input');
+            let gcfForm = document.querySelector('#gcf-form');
+
+            let goodsCategoryBrandContents = document.querySelector('.goods-category-brand-contents');
+
+            goodsCategoryBrandContents.onclick = function (e) {
+                if(!e.target.classList.contains('gcf-brand'))
+                    return ;
+                let brandNameInput = document.querySelector('.brand-name-input');
+                brandNameInput.value = e.target.textContent;
+                gcfForm.submit();
+            }
+
+            //상품 옵션바
             goodsListOptionsContainer.onclick = function (e) {
                 if(!e.target.classList.contains('goods-list-option-box'))
                     return ;
 
                 if(e.target.parentElement.parentElement.parentElement.children[1].style.display=="") {
-
                     e.target.parentElement.parentElement.parentElement.children[1].style.display="block"
                 } else if(e.target.parentElement.parentElement.parentElement.children[1].style.display=="block") {
                     e.target.parentElement.parentElement.parentElement.children[1].style.display=""
-
                 }
-
-
-
             }
         })
     </script>

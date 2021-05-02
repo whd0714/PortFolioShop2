@@ -72,7 +72,7 @@ public class ProductSettingController {
     @GetMapping("/setting")
     public String settingForm(Model model, @RequestParam(value = "page", defaultValue = "0") int page) {
 
-        PageRequest of = PageRequest.of(page, 2);
+        PageRequest of = PageRequest.of(page, 10);
 
         //List<Item> all = itemRepository.findAll();
         //PageRequest of = PageRequest.of(0, 5);
@@ -88,7 +88,7 @@ public class ProductSettingController {
 
         if(items != null) {
             model.addAttribute("pages", all);
-            model.addAttribute("maxPage", 3);
+            model.addAttribute("maxPage", 10);
             model.addAttribute("items2", items);
             model.addAttribute("displays",DisplayStatus.values());
             model.addAttribute("saleStatus",SaleStatus.SALE);
@@ -366,7 +366,7 @@ public class ProductSettingController {
     @GetMapping("/search-setting-main")
     public String searchSettingMainProcess (@Valid SettingMainCondition condition, @RequestParam(value = "page", defaultValue = "0") int page, Model model) {
 
-        PageRequest of = PageRequest.of(page, 2);
+        PageRequest of = PageRequest.of(page, 10);
 
         /*PageRequest of = PageRequest.of(0, 5);
 
@@ -386,7 +386,7 @@ public class ProductSettingController {
 
         if(items!=null) {
             model.addAttribute("pages", content);
-            model.addAttribute("maxPage", 3);
+            model.addAttribute("maxPage", 10);
             model.addAttribute("items2",items);
             model.addAttribute("displays",DisplayStatus.values());
             model.addAttribute("saleStatus",SaleStatus.SALE);

@@ -18,6 +18,7 @@ public interface ItemRepository extends JpaRepository<Item, Long>, ItemSearchRep
 
     boolean existsByItemName(String itemName);
 
+
     boolean existsByItemNameEng(String itemNameEng);
 
     @Query("select it from Item i join ItemTag it on i.id = it.item.id")

@@ -8,8 +8,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
+import portfolioshop.brand.Brand;
 import portfolioshop.category.QCategory;
 import portfolioshop.goods.QGoods;
+import portfolioshop.item.dto.queryDto.GoodsCategoryListSearchCondition;
 import portfolioshop.item.dto.queryDto.ItemSettingSearchCondition;
 import portfolioshop.item.searchQuery.ItemCategoryCondition;
 import portfolioshop.item.searchQuery.SettingMainCondition;
@@ -130,16 +132,14 @@ public class ItemRepositoryImpl implements ItemSearchRepository{
     }
 
 
-    @Query("select distinct i from Item i join fetch i.brand b join i.itemCategories ic join ic.category c where c.id = :categoryId")
-
     @Override
-    public Page<Item> findItemFetchJoin(Long categoryId, Pageable pageable) {
+    public Page<Item> findItemFetchJoin(GoodsCategoryListSearchCondition condition, Long categoryId, Pageable pageable) {
         QueryResults<Item> results = queryFactory
                 .selectFrom(item)
                 .join(item.brand, brand).fetchJoin()
                 .join(item.itemCategories, itemCategory)
                 .join(itemCategory.category, category)
-                .where(categoryIdEq(categoryId))
+                .where(categoryIdEq(categoryId), brandNameEq(condition.getBrandName()))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetchResults();
@@ -149,7 +149,57 @@ public class ItemRepositoryImpl implements ItemSearchRepository{
         return new PageImpl<>(contents, pageable, total);
     }
 
+    @Override
+    public Page<Item> findItemFetchJoin2(GoodsCategoryListSearchCondition condition, Long categoryId, Pageable pageable) {
+        QueryResults<Item> results = queryFactory
+                .selectFrom(item)
+                .join(item.brand, brand).fetchJoin()
+                .join(item.itemCategories, itemCategory)
+                .join(itemCategory.category, category)
+                .where(mainCategoryIdEq(categoryId), brandNameEq(condition.getBrandName()))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetchResults();
+        List<Item> contents = results.getResults();
+        long total = results.getTotal();
+
+        return new PageImpl<>(contents, pageable, total);
+    }
+
+    private BooleanExpression mainCategoryIdEq(Long categoryId) {
+        return categoryId != null ? category.parent.id.eq(categoryId) : null;
+    }
+
+    @Override
+    public List<Item> findItemFetchJoinNoConditions(Long categoryId) {
+        List<Item> fetch = queryFactory
+                .select(item)
+                .from(item)
+                .join(item.brand, brand).fetchJoin()
+                .join(item.itemCategories, itemCategory)
+                .join(itemCategory.category, category)
+                .where(categoryIdEq(categoryId))
+                .fetch();
+
+        return fetch;
+    }
+
+    @Override
+    public List<Item> findItemFetchJoinNoConditions2(Long categoryId) {
+        List<Item> fetch = queryFactory
+                .select(item)
+                .from(item)
+                .join(item.brand, brand).fetchJoin()
+                .join(item.itemCategories, itemCategory)
+                .join(itemCategory.category, category)
+                .where(mainCategoryIdEq(categoryId))
+                .fetch();
+
+        return fetch;
+    }
+
     private BooleanExpression categoryIdEq(Long categoryId) {
+
         return categoryId != null ? category.id.eq(categoryId) : null;
     }
 

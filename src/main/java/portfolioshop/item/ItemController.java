@@ -69,20 +69,74 @@ public class ItemController {
         return 1;
     }
 
-    @GetMapping("/goods/category/{categoryId}")
-    public String goodsCategoryForm(@PathVariable("categoryId") Long categoryId, Model model,
+    @GetMapping("/goods/mainCategory/{categoryId}")
+    public String goodsMainCategoryForm(@PathVariable("categoryId") Long categoryId, Model model,
                                     @RequestParam(value = "page", defaultValue = "0") int page,
                                     @Valid GoodsCategoryListSearchCondition condition) {
+        model.addAttribute("nowPage",page);
+        model.addAttribute("goForm", new GoodsCategoryListSearchCondition());
 
-        PageRequest of = PageRequest.of(page, 12);
+        PageRequest of = PageRequest.of(page, 10);
 
-        Page<Item> itemFetchJoin = itemRepository.findItemFetchJoin(categoryId, of);
+        Page<Item> itemFetchJoin = itemRepository.findItemFetchJoin2(condition, categoryId, of);
+
+        System.out.println("kkkkkkkkkkk" + itemFetchJoin.getTotalPages());
+
         model.addAttribute("itemFetchJoin", itemFetchJoin);
         model.addAttribute("maxPage", 10);
 
         //브랜드 이름 중복제거
-        List<Brand> brands = itemFetchJoin.stream().map(Item::getBrand).distinct().collect(Collectors.toList());
-        model.addAttribute("brands",brands);
+        List<Item> itemFetchJoinNoConditions = itemRepository.findItemFetchJoinNoConditions2(categoryId);
+        List<Brand> collectBrand = itemFetchJoinNoConditions.stream().map(Item::getBrand).distinct().collect(Collectors.toList());
+
+        model.addAttribute("brands",collectBrand);
+
+        List<Category> all = categoryRepository.findAll();
+
+        List<Category> collect = all.stream().collect(Collectors.toList());
+
+        List<Category> mainCategory = new ArrayList<>();
+        List<Category> subCategory = new ArrayList<>();
+
+
+        for (int i = 0; i < collect.size(); i++) {
+            if (collect.get(i).getParent() != null) {
+                subCategory.add(collect.get(i));
+                if(collect.get(i).getParent().getId() == categoryId) {
+                    model.addAttribute("subCate",collect.get(i));
+                }
+            } else {
+                mainCategory.add(collect.get(i));
+            }
+        }
+
+
+        if(condition!=null) {
+            model.addAttribute("condition",condition);
+        }
+        model.addAttribute("mainCategories", mainCategory);
+        model.addAttribute("subCategories", subCategory);
+        model.addAttribute("categoryId", categoryId);
+        return "goods/goods-main-category-form";
+    }
+
+    @GetMapping("/goods/category/{categoryId}")
+    public String goodsCategoryForm(@PathVariable("categoryId") Long categoryId, Model model,
+                                    @RequestParam(value = "page", defaultValue = "0") int page,
+                                    @Valid GoodsCategoryListSearchCondition condition) {
+        model.addAttribute("nowPage",page);
+        model.addAttribute("goForm", new GoodsCategoryListSearchCondition());
+
+        PageRequest of = PageRequest.of(page, 10);
+
+        Page<Item> itemFetchJoin = itemRepository.findItemFetchJoin(condition, categoryId, of);
+        model.addAttribute("itemFetchJoin", itemFetchJoin);
+        model.addAttribute("maxPage", 10);
+
+        //브랜드 이름 중복제거
+        List<Item> itemFetchJoinNoConditions = itemRepository.findItemFetchJoinNoConditions(categoryId);
+        List<Brand> collectBrand = itemFetchJoinNoConditions.stream().map(Item::getBrand).distinct().collect(Collectors.toList());
+        model.addAttribute("brands",collectBrand);
 
         List<Category> all = categoryRepository.findAll();
 

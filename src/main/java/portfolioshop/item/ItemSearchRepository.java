@@ -4,6 +4,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
+import portfolioshop.brand.Brand;
+import portfolioshop.item.dto.queryDto.GoodsCategoryListSearchCondition;
 import portfolioshop.item.searchQuery.ItemCategoryCondition;
 import portfolioshop.item.searchQuery.SettingMainCondition;
 
@@ -22,7 +24,13 @@ public interface ItemSearchRepository {
     List<Item> findNewItemByCategory();
 
     //@Query("select distinct i from Item i join fetch i.brand b join i.itemCategories ic join ic.category c where c.id = :categoryId")
-    Page<Item> findItemFetchJoin(Long categoryId, Pageable pageable);
+    Page<Item> findItemFetchJoin(GoodsCategoryListSearchCondition condition, Long categoryId, Pageable pageable);
+
+    Page<Item> findItemFetchJoin2(GoodsCategoryListSearchCondition condition, Long categoryId, Pageable pageable);
+
+    List<Item> findItemFetchJoinNoConditions(Long categoryId);
+
+    List<Item> findItemFetchJoinNoConditions2(Long categoryId);
 
 
 }

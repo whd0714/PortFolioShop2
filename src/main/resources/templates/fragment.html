@@ -230,8 +230,7 @@
                                 </div>
 
                                 <div class="sub-main-menu-sub-category-content-area">
-                                    <div class="subCategory-all"><a href="">전체</a></div>
-
+                                    <a class="subCategory-all" th:href="@{'/goods/mainCategory/' + ${mainCategory.getId()}}">전체</a>
                                     <div class="sub-main-menu-sub-category-align">
                                         <div th:each="subCategory : ${subCategories}"
                                              th:if="${mainCategory.getName() == subCategory.getParent().getName()}"

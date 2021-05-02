@@ -18,8 +18,10 @@
 }
 
 .goods-category-page {
+    display: flex;
+    flex-direction: row;
     font-size: 20px;
-    width: 50%;
+    --width: 50%;
     --text-align: center;
     margin: 0 auto;
 }
@@ -52,7 +54,7 @@
 
 .goods-list-options-container {
     display: flex;
-    margin: 10px 30px;
+    margin: 0 30px;
     border: 1px solid #ddd;
     width: 1002px;
     flex-wrap: wrap;
@@ -86,8 +88,6 @@
 .goods-list-text b:first-child {
     font-size: 15px;
 }
-
-
 
 .good-option-container {
     position: absolute;
@@ -132,4 +132,40 @@
     background: white;
     z-index: 101;
     cursor: pointer;
+}
+
+.gcf-brand {
+    cursor:pointer;
+}
+
+.gcf-brand:hover {
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.sort-query-box {
+    display: flex;
+    margin-left: 30px;
+    margin-top: 10px    ;
+    border-top: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    width: 1002px;
+}
+
+.sort-box {
+    line-height: 2.5;
+    text-indent: 5px;
+}
+
+.sort-box ul {
+    display: flex;
+}
+.options-sort {
+    cursor: pointer;
+}
+
+.options-sort:hover {
+    text-decoration: underline;
+    font-weight: bold;
 }
