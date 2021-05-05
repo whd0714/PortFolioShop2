@@ -3,12 +3,13 @@ package portfolioshop.goods;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import portfolioshop.goods.enumType.DisplayStatus;
-import portfolioshop.goods.enumType.GoodsStatus;
 import portfolioshop.goods.enumType.SaleStatus;
 import portfolioshop.item.Item;
+import portfolioshop.cart.CartGoods;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -30,6 +31,9 @@ public class Goods {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id")
     private Item item;
+
+    @OneToMany(mappedBy = "goods", orphanRemoval = true)
+    private List<CartGoods> cartGoods = new ArrayList<>();
 
     public void changeItem(Item item) {
         this.item = item;

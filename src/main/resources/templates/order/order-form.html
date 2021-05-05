@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragment.html :: head">
+</head>
+<body>
+<div th:replace="fragment.html :: header"></div>
+
+<div>
+    <div th:replace="fragment.html :: body-aside"></div>
+    <div class="main-box">
+        <main class="main-area">
+            <div class="goods-header" >
+                <div class="nav-ol">
+                    <div class="nav-home dir">
+                        <a th:href="@{/}">포트폴리오 스토어</a>
+                    </div>
+
+                    <div class="nav-brand">
+                        <span>주문서</span>
+                    </div>
+                </div>
+            </div>
+            <!-- 카테고리경로끝 -->
+            <div class="goods-category-container">
+                <div class="order-top-box">
+                    <div class="order-top-title-eng">
+                        <span>Order / Payment</span>
+                    </div>
+                    <div class="order-top-title">
+                        <span>주문 / 결제</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="buyer-info-container">
+                <div class="buyer-info-box">
+                    <div class="buyer-info-title-eng">
+                        <span>Buyer Info</span>
+                    </div>
+                    <div class="buyer-info-title">
+                        <span>구매자 정보</span>
+                    </div>
+
+                    <div class="buyer-info-main-container">
+                        <div class="border-bottom">
+                            <span class="buyer-info-main-title">배송지 선택</span>
+                            <div class="buyer-info-main-name-box" th:if="${!member.getDeliveries().isEmpty()}">
+                                <span class="buyer-info-main-name" th:each="delivery : ${member.getDeliveries()}">
+                                    <input type="radio" name="delivery_info">
+                                    <span th:text="${delivery.getDeliveryName()}"></span>
+                                </span>
+                            </div>
+                            <span class="buyer-info-main-delivery-info">
+                                <input type="radio" name="delivery_info" onchange="openDelivery(this);">
+                                <label>신규배송지</label>
+                            </span>
+                            <span class="buyer-info-main-delivery-change-btn" onclick="popUp()">
+                                배송지 변경
+                            </span>
+                        </div>
+
+                        <div class="border-bottom">
+                            <span class="buyer-info-main-title">수령인</span>
+                            <span th:text="${member.getUsername()}">
+                            </span>
+                        </div>
+                        <div class="buyer-info-main-delivery-box border-bottom">
+                            <span class="buyer-info-main-title ">배송지 주소</span>
+                            <span>
+                                <input disabled type="text" id="sample6_postcode">
+                                <input type="button" onclick="sample6_execDaumPostcode()" value="주소찾기"><br>
+                                <input disabled type="text" id="sample6_address"><br>
+                                <input type="text" id="sample6_detailAddress" placeholder="상세주소를 입력해주세요">
+                            </span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="product-info-container">
+                    <div class="buyer-info-title-eng">
+                        <span>Product Info</span>
+                    </div>
+                    <div class="buyer-info-title">
+                        <span>상품 정보</span>
+                    </div>
+
+                    <table>
+                        <colgroup>
+                            <col style="width:auto">
+                            <col style="width: 8%">
+                            <col style="width: 12%">
+                            <col style="width: 12%">
+                        </colgroup>
+                        <thead >
+                            <th>상품정보</th>
+                            <th>수량</th>
+                            <th>상품할인</th>
+                            <th>주문금액</th>
+                        </thead>
+                        <tbody>
+                          <!-- <tr class="each-tr" th:each="size, sizeStat : ${sizes}">
+                               <th>
+                                   <img class="order-item-img" th:src="@{'data:image/jpg;base64,'+ ${item.getItemImage()}}" alt="#" />
+                                   <div class="order-page-item-info">
+                                       [<span th:text="${items.get(sizeStat.count - 1).getBrandName()}"></span>]
+                                       <span th:text="${items.get(sizeStat.count - 1).getItemName()}"></span>
+
+                                       &lt;!&ndash;[<span th:text="${item.getBrand().getBrandName()}"></span>]
+                                       <span th:text="${item.getItemName()}"></span>&ndash;&gt;
+                                       <div class="option-box">
+                                           <span>옵션 : </span>
+                                           <span th:text="${size}"></span>
+                                       </div>
+                                   </div>
+                               </th>
+                               <th class="txt-center">
+                                   <span th:text="${counts[sizeStat.count - 1]} + '개'"></span>
+                               </th>
+                               <th class="txt-center">
+
+                               </th>
+                               <th class="txt-center order-price">
+                                   <span th:text="${item.getItemPrice() * counts[sizeStat.count - 1]} + '원'"></span>
+                               </th>
+                           </tr>-->
+                          <tr class="each-tr" th:each="item, itemStat : ${items}">
+                              <th>
+                                  <img class="order-item-img" th:src="@{'data:image/jpg;base64,'+ ${item.getItemImage()}}" alt="#" />
+                                  <div class="order-page-item-info">
+                                      [<span th:text="${item.getBrand().getBrandName()}"></span>]
+                                      <span th:text="${item.getItemName()}"></span>
+
+                                      <!--[<span th:text="${item.getBrand().getBrandName()}"></span>]
+                                      <span th:text="${item.getItemName()}"></span>-->
+                                      <div class="option-box">
+                                          <span>옵션 : </span>
+                                          <span th:text="${sizes[itemStat.count - 1]}"></span>
+                                      </div>
+                                  </div>
+                              </th>
+                              <th class="txt-center">
+                                  <span th:text="${counts[itemStat.count - 1]} + '개'"></span>
+                              </th>
+                              <th class="txt-center">
+
+                              </th>
+                              <th class="txt-center order-price">
+                                  <span th:text="${item.getItemPrice() * counts[itemStat.count - 1]} + '원'"></span>
+                              </th>
+                          </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="payment-btn" onclick="payment()">
+                <span></span>
+            </div>
+        </main>
+    </div>
+</div>
+
+<script>
+    function payment () {
+
+    }
+</script>
+
+<script>
+    function popUp () {
+        /*<![CDATA[*/
+        const memberId = [[${member.getId()}]];
+        /*]]>*/
+        window.open('/delivery/listPopUp','배송지변경','width=430,height=500,location=no,status=no,scrollbars=yes');
+
+    }
+</script>
+
+<script>
+    window.addEventListener("load", function (){
+        aa();
+        function aa () {
+            let orderPrice = document.querySelectorAll('.order-price');
+            let paymentBtn = document.querySelector('.payment-btn span');
+            let value = 0;
+            for(let i = 0; i < orderPrice.length; i++) {
+                value += parseInt(orderPrice[i].textContent.replace(/[^0-9]/g,''))
+                console.log(value);
+                console.log(orderPrice[i].textContent.replace(/[^0-9]/g,''));
+            }
+
+            paymentBtn.textContent = value + "원 결제하기";
+            console.log(paymentBtn.textContent);
+        }
+    });
+</script>
+
+<script>
+    function openDelivery(e) {
+        let deliveryBox = document.querySelector('.buyer-info-main-delivery-box');
+        if(e.checked) {
+            deliveryBox.style.display = "block";
+        } else {
+            deliveryBox.style.display = "none";
+        }
+
+    }
+</script>
+
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+    function sample6_execDaumPostcode() {
+        new daum.Postcode({
+            oncomplete: function(data) {
+                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                var addr = ''; // 주소 변수
+                var extraAddr = ''; // 참고항목 변수
+
+                //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                    addr = data.roadAddress;
+                } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                    addr = data.jibunAddress;
+                }
+
+                // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+                if(data.userSelectedType === 'R'){
+                    // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                    // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                    if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                        extraAddr += data.bname;
+                    }
+                    // 건물명이 있고, 공동주택일 경우 추가한다.
+                    if(data.buildingName !== '' && data.apartment === 'Y'){
+                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                    }
+                    // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                    if(extraAddr !== ''){
+                        extraAddr = ' (' + extraAddr + ')';
+                    }
+                    // 조합된 참고항목을 해당 필드에 넣는다.
+                   // document.getElementById("sample6_extraAddress").value = extraAddr;
+
+                } else {
+                   // document.getElementById("sample6_extraAddress").value = '';
+                }
+
+                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                document.getElementById('sample6_postcode').value = data.zonecode;
+                document.getElementById("sample6_address").value = addr;
+                // 커서를 상세주소 필드로 이동한다.
+                document.getElementById("sample6_detailAddress").focus();
+            }
+        }).open();
+    }
+</script>
+<script th:replace="fragment.html :: main-nav-category"></script>
+
+<script>
+    window.addEventListener("load" ,function () {
+
+
+    });
+</script>
+</body>
+</html>

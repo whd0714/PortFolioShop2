@@ -203,6 +203,17 @@
     border-right: 1px solid #ddd;
 }
 
+.produce-option-select-count-box {
+    display: flex;
+    position: relative;
+    padding: 12px 9px 12px 9px;
+    border-bottom: 1px solid #ddd;
+    --border-top: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    align-items: center;
+}
+
 .option-area {
     width: 100%;
     float: left;
@@ -215,6 +226,8 @@
 .product-total-payment {
     font-size: 15px;
     padding: 12px 9px 12px 9px;
+    border-right: 1px solid #ddd;
+    border-left: 1px solid #ddd;
 }
 
 .product-total-payment span:nth-child(2) {
@@ -260,6 +273,7 @@
     padding: 20px 20px;
     text-align: center;
     font-size: 20px;
+    cursor: pointer;
 }
 
 .product-select-like, .product-select-basket {
@@ -267,6 +281,7 @@
     margin-left: 5px;
     text-align: center;
     border: 1px solid #ddd;
+    cursor: pointer;
 }
 
 .product-select-like .fa, .product-select-basket .fa {
@@ -288,4 +303,67 @@
 
 .product-review-title {
     font-size: 20px;
+}
+
+.produce-option-selected-size {
+    width: 180px;
+}
+
+.produce-option-selected-count {
+    display: flex;
+}
+
+.selected-align {
+    width: 25px;
+    height: 25px;
+    background: #f3f3f3;
+}
+
+.selected-align span {
+    display: inline-block;
+    padding: 4px 8px;
+    font-weight: bold;
+}
+
+.produce-option-selected-count-number {
+    border-top: 1px solid #f3f3f3;
+    border-bottom: 1px solid #f3f3f3;
+    background: white;
+}
+
+.produce-option-selected-count-number input {
+    width: 25px;
+    border: none;
+    padding-top: 3px;
+    padding-left: 5px;
+}
+
+.produce-option-selected-count-minus {
+    cursor: pointer;
+}
+
+.produce-option-selected-count-plus{
+    cursor: pointer;
+}
+
+.produce-option-selected-price {
+    width: 125px;
+}
+
+.produce-option-selected-price-value  {
+    float: right;
+}
+
+.cart-yes, .cart-no {
+    padding: 15px 20px;
+    margin-top: 20px;
+    background: black;
+    color: white;
+    display: none;
+
+}
+
+.cart-yes a, .cart-no a{
+    float: right;
+    color: #0078ff;
 }

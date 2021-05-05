@@ -16,6 +16,8 @@ import portfolioshop.goods.enumType.SaleStatus;
 import portfolioshop.item.dto.DisplayStatusDto;
 import portfolioshop.item.dto.queryDto.GoodsCategoryListSearchCondition;
 import portfolioshop.itemCategory.ItemCategory;
+import portfolioshop.member.CurrentUser;
+import portfolioshop.member.Member;
 
 import javax.persistence.Lob;
 import javax.validation.Valid;
@@ -33,7 +35,11 @@ public class ItemController {
     private final CategoryRepository categoryRepository;
 
     @GetMapping("/goods/{itemId}")
-    public String goodsForm(@PathVariable("itemId") Long itemId, Model model){
+    public String goodsForm(@CurrentUser Member member, @PathVariable("itemId") Long itemId, Model model){
+
+        if(member != null) {
+            model.addAttribute(member);
+        }
 
         List<Category> all = categoryRepository.findAll();
 
@@ -70,9 +76,12 @@ public class ItemController {
     }
 
     @GetMapping("/goods/mainCategory/{categoryId}")
-    public String goodsMainCategoryForm(@PathVariable("categoryId") Long categoryId, Model model,
+    public String goodsMainCategoryForm(@CurrentUser Member member, @PathVariable("categoryId") Long categoryId, Model model,
                                     @RequestParam(value = "page", defaultValue = "0") int page,
                                     @Valid GoodsCategoryListSearchCondition condition) {
+        if(member != null) {
+            model.addAttribute(member);
+        }
         model.addAttribute("nowPage",page);
         model.addAttribute("goForm", new GoodsCategoryListSearchCondition());
 
@@ -121,9 +130,13 @@ public class ItemController {
     }
 
     @GetMapping("/goods/category/{categoryId}")
-    public String goodsCategoryForm(@PathVariable("categoryId") Long categoryId, Model model,
+    public String goodsCategoryForm(@CurrentUser Member member, @PathVariable("categoryId") Long categoryId, Model model,
                                     @RequestParam(value = "page", defaultValue = "0") int page,
                                     @Valid GoodsCategoryListSearchCondition condition) {
+        if(member != null) {
+            model.addAttribute(member);
+        }
+
         model.addAttribute("nowPage",page);
         model.addAttribute("goForm", new GoodsCategoryListSearchCondition());
 

@@ -173,7 +173,7 @@
                                         </span>
                                             <span class="product-info-list-content">
                                             <b>
-                                                <span th:text="${item.getItemPrice()}"></span>
+                                                <span th:text="${item.getItemPrice()} + '원'"></span>
                                             </b>
                                         </span>
                                         </li>
@@ -202,24 +202,56 @@
                                 <div class="product-select-option">
                                     <div class="produce-option-select-box">
                                         <div class="option-area">
-                                            <select>
-                                            <span th:each="options : ${item.getGoods()}">
-                                                <div th:if="${options.getSaleStatus() == saleStatusYes}">
-                                                    <option th:if="${options.getCount() > 0}" value="" th:text="${options.getSize()}"></option>
-                                                <option th:if="${options.getCount() == 0}" value="" th:text="${options.getSize()} + '(품절)'" ></option>
-                                                </div>
-                                            </span>
+                                            <select onchange="createOption(this)">
+                                            <option value="noSelect" selected="selected" th:text="옵션선택" ></option>
+                                                <!--<option th:each="options : ${item.getGoods()}" th:if="${options.getSaleStatus() == saleStatusYes}"
+                                                        th:value="${options.getSize()}" th:text="${options.getSize()}" th:name="${options.getSize()}"></option>-->
+                                                <span  th:each="options : ${item.getGoods()}">
+                                                    <div  th:if="${options.getSaleStatus() == saleStatusYes}">
+                                                        <option class="selected-option"  th:if="${options.getCount() > 0}" th:value="${options.getCount()}" th:text="${options.getSize()}"></option>
+                                                        <option th:if="${options.getCount() == 0}" value="noSelect" th:text="${options.getSize()} + '(품절)'" ></option>
+                                                    </div>
+                                                </span>
                                             </select>
                                         </div>
                                     </div>
+                                    <div class="add-count">
+
+                                    </div>
+                                    <template class="goods-options-template">
+                                        <ul class="produce-option-select-count-box">
+                                            <li class="produce-option-selected-size">
+                                                <span></span>
+                                            </li>
+                                            <li class="produce-option-selected-count">
+                                                <div class="produce-option-selected-count-minus selected-align">
+                                                    <span onclick="subPrice(this)">
+                                                        <i class="fa fa-minus"></i>
+                                                    </span>
+                                                </div>
+                                                <div class="produce-option-selected-count-number selected-align">
+                                                    <input type="text" onkeyup="verifyInput(this)" value="1">
+                                                </div>
+                                                <div class="produce-option-selected-count-plus selected-align">
+                                                    <!--<span onclick="addPrice()" th:onclick="'addPrice(\'' + ${item.getItemPrice()} + '\');'">-->
+                                                    <span onclick="addPrice(this)" >
+                                                        <i  class="fa fa-plus"></i>
+                                                    </span>
+                                                </div>
+                                            </li>
+                                            <li class="produce-option-selected-price">
+                                                <span class="produce-option-selected-price-value" th:text="${item.getItemPrice()} + '원' "></span>
+                                            </li>
+                                        </ul>
+                                    </template>
 
                                     <div class="product-total-payment">
-                                    <span>
-                                        <b>총 상품 금액</b>
-                                    </span>
                                         <span>
-                                        <b>{0원}</b>
-                                    </span>
+                                            <b>총 상품 금액</b>
+                                        </span>
+                                        <span class="total-price">
+                                            0원
+                                        </span>
                                     </div>
 
                                     <div class="product-recommendation-size">
@@ -244,9 +276,23 @@
                                     </div>
                                 </div>
 
+                                <form hidden class="goods-form" th:action="@{/order-form}" method="get">
+                                  <!--  <input type="text" th:name="itemId" th:value="${item.getId()}" class="select-option">-->
+                                </form>
+
+                                <div class="cart-yes">
+                                    <span>장바구니에 담겼습니다.</span>
+                                    <a th:href="@{/cart}"><span>장바구니로 가기</span></a>
+                                </div>
+
+                                <div class="cart-no">
+                                    <span>이미 장바구니에 있는 상품입니다.</span>
+                                    <a th:href="@{/cart}"><span>장바구니로 가기</span></a>
+                                </div>
+
                                 <div class="product-select-btn-box">
                                     <div class="product-select-btn">
-                                        <span><b>바로구매</b></span>
+                                        <span class="purchase-btn" onclick="purchaseGoods();">바로구매</span>
                                     </div>
                                     <div class="product-select-like">
                                         <div>
@@ -254,13 +300,12 @@
                                             <span>{30000}</span>
                                         </div>
                                     </div>
-                                    <div class="product-select-basket">
-                                        <div>
+                                    <div class="product-select-basket" >
+                                        <div onclick="addCart1()">
                                             <i class="fa fa-shopping-bag"></i>
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -276,5 +321,303 @@
     </div>
 
     <script th:replace="fragment.html :: main-nav-category"></script>
+    <script type="application/javascript" th:inline="javascript">
+        $(function() {
+            var csrfToken = /*[[${_csrf.token}]]*/ null;
+            var csrfHeader = /*[[${_csrf.headerName}]]*/ null;
+            $(document).ajaxSend(function (e, xhr, options) {
+                xhr.setRequestHeader(csrfHeader, csrfToken);
+            });
+        });
+    </script>
+    <script >
+        function purchaseGoods() {
+
+            addCart();
+            let goodsForm = document.querySelector('.goods-form');
+            goodsForm.submit();
+        }
+
+        function addCart1() {
+            addCart();
+            let carYes = document.querySelector('.cart-yes');
+            carYes.style.display="block"
+            viewCartPop = setInterval(function (){
+                carYes.style.display="none";
+            }, 2500);
+        }
+
+        function addCart() {
+            let sizeValue = document.querySelectorAll('.produce-option-selected-size span');
+            let countValue = document.querySelectorAll('.produce-option-selected-count-number input')
+            let goodsForm = document.querySelector('.goods-form');
+
+            let optionBox = document.querySelectorAll('.produce-option-select-count-box');
+
+            if(optionBox.length == 0) {
+                alert('옵션을 선택해 주세요');
+                return ;
+            }
+            /*<![CDATA[*/
+            const itemId = [[${item.getId()}]];
+            /*]]>*/
+
+            let sizes = [];
+            let counts = [];
+            let items = [];
+            for(let i = 0; i < sizeValue.length; i++) {
+
+                let inputSizeNode = document.createElement('input');
+                let inputCountNode = document.createElement('input');
+                let inputItemNode = document.createElement('input');
+                inputSizeNode.name = "size";
+                inputSizeNode.value = sizeValue[i].textContent;
+                inputCountNode.name = "count";
+                inputCountNode.value = countValue[i].value;
+                inputItemNode.name = "itemId";
+                inputItemNode.value = itemId;
+
+                sizes.push(sizeValue[i].textContent);
+                counts.push(countValue[i].value);
+                items.push(itemId);
+
+                goodsForm.append(inputSizeNode);
+                goodsForm.append(inputCountNode);
+                goodsForm.append(inputItemNode);
+            }
+
+
+            let data = {"size" : sizes,
+                "count" : counts,
+                "itemId" : items};
+
+            console.log("bbb" + sizes);
+            console.log("bbb" + counts);
+            console.log("bbb" + items);
+
+            $.ajax({
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                url: "/add/cart",
+                type: "POST",
+                data: JSON.stringify(data),
+                success : function (value){
+
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    alert("ERROR : " + textStatus + " : " + errorThrown);
+                }
+            });
+        }
+        function verifyInput(e) {
+            if(isNaN(e.value) || e.value == "") {
+                e.value = 1;
+                return ;
+            }
+
+            if(parseInt(e.value) > parseInt(e.max)) {
+                e.value = 1;
+                return ;
+            }
+
+            setTotalPrice(e);
+
+        }
+
+        function setTotalPrice(e) {
+            /*<![CDATA[*/
+            const itemPrice = [[${item.getItemPrice()}]];
+            /*]]>*/
+            e.parentElement.parentElement.nextElementSibling.children[0].textContent = parseInt(e.value) * parseInt(itemPrice) + "원";
+            let totalPrice = document.querySelector('.total-price');
+            let values = document.querySelectorAll('.produce-option-selected-price-value');
+            totalPrice.textContent = '0';
+            for(let i = 0; i < values.length; i++) {
+
+                totalPrice.textContent = parseInt(totalPrice.textContent.replace(/[^0-9]/g,'')) + parseInt(values[i].textContent.replace(/[^0-9]/g,'')) + "원";
+            }
+        }
+
+        function createOption(e) {
+            if(e.options[e.selectedIndex].value == 'noSelect')
+                return;
+            console.log("2 = " + e.options[e.selectedIndex].text, "3 = " + e.options[e.selectedIndex].value);
+
+            let b = verifySize(e.options[e.selectedIndex].text);
+
+            if(b) {
+                alert('이미 추가한 옵션입니다.');
+                return ;
+            }
+            let goodsOptionsTemplate = document.querySelector('.goods-options-template');
+            let cloneNode = document.importNode(goodsOptionsTemplate.content, true);
+            let sizeNode = cloneNode.querySelector('.produce-option-selected-size span');
+            let countNode = cloneNode.querySelector('.produce-option-selected-count-number input');
+            let priceNode = cloneNode.querySelector('.produce-option-selected-price-value');
+            countNode.max = e.options[e.selectedIndex].value;
+
+            sizeNode.textContent = e.options[e.selectedIndex].text;
+
+
+            let addCount = document.querySelector('.add-count');
+
+            totalPrice(priceNode.textContent, 'option')
+
+
+            addCount.append(cloneNode);
+        /*    /!*<![CDATA[*!/
+            const itemPrice = [[${item.getItemPrice()}]];
+            /!*]]>*!/*/
+
+
+        }
+
+        function verifySize(a) {
+            let allSize = document.querySelectorAll('.produce-option-selected-size span');
+
+            for(let i = 0; i < allSize.length; i++) {
+                if(allSize[i].textContent == a) {
+                    return true;
+                }
+            }
+                return  false;
+        }
+
+        function addPrice(e) {
+            /*<![CDATA[*/
+            const itemPrice = [[${item.getItemPrice()}]];
+            /*]]>*/
+            if(parseInt(e.parentElement.parentElement.children[1].children[0].max) > parseInt(e.parentElement.parentElement.children[1].children[0].value)){
+                e.parentElement.parentElement.children[1].children[0].value = parseInt(e.parentElement.parentElement.children[1].children[0].value) + 1;
+
+                e.parentElement.parentElement.nextElementSibling.children[0].textContent =
+                    parseInt(e.parentElement.parentElement.nextElementSibling.children[0].textContent.replace(/[^0-9]/g,'')) + parseInt(itemPrice) + "원";
+
+                totalPrice(itemPrice, 'plus');
+            }
+        }
+
+        function subPrice(e) {
+            /*<![CDATA[*/
+            const itemPrice = [[${item.getItemPrice()}]];
+            /*]]>*/
+            if(parseInt(e.parentElement.parentElement.children[1].children[0].value) >= 2){
+                e.parentElement.parentElement.children[1].children[0].value = parseInt(e.parentElement.parentElement.children[1].children[0].value) - 1;
+
+                e.parentElement.parentElement.nextElementSibling.children[0].textContent =
+                    parseInt(e.parentElement.parentElement.nextElementSibling.children[0].textContent.replace(/[^0-9]/g,'')) - parseInt(itemPrice) + "원";
+
+                totalPrice(itemPrice, 'minus');
+            }
+        }
+
+        function totalPrice(price, type) {
+            console.log(type);
+            let totalPrice = document.querySelector('.total-price');
+            if(type == 'option') {
+                console.log("option!!");
+                totalPrice.textContent = parseInt(totalPrice.textContent.replace(/[^0-9]/g,'')) + parseInt(price) + "원";
+            }
+            if(type == 'plus') {
+                console.log("plus!!");
+                totalPrice.textContent = parseInt(totalPrice.textContent) + price + "원";
+            }
+            if(type == 'minus') {
+                console.log("minus!!");
+                totalPrice.textContent = parseInt(totalPrice.textContent) - price + "원";
+            }
+
+
+        }
+
+        window.addEventListener("load", function () {
+            let purchaseBtn = document.querySelector('.product-select-btn');
+
+            let basketBox = document.querySelector('.product-select-basket');
+
+            basketBox.onclick = function () {
+
+            }
+
+
+
+
+           /* addCount.onclick = function (e) {
+                if(!e.target.classList.contains('fa'))
+                    return ;
+
+                /!*<![CDATA[*!/
+                const itemPrice =  [[${item.getItemPrice()}]];
+                /!*]]>*!/
+
+
+                let produceOptionSelectedPriceValue = e.target.parentElement.parentElement.parentElement.nextElementSibling.children[0];
+
+                if(e.target.classList.contains('fa-plus')) {
+                    e.target.parentElement.parentElement.previousElementSibling.
+                        children[0].textContent = parseInt(e.target.parentElement.parentElement.previousElementSibling.
+                        children[0].textContent) + 1;
+                    produceOptionSelectedPriceValue.textContent
+                        = parseInt(itemPrice) * parseInt(e.target.parentElement.parentElement.previousElementSibling.
+                        children[0].textContent) + "원";
+
+                    totalPrice.textContent = parseInt(totalPrice.textContent.replace(/[^0-9]/g,'')) + parseInt(itemPrice) + "원";
+                }
+
+                if(e.target.classList.contains('fa-minus')) {
+                   if(parseInt(e.target.parentElement.parentElement.nextElementSibling.
+                       children[0].textContent) <= 1) {
+                      alert('수량을 더이상 줄일수 없습니다.');
+                      return ;
+                   }
+                    e.target.parentElement.parentElement.nextElementSibling.
+                        children[0].textContent = parseInt(e.target.parentElement.parentElement.nextElementSibling.
+                        children[0].textContent) - 1;
+                    produceOptionSelectedPriceValue.textContent
+                        = parseInt(itemPrice) * parseInt(e.target.parentElement.parentElement.nextElementSibling.
+                        children[0].textContent)+ "원";
+                    totalPrice.textContent = parseInt(totalPrice.textContent.replace(/[^0-9]/g,'')) - parseInt(itemPrice) + "원";
+                }
+
+            }
+*/
+        /*    selectedOptionSelect.onchange = function (e) {
+                let text = e.target.value;
+                if(text == "noSelect")
+                    return ;
+
+                var produceOptionSelectedSize = document.querySelectorAll('.produce-option-selected-size span');
+                for(let i = 0; i < produceOptionSelectedSize.length; i++) {
+                    if(produceOptionSelectedSize[i].textContent == text) {
+                        alert('이미 추가한 옵션입니다.');
+                        return;
+
+                        let countNode = cloneNode.querySelector('.produce-option-selected-count-number')
+                        let countValue = countNode.textContent;
+                    }
+                }
+                let cloneNode = document.importNode(goodsOptionsTemplate.content, true);
+                let spanNode = cloneNode.querySelector('li span');
+                let priceNode = cloneNode.querySelector('.produce-option-selected-price-value');
+                let countNode = cloneNode.querySelector('.produce-option-selected-count-number')
+                let countValue = countNode.textContent;
+
+                /!*<![CDATA[*!/
+                priceNode.textContent  = [[${item.getItemPrice()}]];
+                /!*]]>*!/
+                priceNode.textContent = parseInt(priceNode.textContent) * parseInt(countValue) + "원";
+
+
+                spanNode.textContent = text;
+
+
+                totalPrice.textContent = parseInt(totalPrice.textContent.replace(/[^0-9]/g,'')) + parseInt(priceNode.textContent) + "원";
+                console.log("cccccc" + totalPrice.textContent);
+
+                let addCount = document.querySelector('.add-count');
+                addCount.append(cloneNode);
+            }*/
+        });
+    </script>
 </body>
 </html>

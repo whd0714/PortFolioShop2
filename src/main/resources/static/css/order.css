@@ -1,0 +1,187 @@
+
+
+.order-top-box {
+    padding: 15px 0 15px 25px;
+}
+
+
+.order-top-title-eng {
+    display: inline-block;
+}
+
+.order-top-title-eng span{
+    width: 200px;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.order-top-title {
+    margin-left: 10px;
+    display: inline-block;
+}
+
+.order-top-title span{
+    font-weight: bold;
+    width: 200px;
+    color: #b2b2b2;
+}
+
+.buyer-info-container {
+
+}
+
+.buyer-info-box {
+    padding: 15px 0 15px 25px;
+    border-bottom: 1px solid #ddd;
+}
+
+.buyer-info-title-eng {
+    display: inline-block;
+}
+
+.buyer-info-title-eng span{
+    width: 200px;
+    font-weight: bold;
+    font-size: 15px;
+
+}
+
+.buyer-info-main-container {
+    width: 80%;
+    margin-top: 15px;
+    border-top: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    margin-bottom: 15px;
+}
+
+.buyer-info-main-container div{
+    padding: 10px 10px;
+
+}
+
+.buyer-info-main-container span{
+    display: inline-block;
+}
+
+.buyer-info-main-title {
+    font-weight: bold;
+    display: inline-block;
+    width: 200px;
+    float: left;
+}
+
+.buyer-info-title {
+    margin-left: 10px;
+    display: inline-block;
+}
+
+.buyer-info-title span{
+    font-weight: bold;
+    width: 200px;
+    color: #b2b2b2;
+}
+
+
+.buyer-info-main-delivery-box {
+    display: none;
+}
+
+.buyer-info-main-delivery-change-btn {
+    margin-left: 20px;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    padding: 10px 10px;
+}
+
+
+.product-info-container {
+    padding: 15px 0 35px 25px;
+    border-bottom: 1px solid #ddd;
+}
+
+.order-item-img {
+    width: 60px;
+    height: 72px;
+}
+
+.product-info-container table {
+    width: 80%;
+    margin-top: 15px;
+    border-top: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+
+}
+
+.order-page-item-info {
+    margin-left: 5px;
+    display: inline-block;
+    width: 85%;
+    vertical-align: bottom;
+}
+
+.each-tr {
+    height: 52px;
+    border-bottom: 1px solid #000000;
+    font-size: 12px;
+    vertical-align: middle;
+    font-weight: normal;
+    text-align: center;
+
+}
+.product-info-container table thead th {
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+    font-weight: bold;
+    padding: 15px 5px;
+}
+
+
+.each-tr th {
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    padding: 5px 5px;
+
+}
+
+
+.option-box {
+    margin-top: 5px;
+    padding: 5px 5px;
+    border: 1px solid #ddd;
+    background: #f3f3f3;
+
+}
+
+.txt-center {
+    text-align: center;
+}
+
+.payment-btn {
+    text-align-last: center;
+    padding: 80px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.payment-btn span{
+    background: #0078ff;
+    padding: 20px 30px;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.buyer-info-main-name-box {
+    border: none;
+    display: inline-block;
+}
+
+.buyer-info-main-name {
+
+    margin-right: 10px;
+}
+
+.border-bottom {
+    border-bottom: 1px solie #ddd;
+}

@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragment.html :: head">
+</head>
+<body>
+<div th:replace="fragment.html :: header"></div>
+
+<div>
+    <div th:replace="fragment.html :: body-aside"></div>
+    <div class="main-box">
+        <main class="main-area">
+            <div class="goods-header" >
+                <div class="nav-ol">
+                    <div class="nav-home dir">
+                        <a th:href="@{/}">포트폴리오 스토어</a>
+                    </div>
+
+                    <div class="nav-brand dir">
+                        <a th:href="@{/myPage}">마이페이지</a>
+                    </div>
+
+                    <div class="nav-brand">
+                       <span>장바구니</span>
+                    </div>
+                </div>
+            </div>
+            <!-- 카테고리경로끝 -->
+            <div class="goods-category-container">
+                <div class="order-top-box">
+                    <div class="order-top-title-eng">
+                        <span>Cart</span>
+                    </div>
+                    <div class="order-top-title">
+                        <span>장바구니</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="buyer-info-container">
+
+                <div class="product-info-container">
+
+                    <div class="buyer-info-title">
+                        <span>상품 목록</span>
+                    </div>
+
+                    <table class="cart-table">
+                        <colgroup>
+                            <col style="width: 6%">
+                            <col style="width:auto">
+                            <col style="width: 11%">
+                            <col style="width: 11%">
+                            <col style="width: 11%">
+                            <col style="width: 11%">
+                        </colgroup>
+                        <thead>
+                            <th><input class="cart-all-check" type="checkbox"></th>
+                            <th>상품명(옵션)</th>
+                            <th>판매가</th>
+                            <th>수량</th>
+                            <th>주문금액</th>
+                            <th>주문관리</th>
+                        </thead>
+                        <tbody class="cart-tbody">
+                            <tr class="cart-tr" th:each="cartGoods : ${cart}">
+                                <th class="cart-align-center">
+                                    <input type="checkbox">
+                                    <input type="hidden" th:value="${cartGoods.getGoods().getSize()}">
+                                    <input type="hidden" th:value="${cartGoods.getGoods().getItem().getId()}">
+                                    <input type="hidden" th:value="${cartGoods.getCount()}">
+                                </th>
+                                <th class="cart-goods-info">
+                                    <img class="order-item-img" th:src="@{'data:image/jpg;base64,'+ ${cartGoods.getGoods().getItem().getItemImage()}}" alt="#" />
+                                    <div class="cart-goods-content">
+                                        <div>
+                                            [<b><span th:text="${cartGoods.getGoods().getItem().getBrand().getBrandName()}"></span></b>]
+                                        </div>
+                                        <div class="cart-goods-content-padding">
+                                            <span th:text="${cartGoods.getGoods().getItem().getItemName()}"></span>
+                                            <span th:text="${cartGoods.getGoods().getSize()}"></span>
+                                        </div>
+                                        <div th:if="${cartGoods.getGoods().getCount()} >= 5">
+                                            <span>옵션 : 재고 5개이상</span>
+                                        </div>
+                                        <div class="cart-goods-content-padding" th:if="${cartGoods.getGoods().getCount()} < 5">
+                                            <span>옵션 : 재고</span>
+                                            <span th:text="${cartGoods.getGoods().getCount()}"></span>
+                                            <span>개 남음</span>
+                                        </div>
+                                    </div>
+                                </th>
+                                <th class="cart-align-center">
+                                    <span th:text="${cartGoods.getGoods().getItem().getItemPrice()}"></span>
+                                </th>
+                                <th class="cart-align-center">
+                                    <span th:text="${cartGoods.getCount()}"></span>
+                                </th>
+                                <th class="cart-align-center">
+                                    <span th:text="${cartGoods.getGoods().getItem().getItemPrice() * cartGoods.getCount()}"></span>
+                                </th>
+                                <th class="cart-align-center cart-goods-del-btn" onclick="delFun(this)">
+                                    <input hidden th:value="${cartGoods.getId()}" type="text">
+                                    <span>삭제하기</span>
+                                </th>
+                            </tr>
+                              <!--<tr class="each-tr" th:each="item, itemStat : ${items}">
+                                  <th>
+                                      <img class="order-item-img" th:src="@{'data:image/jpg;base64,'+ ${item.getItemImage()}}" alt="#" />
+                                      <div class="order-page-item-info">
+                                          [<span th:text="${item.getBrand().getBrandName()}"></span>]
+                                          <span th:text="${item.getItemName()}"></span>
+
+                                          &lt;!&ndash;[<span th:text="${item.getBrand().getBrandName()}"></span>]
+                                          <span th:text="${item.getItemName()}"></span>&ndash;&gt;
+                                          <div class="option-box">
+                                              <span>옵션 : </span>
+                                              <span th:text="${sizes[itemStat.count - 1]}"></span>
+                                          </div>
+                                      </div>
+                                  </th>
+                                  <th class="txt-center">
+                                      <span th:text="${counts[itemStat.count - 1]} + '개'"></span>
+                                  </th>
+                                  <th class="txt-center">
+
+                                  </th>
+                                  <th class="txt-center order-price">
+                                      <span th:text="${item.getItemPrice() * counts[itemStat.count - 1]} + '원'"></span>
+                                  </th>
+                              </tr>-->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <form class="cart-form" th:object="${optionDto}" th:action="@{/order-form}" method="get">
+                <input type="hidden" th:field="*{size}" class="sizes">
+                <input type="hidden" th:field="*{count}" class="counts">
+                <input type="hidden" th:field="*{itemId}" class="itemIds">
+            </form>
+            <div class="cart-payment-btn" onclick="payment()">
+                <span>주문하기</span>
+            </div>
+        </main>
+    </div>
+</div>
+
+<script type="application/javascript" th:inline="javascript">
+    $(function() {
+        var csrfToken = /*[[${_csrf.token}]]*/ null;
+        var csrfHeader = /*[[${_csrf.headerName}]]*/ null;
+        $(document).ajaxSend(function (e, xhr, options) {
+            xhr.setRequestHeader(csrfHeader, csrfToken);
+        });
+    });
+</script>
+
+<script>
+    function delFun(e) {
+        console.log(e);
+
+        let data = {"cartGoodsId" :  e.children[0].value};
+
+        $.ajax({
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            url: "/del/cartGoods",
+            type: "POST",
+            data: JSON.stringify(data),
+            success : function (value){
+
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                alert("ERROR : " + textStatus + " : " + errorThrown);
+            }
+        });
+
+        e.parentElement.remove();
+
+    }
+
+    function payment () {
+        let cartTbody = document.querySelector('.cart-tbody');
+
+        let inputs = cartTbody.querySelectorAll('input[type=checkbox]:checked');
+
+        let sizes = [];
+        let itemIds = [];
+        let counts = [];
+
+        for (let i = 0 ; i < inputs.length; i++) {
+            sizes.push(inputs[i].nextElementSibling.value);
+            itemIds.push(inputs[i].nextElementSibling.nextElementSibling.value);
+            counts.push(inputs[i].nextElementSibling.nextElementSibling.nextElementSibling.value);
+        }
+
+        let size = document.querySelector('.sizes');
+        let itemId = document.querySelector('.itemIds');
+        let count = document.querySelector('.counts');
+
+        size.value = sizes;
+        itemId.value = itemIds;
+        count.value = counts;
+
+        console.log(size.value);
+        console.log(itemId.value);
+        console.log(count.value);
+        let cartForm = document.querySelector('.cart-form');
+        cartForm.submit();
+    }
+</script>
+
+<script>
+    window.addEventListener("load", function (){
+        /*aa();
+        function aa () {
+            let orderPrice = document.querySelectorAll('.order-price');
+            let paymentBtn = document.querySelector('.payment-btn span');
+            let value = 0;
+            for(let i = 0; i < orderPrice.length; i++) {
+                value += parseInt(orderPrice[i].textContent.replace(/[^0-9]/g,''))
+                console.log(value);
+                console.log(orderPrice[i].textContent.replace(/[^0-9]/g,''));
+            }
+
+            paymentBtn.textContent = value + "원 결제하기";
+            console.log(paymentBtn.textContent);
+        }*/
+
+        let cartAllCheck = document.querySelector('.cart-all-check');
+
+        cartAllCheck.onchange = function (e) {
+            let inputs = document.querySelectorAll('.cart-align-center input[type=checkbox]');
+            for(let i = 0; i < inputs.length; i++) {
+                inputs[i].checked = cartAllCheck.checked;
+            }
+        }
+    });
+</script>
+
+<script>
+    function openDelivery() {
+
+        /*let deliveryBox = document.querySelector('.buyer-info-main-delivery-box');
+        deliveryBox.style.display = "block";*/
+    }
+</script>
+
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+    function sample6_execDaumPostcode() {
+        new daum.Postcode({
+            oncomplete: function(data) {
+                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                var addr = ''; // 주소 변수
+                var extraAddr = ''; // 참고항목 변수
+
+                //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                    addr = data.roadAddress;
+                } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                    addr = data.jibunAddress;
+                }
+
+                // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+                if(data.userSelectedType === 'R'){
+                    // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                    // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                    if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                        extraAddr += data.bname;
+                    }
+                    // 건물명이 있고, 공동주택일 경우 추가한다.
+                    if(data.buildingName !== '' && data.apartment === 'Y'){
+                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                    }
+                    // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                    if(extraAddr !== ''){
+                        extraAddr = ' (' + extraAddr + ')';
+                    }
+                    // 조합된 참고항목을 해당 필드에 넣는다.
+                   // document.getElementById("sample6_extraAddress").value = extraAddr;
+
+                } else {
+                   // document.getElementById("sample6_extraAddress").value = '';
+                }
+
+                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                document.getElementById('sample6_postcode').value = data.zonecode;
+                document.getElementById("sample6_address").value = addr;
+                // 커서를 상세주소 필드로 이동한다.
+                document.getElementById("sample6_detailAddress").focus();
+            }
+        }).open();
+    }
+</script>
+<script th:replace="fragment.html :: main-nav-category"></script>
+
+<script>
+    window.addEventListener("load" ,function () {
+
+
+    });
+</script>
+</body>
+</html>

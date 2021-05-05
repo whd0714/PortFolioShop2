@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragment.html :: head">
+</head>
+<body>
+    <div class="delivery-header">
+        <div class="delivery-header-title">
+            <h1>배송지 변경</h1>
+        </div>
+        <div class="delivery-header-new-btn" onclick="newPopUp()">
+            <span>신규 배송지 등록 +</span>
+        </div>
+    </div>
+
+    <div th:if="${!member.getDeliveries().isEmpty()}">
+        <div class="delivery-main" th:each="address : ${member.getDeliveries()}">
+            <div >
+                <div class="delivery-name">
+                    <h3><span th:text="${address.getDeliveryName()}"></span></h3>
+                </div>
+                <div>
+                    <div>
+                        <span th:text="${address.getPhone()}"></span>
+                    </div>
+                    <span th:text="${address.getAddress()}"></span>
+                    <span th:text="${address.getDetailAddress()}"></span>
+                </div>
+                <div class="delivery-btn-box">
+                    <span class="delivery-update-btn">수정</span>
+                    <span class="delivery-del-btn">삭제</span>
+                    <span class="delivery-choice-btn">선택</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        function newPopUp () {
+            /*<![CDATA[*/
+            const memberId = [[${member.getId()}]];
+            /*]]>*/
+            window.open('/new/delivery/listPopUp','배송지변경','width=500,height=500,location=no,status=yes,scrollbars=yes');
+
+        }
+    </script>
+</body>
+</html>

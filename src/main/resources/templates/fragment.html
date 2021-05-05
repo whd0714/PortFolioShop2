@@ -21,6 +21,9 @@
     <link rel="stylesheet" href="/css/setting-update-product.css" type="text/css">
     <link rel="stylesheet" href="/css/index.css" type="text/css">
     <link rel="stylesheet" href="/css/goodsCategory.css" type="text/css">
+    <link rel="stylesheet" href="/css/order.css" type="text/css">
+    <link rel="stylesheet" href="/css/delivery.css" type="text/css">
+    <link rel="stylesheet" href="/css/cart.css" type="text/css">
 
 
     <script src="/node_modules/jquery/dist/jquery.min.js"></script>
@@ -166,8 +169,11 @@
 
         <div class="header-member"> <!--header 회원-->
             <h3 class="blind">회원메뉴</h3>
-            <button type="button" class="header-member-login">로그인</button>
+            <a sec:authorize="!isAuthenticated()" th:href="@{/login}"><button type="button" class="header-member-login">로그인</button></a>
 
+            <div class="header-member-block" sec:authorize="isAuthenticated()">
+                <span class="header-member-block-username" th:text="${member.getUsername()}"></span>
+            </div>
             <div class="header-member-block">
                 <a th:href="@{/myPage}" class="header-member-block-link"> 마이페이지 </a>
             </div>
@@ -178,7 +184,7 @@
                 <a th:href="@{/}" class="header-member-block-like header-member-block-link"> 좋아요 </a>
             </div>
             <div class="header-member-block">
-                <a th:href="@{/}" class="header-member-block-link"> 장바구니 </a>
+                <a th:href="@{/cart}" class="header-member-block-link"> 장바구니 </a>
                 <span class="header-badge">0</span>
             </div>
             <div class="header-member-block">
@@ -186,6 +192,11 @@
             </div>
             <div class="header-member-block">
                 <a th:href="@{/}" class="header-member-block-link"> 고객센터 </a>
+            </div>
+            <div sec:authorize="isAuthenticated()" class="header-member-block">
+                <form class="form-inline" action="#" th:action="@{/logout}" method="post">
+                    <button class="dropdown-item" type="submit">로그아웃</button>
+                </form>
             </div>
         </div>
     </header>

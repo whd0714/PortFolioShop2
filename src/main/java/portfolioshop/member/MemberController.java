@@ -41,7 +41,11 @@ public class MemberController {
     }
 
     @GetMapping("/myPage")
-    public String myPageView() {
+    public String myPageView(@CurrentUser Member member, Model model)
+    {
+        if(member != null) {
+            model.addAttribute(member);
+        }
         return "/member/my-page";
     }
 }

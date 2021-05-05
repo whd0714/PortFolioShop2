@@ -66,6 +66,8 @@ public class Item {
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
     private List<ItemCategory> itemCategories = new ArrayList<>();
 
+
+
     public void changeBrand(Brand brand) {
         this.brand = brand;
         brand.getItems().add(this);

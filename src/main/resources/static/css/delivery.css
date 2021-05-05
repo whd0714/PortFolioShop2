@@ -1,0 +1,89 @@
+
+
+
+
+.delivery-header {
+    padding: 20px 15px;
+}
+
+.delivery-header-title {
+    font-size: 18px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.delivery-header-new-btn {
+    display: inline-block;
+    float: right;
+    color: #0078ff;
+}
+
+.delivery-main {
+    padding: 25px 25px 65px 20px;
+    border-bottom: 1px solid #ddd;
+    width: 90%;
+    margin: 0 auto;
+}
+
+.new-delivery-title {
+    display: inline-block;
+    width: 150px;
+    padding: 15px 10px;
+
+}
+
+.phone {
+    width: 50px;
+}
+
+.new-delivery-post-box {
+    display: flex;
+}
+
+.new-delivery-cancel-btn {
+    font-weight: bold;
+    padding: 12px 30px;
+    background: #f1f1f1;
+}
+
+.new-delivery-btn {
+    font-weight: bold;
+    padding: 12px 30px;
+    background: black;
+    color: white;
+}
+
+.new-delivery-btn-box {
+    padding: 60px 129px;
+}
+
+.delivery-name {
+    font-weight: bold;
+    font-size: 17px;
+    padding: 10px 0px;
+}
+
+.delivery-btn-box {
+    margin-top: 20px;
+}
+
+.delivery-update-btn, .delivery-del-btn {
+    border: 1px solid #ddd;
+    padding: 10px 10px;
+    cursor: pointer;
+    float: left;
+
+}
+
+.delivery-del-btn {
+    margin-left: 10px;
+}
+
+.delivery-choice-btn {
+    float: right;
+    background: black;
+    color: white;
+    padding: 10px 10px;
+    cursor: pointer;
+
+}

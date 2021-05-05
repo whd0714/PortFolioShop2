@@ -3,11 +3,12 @@ package portfolioshop.member;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import portfolioshop.delivery.Delivery;
+import portfolioshop.cart.Cart;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -24,9 +25,19 @@ public class Member {
     private String username;
     private String password;
 
+    @OneToMany(mappedBy = "member")
+    private List<Delivery> deliveries = new ArrayList<>();
+
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "member")
+    private Cart cart;
+
     public Member(String userId, String password, String username) {
         this.userId = userId;
         this.password = password;
         this.username = username;
+    }
+
+    public void changeBasket(Cart cart) {
+        this.cart = cart;
     }
 }

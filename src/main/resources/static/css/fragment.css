@@ -410,3 +410,6 @@ header {
     display: inline-block;
 }
 
+.header-member-block-username {
+    padding: 5px 4px 4px 4px;
+}
