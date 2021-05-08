@@ -14,7 +14,7 @@
                 <div class="goods-header">
                     <div class="nav-ol">
                         <div class="nav-home dir">
-                            <a th:href="@{/}">무신사 스토어</a>
+                            <a th:href="@{/}">포트폴리오 스토어</a>
                         </div>
                         <div class="nav-brand-shop dir">
                             <a th:href="@{/}">브랜드 숍</a>
@@ -44,12 +44,6 @@
                                 </div>
                                 <a th:href="@{/}"><span th:text="${item.getItemCategories().get(0).getCategory().getName()}"></span></a>
                                 <a th:href="@{/}">(<span th:text="${item.getBrand().getBrandName()}"></span>)</a>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div>
-                                {뱃지}
                             </div>
                         </div>
 
@@ -114,25 +108,25 @@
                                         </li>
                                         <li>
                                         <span class="product-info-list-title">
-                                            조회수(1개월)
+                                            조회수
                                         </span>
                                             <span class="product-info-list-content">
                                             <b>
-                                                {14.4만 회이상}
+                                                <span th:text="${item.getView()}"></span>
                                             </b>
                                         </span>
                                         </li>
                                         <li>
                                         <span class="product-info-list-title">
-                                            누적판매(1년)
+                                            누적판매
                                         </span>
                                             <span class="product-info-list-content">
                                             <b>
-                                                {7.9만개 이상}
+                                                <span th:text="${item.getSaleRate()}"></span>
                                             </b>
                                         </span>
                                         </li>
-                                        <li>
+                                        <!--<li>
                                         <span class="product-info-list-title">
                                             좋아요
                                         </span>
@@ -141,7 +135,7 @@
                                                 <i class="fa fa-like"></i>{28672}
                                             </b>
                                         </span>
-                                        </li>
+                                        </li>-->
                                         <li>
                                         <span class="product-info-list-title">
                                             구매후기
@@ -153,11 +147,10 @@
                                         </span>
                                         </li>
                                         <li>
-                                        <span th:each="tagName : ${item.getItemTags()}">
-                                            <span th:text="${tagName.getTag().getTagName()}"></span>
+                                            <span th:each="tagName : ${item.getItemTags()}">
+                                                <span class="tag-border" th:text="${tagName.getTag().getTagName()}"></span>
 
-                                        </span>
-                                            <span>{태그 css, 링크}</span>
+                                            </span>
                                         </li>
                                     </ul>
                                 </div>
@@ -169,7 +162,7 @@
                                     <ul class="product-info-list">
                                         <li>
                                         <span class="product-info-list-title">
-                                            무신사 판매가
+                                            판매가
                                         </span>
                                             <span class="product-info-list-content">
                                             <b>
@@ -177,23 +170,24 @@
                                             </b>
                                         </span>
                                         </li>
-                                        <li>
+                                       <!-- <li>
                                         <span class="product-info-list-title">
-                                            무신사 회원가
+                                            회원가
                                         </span>
                                             <span class="product-info-list-content">
                                             <b>
                                                 {13,344 ~ 13,900원}
                                             </b>
                                         </span>
-                                        </li>
+                                        </li>-->
                                         <li>
                                         <span class="product-info-list-title">
-                                            무신사 적립금
+                                            적립금
                                         </span>
                                             <span class="product-info-list-content">
                                             <b>
-                                                {최대 556원}
+                                                <span th:text="${item.getItemPrice()} / 25"></span>원
+
                                             </b>
                                         </span>
                                         </li>
@@ -260,14 +254,20 @@
                                             <ul>
                                                 <li>
                                                     <div class="product-recommendation-size-list">
-                                                        <div>
-                                                            <span>{(남자 170cm/73kg)기준}</span>
-                                                            <span>{2021-04-29}</span>
-                                                        </div>
-                                                        <div>
-                                                        <span>
-                                                            {적당함 L Size 구매}
-                                                        </span>
+                                                        <div class="product-recommendation-size-list-bottom" th:each="recommand : ${item.getReviews()}">
+                                                            <div>
+                                                                <span th:text="${recommand.getHeight()}"></span>
+                                                                <span style="float: none;">/</span>
+                                                                <span th:text="${recommand.getWeight()}"></span>
+                                                                <span>기준</span>
+                                                                <span style="float: right;" th:text="${#temporals.format(recommand.getReviewDate(), 'yyyy-MM-dd')}"></span>
+
+                                                            </div>
+                                                            <div>
+                                                                <span th:text="${recommand.getSize()} "></span>
+                                                                <span style="float: none;" th:text="${recommand.getItemSize()}"></span>
+                                                                <span>Size 구매</span>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </li>
@@ -314,12 +314,69 @@
                 <div>
                     <div class="product-review-box">
                         <h3 class="product-review-title"><b>구매후기</b></h3>
+                        <div class="product-review-box-container">
+                            <div class="product-review-list" th:each="review : ${reviews}">
+                                <div>
+                                    <input class="review-id" type="hidden" th:value="${review.getId()}">
+                                    <span class="product-review-username" th:text="${review.getMember().getUsername()}"></span>
+                                    <span th:text="${#temporals.format(review.getReviewDate(), 'yyyy-MM-dd')}"></span>
+                                </div>
+                                <div class="product-review-img-box">
+                                    <img class="product-review-page-img" th:src="@{'data:image/jpg;base64,'+ ${item.getItemImage()}}" alt="#" />
+                                    <div class="product-review-page-item-info">
+                                        <span th:text="${item.getItemName()}"></span> <br>
+                                        <span th:text="${review.getItemSize()}"></span>구매 |
+                                        <span th:text="${review.getHeight()}"></span>
+                                        <span th:text="${review.getWeight()}"></span>
+                                    </div>
+                                </div>
+                                <div class="product-review-page-item-review">
+                                    <span class="product-review-page-item-review-box">
+                                        사이즈 : <span th:text="${review.getSize()}"></span>
+                                    </span>
+                                    <span class="product-review-page-item-review-box">
+                                        밝기 : <span th:text="${review.getColor()}"></span>
+                                    </span>
+                                    <span class="product-review-page-item-review-box">
+                                         두께 : <span th:text="${review.getThickness()}"></span>
+                                    </span>
+                                </div>
+                                <div class="product-review-page-item-review-des">
+                                    <span th:text="${review.getDescription()}"></span>
+                                </div>
+
+                                <!--<form hidden class="item-review-form" th:action="@{/item/review}" method="post">
+                                    <input type="text">
+                                    <input type="text">
+                                </form>-->
+
+                                <div>
+                                    <div class="product-review-page-item-review-comment-box">
+                                        <div class="product-review-page-item-review-comment-text-box">
+                                            <textarea class="product-review-page-item-review-comment-text"></textarea>
+                                            <span class="product-review-page-item-review-comment-btn" onclick="comment(this)">댓글작성</span>
+                                            <input type="hidden" th:value="${review.getId()}">
+                                        </div>
+                                    </div>
+                                    <div  th:if="${!review.getComments().isEmpty()}" >
+                                        <div class="review-comment-box" th:each="comment: ${review.getComments()}">
+                                            <div th:text="${comment.getDescription()}"></div>
+                                            <div>
+                                                <span th:text="${comment.getUsername()}"></span> |
+                                                <span th:text="${#temporals.format(comment.getCommentDate(), 'yyyy-MM-dd HH:mm')}"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
+    <input type="hidden" th:value="${member.getUsername()}" class="review-username">
     <script th:replace="fragment.html :: main-nav-category"></script>
     <script type="application/javascript" th:inline="javascript">
         $(function() {
@@ -331,15 +388,60 @@
         });
     </script>
     <script >
-        function purchaseGoods() {
 
+        function comment(e) {
+            /*<![CDATA[*/
+            const itemId = [[${item.getId()}]];
+
+            /*]]>*/
+
+            let reviewUsername = document.querySelector('.review-username');
+
+
+            console.log(reviewUsername.value);
+            console.log(e.previousElementSibling.value);
+            console.log(e.nextElementSibling.value);
+
+            let data = {"reviewId" : e.nextElementSibling.value,
+                        "comment" : e.previousElementSibling.value,
+                        "username" : reviewUsername.value}
+
+
+
+            $.ajax({
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                url: "/add/comment",
+                type: "POST",
+                data: JSON.stringify(data),
+                success : function (value){
+
+                    window.location.href = "http://localhost:8070/goods/" + itemId;
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    alert("ERROR : " + textStatus + " : " + errorThrown);
+                }
+            });
+        }
+
+        function purchaseGoods() {
+            let optionBox = document.querySelectorAll('.produce-option-select-count-box');
             addCart();
+            if(optionBox.length == 0) {
+                alert('옵션을 선택해 주세요');
+                return ;
+            }
             let goodsForm = document.querySelector('.goods-form');
             goodsForm.submit();
         }
 
         function addCart1() {
+            let optionBox = document.querySelectorAll('.produce-option-select-count-box');
             addCart();
+            if(optionBox.length == 0) {
+                alert('옵션을 선택해 주세요');
+                return ;
+            }
             let carYes = document.querySelector('.cart-yes');
             carYes.style.display="block"
             viewCartPop = setInterval(function (){
@@ -355,7 +457,7 @@
             let optionBox = document.querySelectorAll('.produce-option-select-count-box');
 
             if(optionBox.length == 0) {
-                alert('옵션을 선택해 주세요');
+
                 return ;
             }
             /*<![CDATA[*/

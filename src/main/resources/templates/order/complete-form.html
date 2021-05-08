@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragment.html :: head">
+</head>
+<body>
+<div th:replace="fragment.html :: header"></div>
+
+<div>
+    <div th:replace="fragment.html :: body-aside"></div>
+    <div class="main-box">
+        <main class="main-area">
+            <div class="goods-header" >
+                <div class="nav-ol">
+                    <div class="nav-home dir">
+                        <a th:href="@{/}">포트폴리오 스토어</a>
+                    </div>
+
+                    <div class="nav-brand">
+                        <span>주문서</span>
+                    </div>
+                </div>
+            </div>
+            <!-- 카테고리경로끝 -->
+            <div class="goods-category-container">
+                <div class="order-top-box">
+                    <div class="order-top-title-eng">
+                        <span>Order Complete</span>
+                    </div>
+                    <div class="order-top-title">
+                        <span>주문 완료</span>
+                    </div>
+                </div>
+            </div>
+
+
+        </main>
+    </div>
+</div>
+
+
+
+<script th:replace="fragment.html :: main-nav-category"></script>
+
+<script>
+    window.addEventListener("load" ,function () {
+
+
+    });
+</script>
+</body>
+</html>

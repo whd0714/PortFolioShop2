@@ -12,6 +12,7 @@ import portfolioshop.member.dto.SignUpForm;
 import portfolioshop.member.validator.SignUpValidator;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -19,6 +20,7 @@ public class MemberController {
 
     private final MemberService memberService;
     private final SignUpValidator signUpValidator;
+    private final MemberRepository memberRepository;
 
     @InitBinder("signUpForm")
     public void signUpBinder(WebDataBinder webDataBinder) {
@@ -44,7 +46,11 @@ public class MemberController {
     public String myPageView(@CurrentUser Member member, Model model)
     {
         if(member != null) {
-            model.addAttribute(member);
+            Optional<Member> byId = memberRepository.findById(member.getId());
+            byId.ifPresent(m->{
+                model.addAttribute(m);
+            });
+
         }
         return "/member/my-page";
     }

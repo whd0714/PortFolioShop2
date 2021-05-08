@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragment.html :: head">
+<body>
+
+    <div class="review-container">
+        <header class="review-header">
+            <img class="order-item-img" th:src="@{'data:image/jpg;base64,'+ ${orderItem.getItem().getItemImage()}}" alt="#" />
+            <div class="review-header-item-info">
+                <span th:text="${orderItem.getItem().getBrand().getBrandName()}"></span>
+                <span th:text="${orderItem.getItem().getItemName()}"></span>
+                <span th:text="${orderItem.getSize()}"></span>
+                <input type="hidden" class="new-review-item-id" th:value="${orderItem.getItem().getId()}">
+                <input type="hidden" class="new-review-item-size" th:value="${orderItem.getSize()}">
+            </div>
+        </header>
+
+       <!-- <form th:action="@{'/new/review/' + ${orderItem.getId()}}" th:object="${newReviewDto}" method="post">-->
+            <div class="review-body">
+
+                <div>
+                    <label class="review-body-title">키</label>
+                    <input class="new-review-height" type="text">cm
+                </div>
+
+                <div>
+                    <label class="review-body-title">몸무게</label>
+                    <input class="new-review-weight" type="text">kg
+                </div>
+
+                <div>
+                    <span class="review-body-title">사이즈</span>
+                    <input type="radio" class="new-review-size" name="review-size" value="커요" text="커요">커요
+                    <input type="radio" class="new-review-size" name="review-size" value="보통이에요" text="보통이에요">보통이에요
+                    <input type="radio" class="new-review-size" name="review-size" value="작아요" text="작아요">작아요
+                </div>
+
+                <div>
+                    <span class="review-body-title">밝기</span>
+                    <input type="radio" class="new-review-color" name="review-color" value="밝아요"  text="밝아요">밝아요
+                    <input type="radio" class="new-review-color" name="review-color" value="보통이에요" text="보통이에요">보통이에요
+                    <input type="radio" class="new-review-color" name="review-color" value="어두워요" text="어두워요">어두워요
+                </div>
+
+                <div>
+                    <span class="review-body-title">두께감</span>
+                    <input type="radio" class="new-review-thick" name="review-thick" value="두꺼워요" text="두꺼워요">두꺼워요
+                    <input type="radio" class="new-review-thick"  name="review-thick" value="보통이에요" text="보통이에요">보통이에요
+                    <input type="radio" class="new-review-thick"  name="review-thick" value="얇아요" text="얇아요">얇아요
+                </div>
+
+                <div>
+                    <textarea class="new-review-des" min="10" placeholder="최소 10자 이상 적어주세요"></textarea>
+                </div>
+
+                <div>
+                    <span class="new-review-btn" onclick="newReviewSubmit()">후기등록하기</span>
+                </div>
+            </div>
+        <!--</form>-->
+    </div>
+
+    <script type="application/javascript" th:inline="javascript">
+        $(function() {
+            var csrfToken = /*[[${_csrf.token}]]*/ null;
+            var csrfHeader = /*[[${_csrf.headerName}]]*/ null;
+            $(document).ajaxSend(function (e, xhr, options) {
+                xhr.setRequestHeader(csrfHeader, csrfToken);
+            });
+        });
+    </script>
+
+    <script>
+        function newReviewSubmit() {
+            console.log("ggg");
+            let newReviewHeight = document.querySelector('.new-review-height');
+            let newReviewWeight = document.querySelector('.new-review-weight');
+            let newReviewSizeAll = document.querySelectorAll('.new-review-size');
+            let newReviewColorAll = document.querySelectorAll('.new-review-color');
+            let newReviewThickAll = document.querySelectorAll('.new-review-thick');
+            let newReviewDes = document.querySelector('.new-review-des');
+            let newReviewSize;
+            let newReviewColor;
+            let newReviewThick
+            let newReviewItemId = document.querySelector('.new-review-item-id');
+            let newReviewItemSize = document.querySelector('.new-review-item-size');
+
+            for(let i = 0; i < 3; i++) {
+                if(newReviewSizeAll[i].checked == true) {
+                    newReviewSize = newReviewSizeAll[i].value;
+                }
+                if (newReviewColorAll[i].checked == true) {
+                    newReviewColor = newReviewColorAll[i].value;
+                }
+                if (newReviewThickAll[i].checked == true) {
+                    newReviewThick = newReviewThickAll[i].value;
+                }
+
+            }
+
+            console.log(newReviewItemId.value, newReviewHeight.value, newReviewWeight.value, newReviewSize.value);
+
+            let data = {
+                        "itemId" : newReviewItemId.value,
+                        "height" : newReviewHeight.value,
+                        "weight" : newReviewWeight.value,
+                        "size" : newReviewSize,
+                        "color" : newReviewColor,
+                        "thickness" : newReviewThick,
+                        "description" : newReviewDes.value,
+                        "itemSize" : newReviewItemSize.value
+                        };
+
+            console.log(data);
+
+            $.ajax({
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                url: "/new/review/process",
+                type: "POST",
+                data: JSON.stringify(data),
+                success : function (value){
+                    opener.parent.location.reload();
+                    window.close();
+
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    alert("ERROR : " + textStatus + " : " + errorThrown);
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>

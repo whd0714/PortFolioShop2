@@ -130,19 +130,20 @@
                               <th>
                                   <img class="order-item-img" th:src="@{'data:image/jpg;base64,'+ ${item.getItemImage()}}" alt="#" />
                                   <div class="order-page-item-info">
-                                      [<span th:text="${item.getBrand().getBrandName()}"></span>]
+                                      <input type="hidden" class="order-item-id" th:value="${item.getId()}">
+                                      [<span  th:text="${item.getBrand().getBrandName()}"></span>]
                                       <span th:text="${item.getItemName()}"></span>
 
                                       <!--[<span th:text="${item.getBrand().getBrandName()}"></span>]
                                       <span th:text="${item.getItemName()}"></span>-->
                                       <div class="option-box">
                                           <span>옵션 : </span>
-                                          <span th:text="${sizes[itemStat.count - 1]}"></span>
+                                          <span class="order-item-size" th:text="${sizes[itemStat.count - 1]}"></span>
                                       </div>
                                   </div>
                               </th>
                               <th class="txt-center">
-                                  <span th:text="${counts[itemStat.count - 1]} + '개'"></span>
+                                  <span class="order-item-count" th:text="${counts[itemStat.count - 1]} + '개'"></span>
                               </th>
                               <th class="txt-center">
 
@@ -156,7 +157,13 @@
                 </div>
             </div>
 
-            <div class="payment-btn" onclick="payment()">
+            <form class="order-form" th:action="@{/order-form}" method="post" th:object="${optionValueDto}">
+                <input th:field="*{size}" type="hidden" class="input-order-size">
+                <input th:field="*{count}" type="hidden" class="input-order-count">
+                <input th:field="*{itemId}" type="hidden" class="input-order-item-id">
+            </form>
+
+            <div class="payment-btn" onclick="order_payment()">
                 <span></span>
             </div>
         </main>
@@ -164,8 +171,32 @@
 </div>
 
 <script>
-    function payment () {
+    function order_payment () {
+        let orderForm = document.querySelector('.order-form');
 
+        let inputOrderSize = document.querySelector('.input-order-size');
+        let inputOrderCount = document.querySelector('.input-order-count');
+        let inputOrderItemId= document.querySelector('.input-order-item-id');
+
+        let orderSizes = [];
+        let orderCounts = [];
+        let orderItemIds = [];
+
+        let orderItemSize = document.querySelectorAll('.order-item-size');
+        let orderItemCount = document.querySelectorAll('.order-item-count');
+        let orderItemId = document.querySelectorAll('.order-item-id');
+
+        for(let i = 0; i < orderItemSize.length; i++) {
+            orderSizes.push(orderItemSize[i].textContent);
+            orderCounts.push(orderItemCount[i].textContent. replace(/[^0-9]/g,''));
+            orderItemIds.push(orderItemId[i].value);
+        }
+
+        inputOrderSize.value = orderSizes;
+        inputOrderCount.value = orderCounts;
+        inputOrderItemId.value = orderItemIds;
+
+        orderForm.submit();
     }
 </script>
 

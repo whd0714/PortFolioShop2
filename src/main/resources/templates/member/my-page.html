@@ -16,7 +16,7 @@
                 <h3 class="blind">마이페이지 메인</h3>
                 <div class="my-page-content-head">
                     <span class="page-title">주문내역 조회</span>
-                    <ul class="order-state">
+                    <!--<ul class="order-state">
                         <li><a href="">입금/결제 0</a></li>
                         <li><a href="">배송중 0</a></li>
                         <li><a href="">배송완료 0</a></li>
@@ -25,13 +25,21 @@
                         <li><a href="">교환완료 0</a></li>
                         <li><a href="">환불 0</a></li>
                         <li><a href="">환불완료 0</a></li>
-                    </ul>
+                    </ul>-->
                     <a th:href="@{/myPage/order-list}" class="all-link">전체</a>
                 </div>
+
                 <table class="table-setting">
+                    <colgroup>
+                        <col style="width:auto">
+                        <col style="width: 12%">
+                        <col style="width: 12%">
+                        <col style="width: 12%">
+                        <col style="width: 12%">
+                    </colgroup>
                     <thead>
                         <tr>
-                            <th colspan="2">상품정보</th>
+                            <th>상품정보</th>
                             <th>주문일자</th>
                             <th>주문번호</th>
                             <th>주문금액(수량)</th>
@@ -39,9 +47,69 @@
                         </tr>
                     </thead>
                     <tbody>
+
+                        <div th:each="order : ${member.getOrders()}">
+                            <tr class="my-page-order-list-tr" th:each="orderItem : ${order.getOrderItems()}" >
+                                <th class="my-page-order-list-item-info">
+                                    <a th:href="@{'/goods/' + ${orderItem.getItem().getId()}}"><img class="order-item-img" th:src="@{'data:image/jpg;base64,'+ ${orderItem.getItem().getItemImage()}}" alt="#" /></a>
+                                    <div>
+                                        <span th:text="${orderItem.getItem().getBrand().getBrandName()}"></span>
+                                    </div>
+                                    <div class="my-page-order-list-item-name">
+                                        <a th:href="@{'/goods/' + ${orderItem.getItem().getId()}}"><span th:text="${orderItem.getItem().getItemName()}"></span></a>
+                                    </div>
+                                    <div>
+                                        <span>옵션 : </span><span th:text="${orderItem.getSize()}"></span>
+                                    </div>
+                                </th>
+                                <th>
+                                    <span th:text="${#temporals.format(orderItem.getOrder().getOrderDate(), 'yyyy-MM-dd')}"></span>
+                                </th>
+                                <th>
+                                    <span th:text="${orderItem.getOrder().getId()}"></span>
+                                </th>
+                                <th>
+                                    <span th:text="${orderItem.getItem().getItemPrice()}"></span>원
+                                    <div>
+                                        <span th:text="${orderItem.getCount()}"></span><span>개</span>
+                                    </div>
+                                </th>
+                            <!--    <th th:if="${orderItem.getOrder().getMember().getReviews().isEmpty()}">
+                                  <span  th:onclick="'javascript:writeReview(\'' + ${orderItem.getId()} + '\');'" class="my-page-order-list-reviewBtn">후기작성하기</span>
+                                </th>-->
+                                <!--<div th:each="review : ${orderItem.getOrder().getMember().getReviews()}">
+                                    <th th:if="${review.getMember() == member.getId() and review.getItem().getId() == orderItem.getItem().getId()}">
+                                        <span>후기를 작성하셨습니다.</span>
+                                    </th>
+                                </div>-->
+                                <th>
+                                    <div th:if="${orderItem.getOrder().getMember().getReviews().isEmpty()}">
+                                        <span  th:onclick="'javascript:writeReview(\'' + ${orderItem.getId()} + '\');'" class="my-page-order-list-reviewBtn">후기작성하기</span>
+                                    </div>
+
+                                    <div th:each="review : ${orderItem.getOrder().getMember().getReviews()}">
+
+                                        </span>
+                                            <span th:if="${review.getMember().getId() == member.getId()and review.getItem().getId() == orderItem.getItem().getId()}">
+                                           <span>후기를 작성하셨습니다.</span>
+                                        </span>
+                                        <span th:unless="${review.getMember().getId() == member.getId() and review.getItem().getId() == orderItem.getItem().getId()}">
+                                           <span  th:onclick="'javascript:writeReview(\'' + ${orderItem.getId()} + '\');'" class="my-page-order-list-reviewBtn">후기작성하기</span>
+                                        </span>
+                                        <!--<span th:if="${review.getMember() == member.getId() and review.getItem().getId() == orderItem.getItem().getId()}">
+                                            <span>후기를 작성하셨습니다.</span>
+                                        </span>-->
+                                    </div>
+                                </th>
+                                <!--<th th:if="${!orderItem.getOrder().getMember().getReviews()}">
+                                    <span>후기를 작성하셨습니다.</span>
+                                </th>-->
+                            </tr>
+
+                        </div>
                     </tbody>
                 </table>
-                <p class="item-zero">
+                <p th:if="${member.getOrders().isEmpty()}" class="item-zero">
                     <span>최근 구매내역이 없습니다.</span>
                 </p>
             </div>
@@ -203,5 +271,20 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function writeReview(e) {
+            console.log(e);
+            let url1 = '/new/review/' + e;
+            window.open(url1 ,'후기쓰기','width=430,height=500,location=no,status=no,scrollbars=yes',);
+        }
+    </script>
+
+    <!--<script th:inline="javascript">
+        /*<![CDATA[*/
+        let nowTime = [[${nowTime}]];
+        let orderTime = [[${orderTime}]];
+        /*]]>*/
+    </script>-->
 </body>
 </html>

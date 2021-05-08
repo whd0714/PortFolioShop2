@@ -10,6 +10,8 @@ import portfolioshop.item.enumType.Gender;
 import portfolioshop.item.enumType.Season;
 import portfolioshop.itemCategory.ItemCategory;
 import portfolioshop.itemTag.ItemTag;
+import portfolioshop.orderItem.OrderItem;
+import portfolioshop.review.Review;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -53,6 +55,10 @@ public class Item {
 
     private LocalDateTime createItemTime;
 
+    private int view;
+
+    private int saleRate;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "brand_id")
     private Brand brand;
@@ -66,7 +72,11 @@ public class Item {
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
     private List<ItemCategory> itemCategories = new ArrayList<>();
 
+    @OneToMany(mappedBy = "item", orphanRemoval = true)
+    private List<OrderItem> orderItems = new ArrayList<>();
 
+    @OneToMany(mappedBy = "item", orphanRemoval = true)
+    private List<Review> reviews = new ArrayList<>();
 
     public void changeBrand(Brand brand) {
         this.brand = brand;
@@ -87,6 +97,8 @@ public class Item {
         this.itemImage = itemImage;
         this.displayStatus = DisplayStatus.진열함;
         this.createItemTime = LocalDateTime.now();
+        this.view = 0;
+        this.saleRate = 0;
     }
 
     public void changeImg(String img) {
@@ -112,5 +124,11 @@ public class Item {
         this.displayStatus = displayStatus;
     }
 
+    public void upView() {
+        this.view++;
+    }
 
+    public void updateSaleRate() {
+        this.saleRate++;
+    }
 }

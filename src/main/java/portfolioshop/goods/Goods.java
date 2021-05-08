@@ -59,4 +59,7 @@ public class Goods {
     }
 
 
+    public void upDateCount(int count) {
+        this.count -= count;
+    }
 }

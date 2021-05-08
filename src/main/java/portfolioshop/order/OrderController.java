@@ -3,6 +3,7 @@ package portfolioshop.order;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import portfolioshop.category.Category;
@@ -28,6 +29,7 @@ public class OrderController {
     private final CategoryRepository categoryRepository;
     private final ItemRepository itemRepository;
     private final MemberRepository memberRepository;
+    private final OrderService orderService;
 
     @GetMapping("/myPage/order-list")
     public String orderListView() {
@@ -85,7 +87,32 @@ public class OrderController {
         }
         model.addAttribute("mainCategories", mainCategory);
         model.addAttribute("subCategories", subCategory);
+        model.addAttribute(new OptionValueDto());
 
         return "/order/order-form";
+    }
+
+    @PostMapping("/order-form")
+    public String order(@CurrentUser Member member, @Valid OptionValueDto optionValueDto, Errors errors, Model model) {
+        if (errors.hasErrors()) {
+
+        }
+
+        if (member != null) {
+            model.addAttribute(member);
+        }
+        orderService.orderProcess(member.getId(), optionValueDto);
+
+        return "redirect:/order-complete";
+    }
+
+    @GetMapping("/order-complete")
+    public String orderCompleteForm(@CurrentUser Member member, Model model) {
+
+        if (member != null) {
+            model.addAttribute(member);
+        }
+
+        return "order/complete-form";
     }
 }

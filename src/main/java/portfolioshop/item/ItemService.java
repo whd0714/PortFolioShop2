@@ -145,6 +145,10 @@ public class ItemService {
         });
     }
 
+    public void upDateView(Item item) {
+        item.upView();
+    }
+
    /* @Data
     static class CategoryDto {
         private String Name;

@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="/css/order.css" type="text/css">
     <link rel="stylesheet" href="/css/delivery.css" type="text/css">
     <link rel="stylesheet" href="/css/cart.css" type="text/css">
+    <link rel="stylesheet" href="/css/review.css" type="text/css">
 
 
     <script src="/node_modules/jquery/dist/jquery.min.js"></script>
@@ -81,7 +82,7 @@
             line-height: 1.5;
         }
         #logo {
-            background: url("/static/image/mainLogo.png");
+            background: url("/static/mainLogo.png");
             display: inline-block;
             width: 30px;
             height: 30px;
@@ -107,7 +108,7 @@
 
     <header th:fragment="header">
         <div class="header-top">
-            <h1 class="title"><a th:href="@{/}">MUSINSA STORE</a></h1>
+            <h1 class="title"><a th:href="@{/}">PORTFOLIO STORE</a></h1>
             <h2 class="blind">헤더 메뉴</h2>
             <div class="search-time"> <!--검색폼 && 실시간 검색어-->
                 <h3 class="blind">상품검색</h3>
@@ -131,15 +132,15 @@
             <div class="header-nav"><!--헤드 nav-->
                 <h3 class="메인메뉴"></h3>
                 <ul class="header-nav-ul">
-                    <li class="header-nav-li">
+                    <!--<li class="header-nav-li">
                         <a href="">랭킹</a>
                         <ul class="hoverTarget">
                             <li>상품</li>
                             <li>브랜드</li>
                             <li>검색어</li>
                         </ul>
-                    </li>
-                    <li class="header-nav-li">
+                    </li>-->
+                   <!-- <li class="header-nav-li">
                         <a href="">랭킹</a>
                     </li>
                     <li class="header-nav-li">
@@ -162,7 +163,7 @@
                     </li>
                     <li class="header-nav-li">
                         <a href="">랭킹</a>
-                    </li>
+                    </li>-->
                 </ul>
             </div>
         </div>
@@ -177,22 +178,22 @@
             <div class="header-member-block">
                 <a th:href="@{/myPage}" class="header-member-block-link"> 마이페이지 </a>
             </div>
-            <div class="header-member-block">
+            <!--<div class="header-member-block">
                 <a th:href="@{/}" class="header-member-block-link"> 최근 본 상품 </a>
-            </div>
-            <div class="header-member-block">
+            </div>-->
+           <!-- <div class="header-member-block">
                 <a th:href="@{/}" class="header-member-block-like header-member-block-link"> 좋아요 </a>
-            </div>
+            </div>-->
             <div class="header-member-block">
                 <a th:href="@{/cart}" class="header-member-block-link"> 장바구니 </a>
                 <span class="header-badge">0</span>
             </div>
-            <div class="header-member-block">
+            <!--<div class="header-member-block">
                 <a th:href="@{/}" class="header-member-block-link"> 주문배송조회 </a>
             </div>
             <div class="header-member-block">
                 <a th:href="@{/}" class="header-member-block-link"> 고객센터 </a>
-            </div>
+            </div>-->
             <div sec:authorize="isAuthenticated()" class="header-member-block">
                 <form class="form-inline" action="#" th:action="@{/logout}" method="post">
                     <button class="dropdown-item" type="submit">로그아웃</button>
@@ -212,13 +213,13 @@
             </div>
 
             <div class="main-category-out-box"> <!--카테고리 시작-->
-                <div class="main-category-inner-box">
+                <!--<div class="main-category-inner-box">
                     <ul class="sub-menu">
                         <li class="box-tab">품목</li>
                         <li class="box-tab">브랜드</li>
                         <li class="box-tab">숍인숍</li>
                     </ul>
-                </div>
+                </div>-->
                 <div class="main-category-main-menu-box">
                     <div class="sub-main-menu">
                         <div th:each="mainCategory :${mainCategories}" class="sub-main-menu-box">
@@ -282,12 +283,14 @@
                 <div class="profile-img">
                     <svg width="170" height="170" data-jdenticon-value="user127"></svg>
                 </div>
-                <em class="my-name">이름</em>
+                <em class="my-name">
+                    <span th:text="${member.getUsername()}"></span>
+                </em>
                 <a th:href="@{/myPage/info}" class="link-my-info">회원정보변경</a>
                 <div class="my-info-detail">
-                    <em class="level">LV.레벨</em>
-                    <span>가입입</span>
-                    <p>...님 다음등급 ..까지 ...,....점 남았습니다</p>
+                    <em class="level">LV.1</em>
+                    <span th:text="${#temporals.format(member.getJoinAt(),'yyyy-MM-dd')}"></span>
+                    <!--<p>...님 다음등급 ..까지 ...,....점 남았습니다</p>-->
                 </div>
             </div>
             <div class="my-menu">

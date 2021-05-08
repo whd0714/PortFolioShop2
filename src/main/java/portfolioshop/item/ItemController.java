@@ -60,10 +60,12 @@ public class ItemController {
         Optional<Item> byId = itemRepository.findById(itemId);
         byId.ifPresent(item -> {
             model.addAttribute(item);
+            itemService.upDateView(item);
             model.addAttribute("saleStatusNo", SaleStatus.NOSALE);
             model.addAttribute("saleStatusYes",SaleStatus.SALE);
             model.addAttribute("mainCategories", mainCategory);
             model.addAttribute("subCategories", subCategory);
+            model.addAttribute("reviews",item.getReviews());
         });
         return "goods/goods-form";
     }

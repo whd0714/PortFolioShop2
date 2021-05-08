@@ -24,7 +24,9 @@ public class BrandService {
 
 
         byte[] bytes = file.getBrandBanner().getBytes();
+
         byte[] encode = Base64.getEncoder().encode(bytes);
+
         String img = new String(encode, "UTF-8");
 
         Brand brand = new Brand(file.getBrandName(), file.getBrandNameEng(), img);
