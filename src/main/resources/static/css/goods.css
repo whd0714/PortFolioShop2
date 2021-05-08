@@ -457,3 +457,93 @@
 .review-comment-box div:first-child {
     padding-bottom: 10px;
 }
+
+.tag-border {
+    border: 1px solid #ddd;
+    padding: 3px 3px;
+    line-height: 2.2;
+    cursor: pointer;
+}
+
+.tag-border:hover {
+    background: #f3f3f3;
+}
+
+.product-review-box-container {
+    margin-top: 15px;
+    width: 80%;
+    border-top: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+}
+
+.product-review-page-img {
+    width: 37px;
+    height: 45px;
+    display: inline-block;
+}
+
+.product-review-username {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.product-review-img-box {
+    padding: 10px 0;
+    display: flex;
+}
+
+.product-review-list {
+    padding: 20px 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+.product-review-page-item-info {
+    align-self: flex-end;
+    margin-left: 10px;
+}
+
+.product-review-page-item-review {
+    padding: 10px 0;
+}
+
+.product-review-page-item-review-box {
+    border: 1px solid #ddd;
+    padding: 10px 10px;
+}
+
+.product-review-page-item-review-des {
+    padding: 10px 0;
+}
+
+.product-review-page-item-review-comment-box {
+    border: 1px solid #ddd;
+}
+
+.product-review-page-item-review-comment-text-box {
+    padding: 10px 10px 32px 10px;
+}
+
+.product-review-page-item-review-comment-text {
+    width: 100%;
+    height: 70px;
+}
+
+.product-review-page-item-review-comment-btn {
+    background: black;
+    color: white;
+    cursor: pointer;
+    padding: 5px 5px;
+    float: right;
+}
+
+.review-comment-box {
+    padding: 20px 20px;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+}
+
+.review-comment-box div:first-child {
+    padding-bottom: 10px;
+}

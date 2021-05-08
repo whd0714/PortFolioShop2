@@ -313,3 +313,31 @@
     padding: 10px 10px;
     cursor: pointer;
 }
+
+.my-page-order-list-item-info {
+    padding: 10px 0;
+}
+
+.my-page-order-list-item-info div  {
+    text-align: left;
+}
+
+.my-page-order-list-item-info img{
+    float: left;
+
+}
+
+.my-page-order-list-tr:hover {
+    background: #f3f3f3;
+}
+
+.my-page-order-list-item-name :hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.my-page-order-list-reviewBtn {
+    border: 1px solid #ddd;
+    padding: 10px 10px;
+    cursor: pointer;
+}

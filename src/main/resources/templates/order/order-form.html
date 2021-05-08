@@ -207,6 +207,25 @@
         /*]]>*/
         window.open('/delivery/listPopUp','배송지변경','width=430,height=500,location=no,status=no,scrollbars=yes');
 
+        let orderSizes = [];
+        let orderCounts = [];
+        let orderItemIds = [];
+
+        let orderItemSize = document.querySelectorAll('.order-item-size');
+        let orderItemCount = document.querySelectorAll('.order-item-count');
+        let orderItemId = document.querySelectorAll('.order-item-id');
+
+        for(let i = 0; i < orderItemSize.length; i++) {
+            orderSizes.push(orderItemSize[i].textContent);
+            orderCounts.push(orderItemCount[i].textContent. replace(/[^0-9]/g,''));
+            orderItemIds.push(orderItemId[i].value);
+        }
+
+        inputOrderSize.value = orderSizes;
+        inputOrderCount.value = orderCounts;
+        inputOrderItemId.value = orderItemIds;
+
+        orderForm.submit();
     }
 </script>
 
