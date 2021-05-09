@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragment.html :: head">
+</head>
+<body>
+<div th:replace="fragment.html :: header"></div>
+
+<div>
+    <div th:replace="fragment.html :: body-aside"></div>
+
+    </div>
+</div>
+
+<script th:replace="fragment.html :: main-nav-category"></script>
+
+<script>
+    window.addEventListener("load" ,function () {
+        let goodsListOptionsContainer = document.querySelector('.goods-list-options-container');
+
+        let gcfForm = document.querySelector('#gcf-form');
+
+        let goodsCategoryBrandContents = document.querySelector('.goods-category-brand-contents');
+
+        goodsCategoryBrandContents.onclick = function (e) {
+            if(!e.target.classList.contains('gcf-brand'))
+                return ;
+            let brandNameInput = document.querySelector('.brand-name-input');
+            brandNameInput.value = e.target.textContent;
+            gcfForm.submit();
+        }
+
+        //상품 옵션바
+        goodsListOptionsContainer.onclick = function (e) {
+            if(!e.target.classList.contains('goods-list-option-box'))
+                return ;
+
+            if(e.target.parentElement.parentElement.parentElement.children[1].style.display=="") {
+                e.target.parentElement.parentElement.parentElement.children[1].style.display="block"
+            } else if(e.target.parentElement.parentElement.parentElement.children[1].style.display=="block") {
+                e.target.parentElement.parentElement.parentElement.children[1].style.display=""
+            }
+        }
+    })
+</script>
+</body>
+</html>

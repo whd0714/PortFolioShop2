@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,7 @@ import portfolioshop.goods.enumType.SaleStatus;
 import portfolioshop.item.dto.DisplayStatusDto;
 import portfolioshop.item.dto.queryDto.GoodsCategoryListSearchCondition;
 import portfolioshop.itemCategory.ItemCategory;
+import portfolioshop.main.dto.MainSearchDto;
 import portfolioshop.member.CurrentUser;
 import portfolioshop.member.Member;
 
@@ -25,6 +27,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static portfolioshop.item.QItem.item;
 
 @Controller
 @RequiredArgsConstructor
@@ -40,7 +44,7 @@ public class ItemController {
         if(member != null) {
             model.addAttribute(member);
         }
-
+        model.addAttribute("mainSearch", new MainSearchDto());
         List<Category> all = categoryRepository.findAll();
 
         List<Category> collect = all.stream().collect(Collectors.toList());
@@ -80,16 +84,26 @@ public class ItemController {
     @GetMapping("/goods/mainCategory/{categoryId}")
     public String goodsMainCategoryForm(@CurrentUser Member member, @PathVariable("categoryId") Long categoryId, Model model,
                                     @RequestParam(value = "page", defaultValue = "0") int page,
-                                    @Valid GoodsCategoryListSearchCondition condition) {
+                                    @Valid GoodsCategoryListSearchCondition condition,
+                                        @RequestParam(value = "brandName", defaultValue = "") String brandName) {
         if(member != null) {
             model.addAttribute(member);
         }
+
+        if (brandName != null) {
+            model.addAttribute("brandName", brandName);
+        }
+        model.addAttribute("mainSearch", new MainSearchDto());
         model.addAttribute("nowPage",page);
         model.addAttribute("goForm", new GoodsCategoryListSearchCondition());
 
-        PageRequest of = PageRequest.of(page, 10);
+        PageRequest of = PageRequest.of(page, 10, Sort.by(Sort.Direction.DESC, "item.itemPrice"));
+
 
         Page<Item> itemFetchJoin = itemRepository.findItemFetchJoin2(condition, categoryId, of);
+
+
+        System.out.println("**************" + itemFetchJoin.getPageable().getSort());
 
         System.out.println("kkkkkkkkkkk" + itemFetchJoin.getTotalPages());
 
@@ -134,11 +148,12 @@ public class ItemController {
     @GetMapping("/goods/category/{categoryId}")
     public String goodsCategoryForm(@CurrentUser Member member, @PathVariable("categoryId") Long categoryId, Model model,
                                     @RequestParam(value = "page", defaultValue = "0") int page,
-                                    @Valid GoodsCategoryListSearchCondition condition) {
+                                    @Valid GoodsCategoryListSearchCondition condition,
+                                    @RequestParam(value = "brandName", defaultValue = "") String brandName) {
         if(member != null) {
             model.addAttribute(member);
         }
-
+        model.addAttribute("mainSearch", new MainSearchDto());
         model.addAttribute("nowPage",page);
         model.addAttribute("goForm", new GoodsCategoryListSearchCondition());
 
@@ -147,6 +162,13 @@ public class ItemController {
         Page<Item> itemFetchJoin = itemRepository.findItemFetchJoin(condition, categoryId, of);
         model.addAttribute("itemFetchJoin", itemFetchJoin);
         model.addAttribute("maxPage", 10);
+
+        List<Item> content = itemFetchJoin.getContent();
+
+        if (brandName != null) {
+            model.addAttribute("brandName", brandName);
+        }
+
 
         //브랜드 이름 중복제거
         List<Item> itemFetchJoinNoConditions = itemRepository.findItemFetchJoinNoConditions(categoryId);

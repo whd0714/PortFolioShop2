@@ -114,11 +114,11 @@
                 <h3 class="blind">상품검색</h3>
                 <div class="search-box">
                     <h3 class="blind">상품검색 폼</h3>
-                    <form th:action="@{/}">
+                    <form id="main-search-form" th:action="@{/main/search}" th:object="${mainSearch}">
                         <fieldset>
                             <legend class="blind">검색창</legend>
                             <label class="blind">입력창</label>
-                            <input id="search-query" type="text">
+                            <input id="search-query" type="text" onsubmit="mainSearchQuery()" th:field="*{query}" >
                             <span id="search-button">
                                 <i class="fa fa-search"></i>
                             </span>
@@ -335,10 +335,18 @@
         </ul>
     </nav>
 
+    <script>
+        function mainSearchQuery() {
+            alert('aaaa');
+        }
+    </script>
 
     <script th:fragment="main-nav-category">
         window.addEventListener("load", function () {
             let subMainMenu = document.querySelector('.sub-main-menu');
+            let searchButton = document.querySelector('#search-button');
+
+            searchButton.on
 
             subMainMenu.onclick = function(e) {
                 if(e.target.classList.contains('content-item-close')) {

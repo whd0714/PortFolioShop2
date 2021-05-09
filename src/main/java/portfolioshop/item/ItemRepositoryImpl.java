@@ -1,13 +1,21 @@
 package portfolioshop.item;
 
 import com.querydsl.core.QueryResults;
+import com.querydsl.core.types.Order;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.DateTimePath;
+import com.querydsl.core.types.dsl.NumberPath;
+import com.querydsl.core.types.dsl.PathBuilder;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.security.core.parameters.P;
 import portfolioshop.brand.Brand;
 import portfolioshop.category.QCategory;
 import portfolioshop.goods.QGoods;
@@ -18,6 +26,8 @@ import portfolioshop.item.searchQuery.SettingMainCondition;
 import portfolioshop.itemCategory.QItemCategory;
 
 import javax.persistence.EntityManager;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.springframework.util.StringUtils.hasText;
@@ -134,6 +144,9 @@ public class ItemRepositoryImpl implements ItemSearchRepository{
 
     @Override
     public Page<Item> findItemFetchJoin(GoodsCategoryListSearchCondition condition, Long categoryId, Pageable pageable) {
+
+        OrderSpecifier orderSpecifier = getOrderSpecifier(condition);
+
         QueryResults<Item> results = queryFactory
                 .selectFrom(item)
                 .join(item.brand, brand).fetchJoin()
@@ -142,7 +155,58 @@ public class ItemRepositoryImpl implements ItemSearchRepository{
                 .where(categoryIdEq(categoryId), brandNameEq(condition.getBrandName()))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
+                .orderBy(orderSpecifier)
                 .fetchResults();
+
+      /*  QueryResults<Item> results;
+        if (condition.getSort() != null) {
+            if(condition.getSort().equals("신상품순")) {
+                results = queryFactory
+                        .selectFrom(item)
+                        .join(item.brand, brand).fetchJoin()
+                        .join(item.itemCategories, itemCategory)
+                        .join(itemCategory.category, category)
+                        .where(categoryIdEq(categoryId), brandNameEq(condition.getBrandName()))
+                        .offset(pageable.getOffset())
+                        .limit(pageable.getPageSize())
+                        .orderBy(orderSpecifier)
+                        .fetchResults();
+            }else if(condition.getSort().equals("낮은가격순")) {
+                results = queryFactory
+                        .selectFrom(item)
+                        .join(item.brand, brand).fetchJoin()
+                        .join(item.itemCategories, itemCategory)
+                        .join(itemCategory.category, category)
+                        .where(categoryIdEq(categoryId), brandNameEq(condition.getBrandName()))
+                        .offset(pageable.getOffset())
+                        .limit(pageable.getPageSize())
+                        .orderBy(item.itemPrice.asc())
+                        .fetchResults();
+            } else {
+                results = queryFactory
+                        .selectFrom(item)
+                        .join(item.brand, brand).fetchJoin()
+                        .join(item.itemCategories, itemCategory)
+                        .join(itemCategory.category, category)
+                        .where(categoryIdEq(categoryId), brandNameEq(condition.getBrandName()))
+                        .offset(pageable.getOffset())
+                        .limit(pageable.getPageSize())
+                        .orderBy(item.itemPrice.desc())
+                        .fetchResults();
+            }
+        } else {
+            results = queryFactory
+                    .selectFrom(item)
+                    .join(item.brand, brand).fetchJoin()
+                    .join(item.itemCategories, itemCategory)
+                    .join(itemCategory.category, category)
+                    .where(categoryIdEq(categoryId), brandNameEq(condition.getBrandName()))
+                    .offset(pageable.getOffset())
+                    .limit(pageable.getPageSize())
+                    .fetchResults();
+        }
+*/
+
         List<Item> contents = results.getResults();
         long total = results.getTotal();
 
@@ -151,6 +215,9 @@ public class ItemRepositoryImpl implements ItemSearchRepository{
 
     @Override
     public Page<Item> findItemFetchJoin2(GoodsCategoryListSearchCondition condition, Long categoryId, Pageable pageable) {
+
+        OrderSpecifier orderSpecifier = getOrderSpecifier(condition);
+
         QueryResults<Item> results = queryFactory
                 .selectFrom(item)
                 .join(item.brand, brand).fetchJoin()
@@ -159,11 +226,70 @@ public class ItemRepositoryImpl implements ItemSearchRepository{
                 .where(mainCategoryIdEq(categoryId), brandNameEq(condition.getBrandName()))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
+                .orderBy(orderSpecifier)
                 .fetchResults();
+
+
+       /* QueryResults<Item> results;
+        if (condition.getSort() != null) {
+            if(condition.getSort().equals("신상품순")) {
+                results =
+            }else if(condition.getSort().equals("낮은가격순")) {
+                results = queryFactory
+                        .selectFrom(item)
+                        .join(item.brand, brand).fetchJoin()
+                        .join(item.itemCategories, itemCategory)
+                        .join(itemCategory.category, category)
+                        .where(mainCategoryIdEq(categoryId), brandNameEq(condition.getBrandName()))
+                        .offset(pageable.getOffset())
+                        .limit(pageable.getPageSize())
+                        .orderBy(item.itemPrice.asc())
+                        .fetchResults();
+            } else {
+                results = queryFactory
+                        .selectFrom(item)
+                        .join(item.brand, brand).fetchJoin()
+                        .join(item.itemCategories, itemCategory)
+                        .join(itemCategory.category, category)
+                        .where(mainCategoryIdEq(categoryId), brandNameEq(condition.getBrandName()))
+                        .offset(pageable.getOffset())
+                        .limit(pageable.getPageSize())
+                        .orderBy(item.itemPrice.desc())
+                        .fetchResults();
+            }
+        } else {
+            results = queryFactory
+                    .selectFrom(item)
+                    .join(item.brand, brand).fetchJoin()
+                    .join(item.itemCategories, itemCategory)
+                    .join(itemCategory.category, category)
+                    .where(mainCategoryIdEq(categoryId), brandNameEq(condition.getBrandName()))
+                    .offset(pageable.getOffset())
+                    .limit(pageable.getPageSize())
+                    .fetchResults();
+        }*/
+
+
         List<Item> contents = results.getResults();
         long total = results.getTotal();
 
         return new PageImpl<>(contents, pageable, total);
+    }
+
+    private OrderSpecifier getOrderSpecifier(GoodsCategoryListSearchCondition condition) {
+        OrderSpecifier orderSpecifier;
+        if (condition.getSort() != null) {
+            if (condition.getSort().equals("신상품순")) {
+                orderSpecifier = new OrderSpecifier(Order.ASC, item.createItemTime);
+            } else if (condition.getSort().equals("낮은가격순")) {
+                orderSpecifier = new OrderSpecifier(Order.ASC, item.itemPrice);
+            } else {
+                orderSpecifier = new OrderSpecifier(Order.DESC, item.itemPrice);
+            }
+        } else {
+            orderSpecifier = new OrderSpecifier(Order.ASC, item.id);
+        }
+        return orderSpecifier;
     }
 
     private BooleanExpression mainCategoryIdEq(Long categoryId) {
@@ -212,4 +338,6 @@ public class ItemRepositoryImpl implements ItemSearchRepository{
     private BooleanExpression brandNameEq(String brandName) {
         return hasText(brandName) ? brand.brandName.contains(brandName) : null;
     }
+
+
 }

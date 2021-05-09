@@ -7,5 +7,6 @@ import lombok.Data;
 public class GoodsCategoryListSearchCondition {
 
     private String brandName;
+    private String sort;
 
 }

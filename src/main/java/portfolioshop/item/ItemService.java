@@ -2,6 +2,9 @@ package portfolioshop.item;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import portfolioshop.brand.Brand;
@@ -197,4 +200,10 @@ public class ItemService {
             this.tagName = itemTag.getTag().getTagName();
         }
     }*/
+
+    public void ex () {
+        Page<Item> itemPrice = itemRepository.findAll(PageRequest.of(0, 5, Sort.by(Sort.Direction.DESC, "itemPrice")));
+
+
+    }
 }

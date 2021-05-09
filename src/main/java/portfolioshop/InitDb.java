@@ -114,20 +114,46 @@ public class InitDb {
             String imageShort = new String(encodeShort, "UTF-8");
 
 
-
             Item item = new Item(" CO2100ST02WH", "아치 로고 티셔츠 화이트", "Arch logo T-shirt white", 39000, Season.SUMMER, Gender.MAN, "", "아치형 로고 디자인",
                     imageShort);
             itemRepository.save(item);
 
+            Item item2 = new Item(" M99JGTT02WH", "릴렉스 핏 크루 넥 반팔 티셔츠 [화이트]", "Relaxed Fit Crew Neck Short Sleeve T-Shirt [White]", 19000, Season.SUMMER, Gender.MAN, "", "깔끔한 디자인",
+                    imageShort);
+            itemRepository.save(item2);
+
+            Item item3 = new Item(" MIJON83T02WH", "베이식 크루 넥 반팔 티셔츠 [블랙]", "BASIC CREW NECK HALF SLEEVE T-SHIRT [BLACK]", 10900, Season.SUMMER, Gender.MAN, "깔끔한 디자인", "",
+                    imageShort);
+            itemRepository.save(item3);
+
+
+
             ItemCategory itemCategory = new ItemCategory();
             itemCategory.changeItem(item);
-            itemCategory.changeCategory(category1);
             itemCategory.changeCategory(category3);
             itemCategoryRepository.save(itemCategory);
+
+            ItemCategory itemCategory2 = new ItemCategory();
+            itemCategory2.changeItem(item2);
+            itemCategory2.changeCategory(category3);
+            itemCategoryRepository.save(itemCategory2);
+
+            ItemCategory itemCategory3 = new ItemCategory();
+            itemCategory3.changeItem(item3);
+            itemCategory3.changeCategory(category3);
+            itemCategoryRepository.save(itemCategory3);
 
             Goods goods = new Goods("M", 10, SaleStatus.SALE);
             goods.changeItem(item);
             goodsRepository.save(goods);
+
+            Goods goods2 = new Goods("M", 10, SaleStatus.SALE);
+            goods2.changeItem(item2);
+            goodsRepository.save(goods2);
+
+            Goods goods3 = new Goods("M", 10, SaleStatus.SALE);
+            goods3.changeItem(item3);
+            goodsRepository.save(goods3);
 
 
             BufferedImage MBanner = ImageIO.read(new File("src/main/resources/static/image/banner/banner0.png"));
@@ -161,6 +187,8 @@ public class InitDb {
             brandRepository.save(brand2);
 
             item.changeBrand(brand2);
+            item2.changeBrand(brand0);
+            item3.changeBrand(brand0);
 
         }
     }

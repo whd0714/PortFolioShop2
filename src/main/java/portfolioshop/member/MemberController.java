@@ -8,6 +8,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
+import portfolioshop.main.dto.MainSearchDto;
 import portfolioshop.member.dto.SignUpForm;
 import portfolioshop.member.validator.SignUpValidator;
 
@@ -49,6 +50,7 @@ public class MemberController {
             Optional<Member> byId = memberRepository.findById(member.getId());
             byId.ifPresent(m->{
                 model.addAttribute(m);
+                model.addAttribute("mainSearch", new MainSearchDto());
             });
 
         }
