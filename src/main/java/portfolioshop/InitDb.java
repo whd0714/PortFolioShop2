@@ -21,6 +21,7 @@ import portfolioshop.itemCategory.ItemCategory;
 import portfolioshop.itemCategory.ItemCategoryRepository;
 import portfolioshop.member.Member;
 import portfolioshop.member.MemberRepository;
+import portfolioshop.tag.TagService;
 
 import javax.annotation.PostConstruct;
 import javax.imageio.ImageIO;
@@ -59,6 +60,7 @@ public class InitDb {
         private final ItemCategoryRepository itemCategoryRepository;
         private final ItemRepository itemRepository;
         private final GoodsRepository goodsRepository;
+        private final TagService tagService;
         public void db1() throws IOException {
 
             String password = passwordEncoder.encode("11111111");
@@ -155,6 +157,8 @@ public class InitDb {
             goods3.changeItem(item3);
             goodsRepository.save(goods3);
 
+            String tag1 = "#기본티#라운드넥#루즈핏#면티셔츠#무지티#반팔티#MU-T#홈웨어컬렉션#유아인착장상품#베이식";
+            tagService.addNewTag(tag1, item);
 
             BufferedImage MBanner = ImageIO.read(new File("src/main/resources/static/image/banner/banner0.png"));
             BufferedImage LBanner = ImageIO.read(new File("src/main/resources/static/image/banner/banner1.png"));

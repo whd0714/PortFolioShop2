@@ -201,9 +201,4 @@ public class ItemService {
         }
     }*/
 
-    public void ex () {
-        Page<Item> itemPrice = itemRepository.findAll(PageRequest.of(0, 5, Sort.by(Sort.Direction.DESC, "itemPrice")));
-
-
-    }
 }

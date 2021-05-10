@@ -3,8 +3,7 @@ package portfolioshop.main.dto;
 import lombok.Data;
 
 @Data
-public class MainSearchDto {
+public class TagSearchDto {
 
-    private String query;
     private String tagName;
 }

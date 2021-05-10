@@ -8,6 +8,8 @@ import portfolioshop.brand.Brand;
 import portfolioshop.item.dto.queryDto.GoodsCategoryListSearchCondition;
 import portfolioshop.item.searchQuery.ItemCategoryCondition;
 import portfolioshop.item.searchQuery.SettingMainCondition;
+import portfolioshop.main.dto.MainSearchDto;
+import portfolioshop.main.dto.TagSearchDto;
 
 import java.util.List;
 
@@ -31,6 +33,15 @@ public interface ItemSearchRepository {
     List<Item> findItemFetchJoinNoConditions(Long categoryId);
 
     List<Item> findItemFetchJoinNoConditions2(Long categoryId);
+
+
+    Page<Item> findItemFromQuery(MainSearchDto mainSearchDto, Pageable pageable);
+
+    List<Item> findItemFromBestView();
+
+    List<Item> findItemFromBestSale();
+
+    List<Item> findItemFromNewItem();
 
 
 }

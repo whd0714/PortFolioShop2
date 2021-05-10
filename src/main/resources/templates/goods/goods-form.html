@@ -147,12 +147,16 @@
                                         </li>
                                         <li>
                                             <span th:each="tagName : ${item.getItemTags()}">
-                                                <span class="tag-border" th:text="${tagName.getTag().getTagName()}"></span>
-
+                                                <span class="tag-border" onclick="tagSearch(this)" th:text="${tagName.getTag().getTagName()}"></span>
                                             </span>
                                         </li>
                                     </ul>
                                 </div>
+
+                                <form hidden class="tag-search-form" th:action="@{/main/search}" th:object="${mainSearchDto}">
+                                    <input class="tag-name-form" type="text" th:field="*{tagName}">
+                                </form>
+
                                 <div class="price_info">
                                     <h4 class="product-info-title">
                                         <b>Price Info</b>
@@ -386,7 +390,15 @@
             });
         });
     </script>
-    <script >
+    <script>
+
+        function tagSearch(e) {
+            let tagSearchForm = document.querySelector('.tag-search-form');
+            let tagNameForm = document.querySelector('.tag-name-form');
+
+            tagNameForm.value = e.textContent;
+            tagSearchForm.submit();
+        }
 
         function comment(e) {
             /*<![CDATA[*/

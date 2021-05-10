@@ -18,6 +18,7 @@ import portfolioshop.item.dto.DisplayStatusDto;
 import portfolioshop.item.dto.queryDto.GoodsCategoryListSearchCondition;
 import portfolioshop.itemCategory.ItemCategory;
 import portfolioshop.main.dto.MainSearchDto;
+import portfolioshop.main.dto.TagSearchDto;
 import portfolioshop.member.CurrentUser;
 import portfolioshop.member.Member;
 
@@ -45,6 +46,9 @@ public class ItemController {
             model.addAttribute(member);
         }
         model.addAttribute("mainSearch", new MainSearchDto());
+
+        model.addAttribute("mainSearchDto",new MainSearchDto());
+
         List<Category> all = categoryRepository.findAll();
 
         List<Category> collect = all.stream().collect(Collectors.toList());

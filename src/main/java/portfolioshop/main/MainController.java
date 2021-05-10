@@ -18,6 +18,7 @@ import portfolioshop.item.ItemService;
 import portfolioshop.item.dto.queryDto.GoodsCategoryListSearchCondition;
 import portfolioshop.item.searchQuery.ItemCategoryCondition;
 import portfolioshop.main.dto.MainSearchDto;
+import portfolioshop.main.dto.TagSearchDto;
 import portfolioshop.member.CurrentUser;
 import portfolioshop.member.Member;
 import portfolioshop.productSetting.dto.CategoryDelDto;
@@ -42,7 +43,6 @@ public class MainController {
         if(member != null) {
             model.addAttribute(member);
         }
-
         model.addAttribute("mainSearch", new MainSearchDto());
 
         List<Category> all = categoryRepository.findAll();
@@ -51,7 +51,6 @@ public class MainController {
 
         List<Category> mainCategory = new ArrayList<>();
         List<Category> subCategory = new ArrayList<>();
-
 
         for (int i = 0; i < collect.size(); i++) {
             if (collect.get(i).getParent() != null) {
@@ -66,6 +65,12 @@ public class MainController {
         //List<Item> newItemByCategory = itemRepository.findNewItemByCategory(condition);
 
        // model.addAttribute("newItemByCategory", newItemByCategory);
+        List<Item> itemFromBestView = itemRepository.findItemFromBestView();
+
+        List<Item> itemFromBestSale = itemRepository.findItemFromBestSale();
+
+        List<Item> itemFromNewItem = itemRepository.findItemFromNewItem();
+
 
         return "index";
     }
@@ -78,13 +83,23 @@ public class MainController {
     @GetMapping("/main/search")
     public String mainSearchForm(@ModelAttribute MainSearchDto mainSearchDto,
                                  @CurrentUser Member member, Model model,
-                                 @RequestParam(value = "page", defaultValue = "0") int page) {
+                                 @RequestParam(value = "page", defaultValue = "0") int page,
+                                 @RequestParam(value = "tagName", defaultValue = "") String tagName,
+                                 @RequestParam(value = "query", defaultValue = "") String query) {
         if(member != null) {
             model.addAttribute(member);
         }
+
+
         model.addAttribute("mainSearch", new MainSearchDto());
 
-        itemService.ex();
+        PageRequest of = PageRequest.of(0, 10);
+        Page<Item> itemFromQueryAndTag = itemRepository.findItemFromQuery(mainSearchDto, of);
+
+        List<Item> content = itemFromQueryAndTag.getContent();
+
+
+
 
         List<Category> all = categoryRepository.findAll();
 
