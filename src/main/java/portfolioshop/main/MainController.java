@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 import portfolioshop.brand.Brand;
+import portfolioshop.cart.CartGoods;
 import portfolioshop.category.Category;
 import portfolioshop.category.CategoryRepository;
 import portfolioshop.item.Item;
@@ -21,6 +22,7 @@ import portfolioshop.main.dto.MainSearchDto;
 import portfolioshop.main.dto.TagSearchDto;
 import portfolioshop.member.CurrentUser;
 import portfolioshop.member.Member;
+import portfolioshop.member.MemberRepository;
 import portfolioshop.productSetting.dto.CategoryDelDto;
 import portfolioshop.productSetting.dto.CategoryNameDto;
 import portfolioshop.productSetting.dto.MainCategoryDto;
@@ -28,6 +30,7 @@ import portfolioshop.productSetting.dto.MainCategoryDto;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Controller
@@ -37,43 +40,25 @@ public class MainController {
     private final CategoryRepository categoryRepository;
     private final ItemRepository itemRepository;
     private final ItemService itemService;
+    private final MemberRepository memberRepository;
 
     @GetMapping("/")
     public String home(@CurrentUser Member member, Model model) {
-        if(member != null) {
-            model.addAttribute(member);
-        }
-        model.addAttribute("mainSearch", new MainSearchDto());
+        member(member, model);
 
-        List<Category> all = categoryRepository.findAll();
+        category(model);
 
-        List<Category> collect = all.stream().collect(Collectors.toList());
-
-        List<Category> mainCategory = new ArrayList<>();
-        List<Category> subCategory = new ArrayList<>();
-
-        for (int i = 0; i < collect.size(); i++) {
-            if (collect.get(i).getParent() != null) {
-                subCategory.add(collect.get(i));
-            } else {
-                mainCategory.add(collect.get(i));
-            }
-        }
-
-        model.addAttribute("mainCategories", mainCategory);
-        model.addAttribute("subCategories", subCategory);
-        //List<Item> newItemByCategory = itemRepository.findNewItemByCategory(condition);
-
-       // model.addAttribute("newItemByCategory", newItemByCategory);
         List<Item> itemFromBestView = itemRepository.findItemFromBestView();
-
         List<Item> itemFromBestSale = itemRepository.findItemFromBestSale();
-
         List<Item> itemFromNewItem = itemRepository.findItemFromNewItem();
 
-
+        model.addAttribute("rankView",itemFromBestView);
+        model.addAttribute("rankSale",itemFromBestSale);
+        model.addAttribute("newItems",itemFromNewItem);
         return "index";
     }
+
+
 
     @GetMapping("/login")
     public String login() {
@@ -86,28 +71,25 @@ public class MainController {
                                  @RequestParam(value = "page", defaultValue = "0") int page,
                                  @RequestParam(value = "tagName", defaultValue = "") String tagName,
                                  @RequestParam(value = "query", defaultValue = "") String query) {
-        if(member != null) {
-            model.addAttribute(member);
-        }
-
-
-        model.addAttribute("mainSearch", new MainSearchDto());
+        member(member, model);
 
         PageRequest of = PageRequest.of(0, 10);
         Page<Item> itemFromQueryAndTag = itemRepository.findItemFromQuery(mainSearchDto, of);
 
         List<Item> content = itemFromQueryAndTag.getContent();
 
+        category(model);
 
+        return "search/main-form";
+    }
 
-
+    private void category(Model model) {
         List<Category> all = categoryRepository.findAll();
 
         List<Category> collect = all.stream().collect(Collectors.toList());
 
         List<Category> mainCategory = new ArrayList<>();
         List<Category> subCategory = new ArrayList<>();
-
 
         for (int i = 0; i < collect.size(); i++) {
             if (collect.get(i).getParent() != null) {
@@ -117,11 +99,24 @@ public class MainController {
             }
         }
 
-
         model.addAttribute("mainCategories", mainCategory);
         model.addAttribute("subCategories", subCategory);
+    }
+
+    private void member(@CurrentUser Member member, Model model) {
+        if(member != null) {
+            Optional<Member> byId = memberRepository.findById(member.getId());
+            byId.ifPresent(m -> {
+                if(m.getCart() != null) {
+                    model.addAttribute("cartSize", m.getCart().getCartGoods().size());
+                } else {
+                    model.addAttribute("cartSize", 0);
+                }
+                model.addAttribute(m);
+            });
+        }
 
 
-        return "search/main-form";
+        model.addAttribute("mainSearch", new MainSearchDto());
     }
 }

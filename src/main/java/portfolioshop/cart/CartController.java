@@ -10,12 +10,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import portfolioshop.cart.dto.CartGoodsIdDto;
 import portfolioshop.category.Category;
 import portfolioshop.category.CategoryRepository;
+import portfolioshop.main.dto.MainSearchDto;
 import portfolioshop.member.CurrentUser;
 import portfolioshop.member.Member;
+import portfolioshop.member.MemberRepository;
 import portfolioshop.order.dto.OptionValueDto;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Controller
@@ -25,6 +28,7 @@ public class CartController {
     private final CartService cartService;
     private final CategoryRepository categoryRepository;
     private final CartRepository cartRepository;
+    private final MemberRepository memberRepository;
 
     @PostMapping("/add/cart")
     @ResponseBody
@@ -41,13 +45,22 @@ public class CartController {
 
     @GetMapping("/cart")
     public String cartForm(@CurrentUser Member member, Model model) {
-
         if(member != null) {
-            Cart cart = cartRepository.findCartByMemberId(member.getId());
-            model.addAttribute("cart", cart.getCartGoods());
-            model.addAttribute(member);
+            Optional<Member> byId = memberRepository.findById(member.getId());
+            byId.ifPresent(m -> {
+                //Cart cart = cartRepository.findCartByMemberId(m.getId());
+                Cart cart = m.getCart();
+                if(cart!= null) {
+                    model.addAttribute("cart", cart.getCartGoods());
+                    model.addAttribute("cartSize", m.getCart().getCartGoods().size());
+                } else {
+                    model.addAttribute("cartSize", 0);
+                }
+                model.addAttribute(m);
+            });
         }
 
+        model.addAttribute("mainSearch", new MainSearchDto());
         List<Category> all = categoryRepository.findAll();
 
         List<Category> collect = all.stream().collect(Collectors.toList());
@@ -77,4 +90,6 @@ public class CartController {
 
         return 1;
     }
+
+
 }

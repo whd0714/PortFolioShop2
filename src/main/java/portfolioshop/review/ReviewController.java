@@ -24,6 +24,7 @@ public class ReviewController {
     public String reviewForm(@PathVariable Long orderItemId, @CurrentUser Member member, Model model) {
 
         if (member != null) {
+
             model.addAttribute(member);
         }
 

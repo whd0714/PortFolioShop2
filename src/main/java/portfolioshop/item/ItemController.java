@@ -21,6 +21,7 @@ import portfolioshop.main.dto.MainSearchDto;
 import portfolioshop.main.dto.TagSearchDto;
 import portfolioshop.member.CurrentUser;
 import portfolioshop.member.Member;
+import portfolioshop.member.MemberRepository;
 
 import javax.persistence.Lob;
 import javax.validation.Valid;
@@ -38,32 +39,19 @@ public class ItemController {
     private final ItemRepository itemRepository;
     private final ItemService itemService;
     private final CategoryRepository categoryRepository;
+    private final MemberRepository memberRepository;
 
     @GetMapping("/goods/{itemId}")
     public String goodsForm(@CurrentUser Member member, @PathVariable("itemId") Long itemId, Model model){
 
-        if(member != null) {
-            model.addAttribute(member);
-        }
+        member(member, model);
+
+        category(model);
+
         model.addAttribute("mainSearch", new MainSearchDto());
 
         model.addAttribute("mainSearchDto",new MainSearchDto());
 
-        List<Category> all = categoryRepository.findAll();
-
-        List<Category> collect = all.stream().collect(Collectors.toList());
-
-        List<Category> mainCategory = new ArrayList<>();
-        List<Category> subCategory = new ArrayList<>();
-
-
-        for (int i = 0; i < collect.size(); i++) {
-            if (collect.get(i).getParent() != null) {
-                subCategory.add(collect.get(i));
-            } else {
-                mainCategory.add(collect.get(i));
-            }
-        }
 
         Optional<Item> byId = itemRepository.findById(itemId);
         byId.ifPresent(item -> {
@@ -71,8 +59,6 @@ public class ItemController {
             itemService.upDateView(item);
             model.addAttribute("saleStatusNo", SaleStatus.NOSALE);
             model.addAttribute("saleStatusYes",SaleStatus.SALE);
-            model.addAttribute("mainCategories", mainCategory);
-            model.addAttribute("subCategories", subCategory);
             model.addAttribute("reviews",item.getReviews());
         });
         return "goods/goods-form";
@@ -90,9 +76,7 @@ public class ItemController {
                                     @RequestParam(value = "page", defaultValue = "0") int page,
                                     @Valid GoodsCategoryListSearchCondition condition,
                                         @RequestParam(value = "brandName", defaultValue = "") String brandName) {
-        if(member != null) {
-            model.addAttribute(member);
-        }
+        member(member, model);
 
         if (brandName != null) {
             model.addAttribute("brandName", brandName);
@@ -106,10 +90,6 @@ public class ItemController {
 
         Page<Item> itemFetchJoin = itemRepository.findItemFetchJoin2(condition, categoryId, of);
 
-
-        System.out.println("**************" + itemFetchJoin.getPageable().getSort());
-
-        System.out.println("kkkkkkkkkkk" + itemFetchJoin.getTotalPages());
 
         model.addAttribute("itemFetchJoin", itemFetchJoin);
         model.addAttribute("maxPage", 10);
@@ -154,9 +134,8 @@ public class ItemController {
                                     @RequestParam(value = "page", defaultValue = "0") int page,
                                     @Valid GoodsCategoryListSearchCondition condition,
                                     @RequestParam(value = "brandName", defaultValue = "") String brandName) {
-        if(member != null) {
-            model.addAttribute(member);
-        }
+        member(member, model);
+
         model.addAttribute("mainSearch", new MainSearchDto());
         model.addAttribute("nowPage",page);
         model.addAttribute("goForm", new GoodsCategoryListSearchCondition());
@@ -198,7 +177,6 @@ public class ItemController {
             }
         }
 
-
         if(condition!=null) {
             model.addAttribute("condition",condition);
         }
@@ -208,44 +186,6 @@ public class ItemController {
         return "goods/goods-category-form";
     }
 
-
-
-
-    /*@GetMapping("/goods/category/{categoryId}")
-    public String goodsCategoryForm(@PathVariable("categoryId") ItemCategoryCondition condition, Model model ,
-                                    @RequestParam(value = "page", defaultValue = "0") int page) {
-       *//* PageRequest of = PageRequest.of(page, 10);
-        Page<Item> allItemByCategory = itemRepository.findAllItemByCategory(condition, of);
-
-        List<Item> content = allItemByCategory.getContent();
-
-        List<ItemByCategoryDto> itemByCategoryDtos = content.stream().map(i -> new ItemByCategoryDto(i))
-                .collect(Collectors.toList());*//*
-
-        List<Category> all = categoryRepository.findAll();
-
-        List<Category> collect = all.stream().collect(Collectors.toList());
-
-        List<Category> mainCategory = new ArrayList<>();
-        List<Category> subCategory = new ArrayList<>();
-
-
-        for (int i = 0; i < collect.size(); i++) {
-            if (collect.get(i).getParent() != null) {
-                subCategory.add(collect.get(i));
-            } else {
-                mainCategory.add(collect.get(i));
-            }
-        }
-
-        model.addAttribute("mainCategories", mainCategory);
-        model.addAttribute("subCategories", subCategory);
-  *//*      model.addAttribute("pages", allItemByCategory);
-        model.addAttribute("items", itemByCategoryDtos);
-*//*
-        return "goods/goods-category-form";
-    }
-*/
     static class ItemByCategoryDto {
 
         private Long itemId;
@@ -290,5 +230,40 @@ public class ItemController {
             this.categoryName = category.getCategory().getName();
         }
     }
+    private void category(Model model) {
+        List<Category> all = categoryRepository.findAll();
 
+        List<Category> collect = all.stream().collect(Collectors.toList());
+
+        List<Category> mainCategory = new ArrayList<>();
+        List<Category> subCategory = new ArrayList<>();
+
+        for (int i = 0; i < collect.size(); i++) {
+            if (collect.get(i).getParent() != null) {
+                subCategory.add(collect.get(i));
+            } else {
+                mainCategory.add(collect.get(i));
+            }
+        }
+
+        model.addAttribute("mainCategories", mainCategory);
+        model.addAttribute("subCategories", subCategory);
+    }
+
+    private void member(@CurrentUser Member member, Model model) {
+        if(member != null) {
+            Optional<Member> byId = memberRepository.findById(member.getId());
+            byId.ifPresent(m -> {
+                if(m.getCart() != null) {
+                    model.addAttribute("cartSize", m.getCart().getCartGoods().size());
+                } else {
+                    model.addAttribute("cartSize", 0);
+                }
+                model.addAttribute(m);
+            });
+        }
+
+
+        model.addAttribute("mainSearch", new MainSearchDto());
+    }
 }

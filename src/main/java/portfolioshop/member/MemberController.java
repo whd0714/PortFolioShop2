@@ -51,6 +51,11 @@ public class MemberController {
             byId.ifPresent(m->{
                 model.addAttribute(m);
                 model.addAttribute("mainSearch", new MainSearchDto());
+                if(m.getCart() != null) {
+                    model.addAttribute("cartSize", m.getCart().getCartGoods().size());
+                } else {
+                    model.addAttribute("cartSize", 0);
+                }
             });
 
         }

@@ -17,17 +17,16 @@
                         <div class="main-rank-category">
                             <h2 class="main-txt">랭킹</h2>
                             <span class="txt-detail-link">
-                            전체
                         </span>
                             <div class="renew-rank">
-                                <a href="javascript:void(0)"> <!-- 클릭시 상품랭킹 갱신 -->
-                                    상품
+                                <!--<a href="javascript:void(0)">
                                     <span class="renew-rank-date">0분 전 갱신</span>
-                                </a>
+                                </a>-->
                             </div>
                             <ul class="rank-menu-category">
                                 <li>
-                                    <a href="">전체</a>
+                                    <span class="sort-view">조회순</span>
+                                    <span class="sort-sale">판매순</span>
                                 </li>
                             </ul>
                         </div>
@@ -35,7 +34,24 @@
                         <h3 class="blind">랭킹 상품목록</h3>
                         <div class="rank-item-box">
                             <div class="rank-item">
-
+                                <ul class="rank-views">
+                                   <li class="rank-view" th:each="view : ${rankView}">
+                                       <span class="rank-count" th:text="${viewStat.count}"></span>
+                                       <a th:href="@{'/goods/' + ${view.getId()}}"> <img class="rank-item-img" th:src="@{'data:image/jpg;base64,'+ ${view.getItemImage()}}" alt="#" /></a>
+                                       <b><span th:text="${view.getBrand().getBrandName()}"></span></b>
+                                       <a th:href="@{'/goods/' + ${view.getId()}}"><span th:text="${view.getItemName()}"></span></a>
+                                       <b><span class="rank-price" th:text="${view.getItemPrice()}"></span></b>
+                                   </li>
+                                </ul>
+                                <ul class="rank-sales">
+                                    <li class="rank-view" th:each="sale : ${rankSale}">
+                                        <span class="rank-count" th:text="${saleStat.count}"></span>
+                                        <a th:href="@{'/goods/' + ${sale.getId()}}"> <img class="rank-item-img" th:src="@{'data:image/jpg;base64,'+ ${sale.getItemImage()}}" alt="#" /></a>
+                                        <b><span th:text="${sale.getBrand().getBrandName()}"></span></b>
+                                        <a th:href="@{'/goods/' + ${sale.getId()}}"><span th:text="${sale.getItemName()}"></span></a>
+                                        <b><span class="rank-price" th:text="${sale.getItemPrice()}"></span></b>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -57,7 +73,7 @@
                                     <a href="">전체</a>
                                 </li>
                                 <div class="new-goods-sub-list" th:each="main : ${mainCategories}">
-                                    <li th:text="${main.getName()}"></li>
+
                                 </div>
                             </ul>
                         </div>
@@ -65,8 +81,13 @@
                         <h3 class="blind">신상품목록</h3>
                         <div class="rank-item-box">
                             <div class="rank-item">
-                                <ul>
-                                    heeee
+                                <ul class="new-item">
+                                    <li class="rank-view" th:each="newItem : ${newItems}">
+                                        <a th:href="@{'/goods/' + ${newItem.getId()}}"> <img class="rank-item-img" th:src="@{'data:image/jpg;base64,'+ ${newItem.getItemImage()}}" alt="#" /></a>
+                                        <b><span th:text="${newItem.getBrand().getBrandName()}"></span></b>
+                                        <a th:href="@{'/goods/' + ${newItem.getId()}}"><span th:text="${newItem.getItemName()}"></span></a>
+                                        <b><span class="rank-price" th:text="${newItem.getItemPrice()}"></span></b>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -82,5 +103,34 @@
     </div>
 
     <script th:replace="fragment.html :: main-nav-category"></script>
+    <script>
+
+        window.addEventListener("load", function () {
+            let rankViews = document.querySelector('.rank-views');
+            let rankSales = document.querySelector('.rank-sales');
+            let sortView = document.querySelector('.sort-view');
+            let sortSale = document.querySelector('.sort-sale');
+            let switchView = false;
+            setInterval(function (){
+                if(!switchView) {
+                    sortView.style.fontWeight ="normal";
+                    sortView.style.color = "#b2b2b2"
+                    sortSale.style.fontWeight ="bold";
+                    sortSale.style.color = "black"
+                    rankSales.style.display="block";
+                    rankViews.style.display="none";
+                    switchView = true;
+                } else {
+                    sortView.style.fontWeight ="bold";
+                    sortView.style.color = "black"
+                    sortSale.style.fontWeight ="normal";
+                    sortSale.style.color = "#b2b2b2"
+                    rankSales.style.display="none";
+                    rankViews.style.display="block";
+                    switchView = false;
+                }
+            }, 2500);
+        });
+    </script>
 </body>
 </html>

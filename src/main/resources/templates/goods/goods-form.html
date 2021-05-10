@@ -294,8 +294,11 @@
                                 </div>
 
                                 <div class="product-select-btn-box">
-                                    <div class="product-select-btn">
+                                    <div class="product-select-btn" sec:authorize="isAuthenticated()">
                                         <span class="purchase-btn" onclick="purchaseGoods();">바로구매</span>
+                                    </div>
+                                    <div class="product-select-btn" sec:authorize="!isAuthenticated()">
+                                        <span class="purchase-btn" onclick="nonMember_purchase();">바로구매</span>
                                     </div>
                                     <div class="product-select-like">
                                         <div>
@@ -354,12 +357,15 @@
                                 </form>-->
 
                                 <div>
-                                    <div class="product-review-page-item-review-comment-box">
+                                    <div class="product-review-page-item-review-comment-box" sec:authorize="isAuthenticated()">
                                         <div class="product-review-page-item-review-comment-text-box">
                                             <textarea class="product-review-page-item-review-comment-text"></textarea>
                                             <span class="product-review-page-item-review-comment-btn" onclick="comment(this)">댓글작성</span>
                                             <input type="hidden" th:value="${review.getId()}">
                                         </div>
+                                    </div>
+                                    <div sec:authorize="!isAuthenticated()" class="product-review-non-member">
+                                        <span><a th:href="@{/login}"><b>로그인</b></a> 후에 작성하실 수 있습니다.</span>
                                     </div>
                                     <div  th:if="${!review.getComments().isEmpty()}" >
                                         <div class="review-comment-box" th:each="comment: ${review.getComments()}">
@@ -379,7 +385,7 @@
             </div>
         </div>
     </div>
-    <input type="hidden" th:value="${member.getUsername()}" class="review-username">
+    <input sec:authorize="isAuthenticated()" type="hidden" th:value="${member.getUsername()}" class="review-username">
     <script th:replace="fragment.html :: main-nav-category"></script>
     <script type="application/javascript" th:inline="javascript">
         $(function() {
@@ -391,6 +397,10 @@
         });
     </script>
     <script>
+
+        function nonMember_purchase() {
+            location.href="/login";
+        }
 
         function tagSearch(e) {
             let tagSearchForm = document.querySelector('.tag-search-form');

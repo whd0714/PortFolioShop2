@@ -176,7 +176,8 @@
                 <span class="header-member-block-username" th:text="${member.getUsername()}"></span>
             </div>
             <div class="header-member-block">
-                <a th:href="@{/myPage}" class="header-member-block-link"> 마이페이지 </a>
+                <a th:href="@{/myPage}" class="header-member-block-link" sec:authorize="isAuthenticated()"> 마이페이지 </a>
+                <a th:href="@{/login}" class="header-member-block-link" sec:authorize="!isAuthenticated()"> 마이페이지 </a>
             </div>
             <!--<div class="header-member-block">
                 <a th:href="@{/}" class="header-member-block-link"> 최근 본 상품 </a>
@@ -185,8 +186,12 @@
                 <a th:href="@{/}" class="header-member-block-like header-member-block-link"> 좋아요 </a>
             </div>-->
             <div class="header-member-block">
-                <a th:href="@{/cart}" class="header-member-block-link"> 장바구니 </a>
-                <span class="header-badge">0</span>
+                <a th:href="@{/cart}" class="header-member-block-link" sec:authorize="isAuthenticated()"> 장바구니 </a>
+                <a th:href="@{/login}" class="header-member-block-link" sec:authorize="!isAuthenticated()"> 장바구니 </a>
+
+                <span class="header-badge" sec:authorize="!isAuthenticated()">0</span>
+                <span class="header-badge" sec:authorize="isAuthenticated()" th:text="${cartSize}">0</span>
+
             </div>
             <!--<div class="header-member-block">
                 <a th:href="@{/}" class="header-member-block-link"> 주문배송조회 </a>

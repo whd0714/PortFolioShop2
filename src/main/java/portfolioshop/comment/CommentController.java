@@ -16,7 +16,6 @@ public class CommentController {
     @PostMapping("/add/comment")
     @ResponseBody
     public int addComment(@RequestBody ReviewCommentDto reviewCommentDto) {
-        System.out.println("!!!!!!!!!!!!!!!!!" + reviewCommentDto);
         commentService.newComment(reviewCommentDto);
         return 1;
     }

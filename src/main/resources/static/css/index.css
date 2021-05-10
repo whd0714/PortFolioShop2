@@ -14,3 +14,53 @@
     padding: 10px 0 10px 15px;
     border-bottom: 1px solid #ddd;
 }
+.rank-item {
+    width: 90%;
+}
+
+.rank-item-img {
+    display: inline-block;
+    width: 137px;
+    height: 170px;
+    align-self: center;
+}
+
+.rank-view {
+    display: inline-block;
+    padding: 0 20px;
+}
+
+.rank-view:hover {
+    background: #f1f1f1;
+}
+
+.rank-view span{
+    margin: 0;
+    width: 137px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    display: block;
+    padding: 3px 0;
+}
+
+.rank-count:after {
+    content: "위";
+}
+
+.rank-price:after {
+    content: "원";
+}
+
+.rank-views {
+    display: block;
+}
+
+.rank-sales {
+    display: none;
+}
+
+.sort-view {
+    font-weight: bold;
+    color: black;
+}
