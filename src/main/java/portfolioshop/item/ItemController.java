@@ -75,11 +75,16 @@ public class ItemController {
     public String goodsMainCategoryForm(@CurrentUser Member member, @PathVariable("categoryId") Long categoryId, Model model,
                                     @RequestParam(value = "page", defaultValue = "0") int page,
                                     @Valid GoodsCategoryListSearchCondition condition,
-                                        @RequestParam(value = "brandName", defaultValue = "") String brandName) {
+                                        @RequestParam(value = "brandName", defaultValue = "") String brandName,
+                                        @RequestParam(value = "sort", defaultValue = "") String sort) {
         member(member, model);
 
         if (brandName != null) {
             model.addAttribute("brandName", brandName);
+        }
+
+        if(sort != null) {
+            model.addAttribute("sort", sort);
         }
         model.addAttribute("mainSearch", new MainSearchDto());
         model.addAttribute("nowPage",page);
@@ -90,6 +95,7 @@ public class ItemController {
 
         Page<Item> itemFetchJoin = itemRepository.findItemFetchJoin2(condition, categoryId, of);
 
+        System.out.println("!!!!!!!!!!" + itemFetchJoin.getContent().size());
 
         model.addAttribute("itemFetchJoin", itemFetchJoin);
         model.addAttribute("maxPage", 10);
@@ -133,7 +139,8 @@ public class ItemController {
     public String goodsCategoryForm(@CurrentUser Member member, @PathVariable("categoryId") Long categoryId, Model model,
                                     @RequestParam(value = "page", defaultValue = "0") int page,
                                     @Valid GoodsCategoryListSearchCondition condition,
-                                    @RequestParam(value = "brandName", defaultValue = "") String brandName) {
+                                    @RequestParam(value = "brandName", defaultValue = "") String brandName,
+                                    @RequestParam(value = "sort", defaultValue = "") String sort) {
         member(member, model);
 
         model.addAttribute("mainSearch", new MainSearchDto());
@@ -151,7 +158,9 @@ public class ItemController {
         if (brandName != null) {
             model.addAttribute("brandName", brandName);
         }
-
+        if(sort != null) {
+            model.addAttribute("sort", sort);
+        }
 
         //브랜드 이름 중복제거
         List<Item> itemFetchJoinNoConditions = itemRepository.findItemFetchJoinNoConditions(categoryId);

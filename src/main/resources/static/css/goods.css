@@ -552,3 +552,15 @@
 .review-comment-box div:first-child {
     padding-bottom: 10px;
 }
+
+.product-non-review-box-container {
+    border: 1px solid #ddd;
+    padding: 30px 50px;
+    text-align: center;
+    margin-top: 15px;
+}
+.product-recommendation-size-non-list {
+    padding: 64px 0px;
+    text-align: center;
+    display: inherit;
+}

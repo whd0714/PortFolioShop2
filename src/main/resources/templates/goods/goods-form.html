@@ -256,7 +256,10 @@
                                         <div class="product-recommendation-size-box">
                                             <ul>
                                                 <li>
-                                                    <div class="product-recommendation-size-list">
+                                                    <div class="product-recommendation-size-list" th:if="${item.getReviews().isEmpty()}">
+                                                        <span class="product-recommendation-size-non-list">등록된 사이즈 추천이 없습니다.</span>
+                                                    </div>
+                                                    <div class="product-recommendation-size-list" th:if="${!item.getReviews().isEmpty()}">
                                                         <div class="product-recommendation-size-list-bottom" th:each="recommand : ${item.getReviews()}">
                                                             <div>
                                                                 <span th:text="${recommand.getHeight()}"></span>
@@ -320,7 +323,10 @@
                 <div>
                     <div class="product-review-box">
                         <h3 class="product-review-title"><b>구매후기</b></h3>
-                        <div class="product-review-box-container">
+                        <div class="product-non-review-box-container" th:if="${reviews.isEmpty()}">
+                            등록된 후기가 없습니다.
+                        </div>
+                        <div class="product-review-box-container" th:if="${!reviews.isEmpty()}">
                             <div class="product-review-list" th:each="review : ${reviews}">
                                 <div>
                                     <input class="review-id" type="hidden" th:value="${review.getId()}">
@@ -437,7 +443,7 @@
                 data: JSON.stringify(data),
                 success : function (value){
 
-                    window.location.href = "http://localhost:8070/goods/" + itemId;
+                    window.location.href = "/goods/" + itemId;
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     alert("ERROR : " + textStatus + " : " + errorThrown);
