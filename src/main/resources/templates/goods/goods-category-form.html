@@ -48,7 +48,7 @@
                     <input type="text" th:field="*{brandName}" class="brand-name-input">
                 </form>
 
-                <div>
+                <div class="sort-box-container">
                     <div class="sort-query-box">
                         <div class="sort-box">
                             <ul>
@@ -65,47 +65,13 @@
                                  th:with="start=${(itemFetchJoin.getNumber()/maxPage)*maxPage + 1},
                   end=(${(itemFetchJoin.getTotalPages() == 0) ? 1 : (start + (maxPage - 1) < itemFetchJoin.totalPages ? start + (maxPage - 1) : itemFetchJoin.totalPages)})">
                                 <ul>
-                                    <!--<li th:if="${start > 1}">-->
                                     <li>
-                                        <!--<div th:if="${condition.getBrandName() == null}">
-                                            <a th:href="@{'/goods/category/'+ ${categoryId} + '?brandName=&page=' + 0}" >
-                                                <i class="fa fa-angle-double-left"></i>
-                                            </a>
-                                        </div>
-                                        <div th:if="${condition.getBrandName() != null}">
-                                            <a th:href="@{'/goods/category/'+ ${categoryId} + '?brandName=' + ${condition.getBrandName()} + '&page=' + 0}" >
-                                                <i class="fa fa-angle-double-left"></i>
-                                            </a>
-                                        </div>-->
                                         <a th:href="@{'/goods/category/'+ ${categoryId} + '?brandName=' + ${condition.getBrandName()} + '&page=' + 0 + '&sort=' + ${sort}}" >
                                             <i class="fa fa-angle-double-left"></i>
                                         </a>
                                     </li>
 
-                                    <!--      <li th:if="${start > 1}">-->
                                     <li>
-                                        <!--<div th:if="${condition.getBrandName() != null}">
-                                            &lt;!&ndash;    <a th:href="@{'/goods/mainCategory/'+ ${categoryId} + '?brandName=' + ${condition.getBrandName()} + '&page=' + ${start - maxPage - 1}}">&ndash;&gt;
-                                            <div th:if="${nowPage > 0}">
-                                                <a th:href="@{'/goods/category/'+ ${categoryId} + '?brandName=' + ${condition.getBrandName()} + '&page=' + ${nowPage- 1}}">
-                                                    <i class="fa fa-angle-left"></i>
-                                                </a>
-                                            </div>
-                                            <div th:if="${nowPage <= 0}">
-                                                <span><i class="fa fa-angle-left"></i></span>
-                                            </div>
-                                        </div>
-                                        <div th:if="${condition.getBrandName() == null}">
-                                            &lt;!&ndash;       <a th:href="@{'/goods/mainCategory/'+ ${categoryId} + '?brandName=&page=' + ${start - maxPage - 1}}">&ndash;&gt;
-                                            <div th:if="${nowPage > 0}">
-                                                <a th:href="@{'/goods/category/'+ ${categoryId} + '?brandName=&page=' + ${nowPage - 1}}">
-                                                    <i class="fa fa-angle-left"></i>
-                                                </a>
-                                            </div>
-                                            <div th:if="${nowPage <= 0}">
-                                                <span><i class="fa fa-angle-left"></i></span>
-                                            </div>
-                                        </div>-->
                                         <div th:if="${nowPage > 0}">
                                             <a th:href="@{'/goods/category/'+ ${categoryId} + '?brandName=' + ${condition.getBrandName()} + '&page=' + ${nowPage- 1} + '&sort=' + ${sort}}">
                                                 <i class="fa fa-angle-left"></i>
@@ -117,16 +83,9 @@
                                     </li>
 
                                     <li th:each="page: ${#numbers.sequence(start, end)}">
-                                        <!--<div th:if="${condition.getBrandName() != null}">
-                                            <a th:href="@{'/goods/category/'+ ${categoryId} + '?brandName=' + ${condition.getBrandName()} + '&page=' + ${page-1}}" th:text="${page}"></a>
-                                        </div>
-                                        <div th:if="${condition.getBrandName() == null}">
-                                            <a th:href="@{'/goods/category/'+ ${categoryId} + '?brandName=&page=' + ${page-1}}" th:text="${page}"></a>
-                                        </div>-->
                                         <a th:href="@{'/goods/category/'+ ${categoryId} + '?brandName=&page=' + ${page-1} + '&sort=' + ${sort}}" th:text="${page}"></a>
                                     </li>
 
-                                    <!--        <li th:if="${end < itemFetchJoin.totalPages}">-->
                                     <li>
                                         <div th:if="${nowPage < itemFetchJoin.getTotalPages() - 1}">
                                             <a th:href="@{'/goods/category/'+ ${categoryId} + '?brandName=' + ${condition.getBrandName()} + '&page=' + ${nowPage+1} + '&sort=' + ${sort}}">
@@ -137,48 +96,12 @@
                                         <div th:if="${nowPage >= itemFetchJoin.getTotalPages() - 1}">
                                             <i class="fa fa-angle-right"></i>
                                         </div>
-                                    <!--    <div th:if="${condition.getBrandName() == null}">
-                                            <div th:if="${nowPage < itemFetchJoin.getTotalPages() - 1}">
-                                                <a th:href="@{'/goods/category/'+ ${categoryId} + '?brandName=&page=' + ${nowPage+1}}">
-                                                    <i class="fa fa-angle-right"></i>
-                                                </a>
-                                            </div>
-                                            <div th:if="${nowPage >= itemFetchJoin.getTotalPages() - 1}">
-                                                <i class="fa fa-angle-right"></i>
-                                            </div>
-                                        </div>
-                                        <div th:if="${condition.getBrandName() != null}">
-                                            <div th:if="${nowPage < itemFetchJoin.getTotalPages() - 1}">
-                                                <a th:href="@{'/goods/category/'+ ${categoryId} + '?brandName=' + ${condition.getBrandName()} + '&page=' + ${nowPage+1}}">
-                                                    <i class="fa fa-angle-right"></i>
-                                                </a>
-                                            </div>
-
-                                            <div th:if="${nowPage >= itemFetchJoin.getTotalPages() - 1}">
-                                                <i class="fa fa-angle-right"></i>
-                                            </div>
-                                        </div>-->
                                     </li>
 
-                                    <!--  <li th:if="${end < itemFetchJoin.totalPages}">-->
                                     <li>
                                         <a th:href="@{'/goods/category/'+ ${categoryId} + '?brandName=' + ${condition.getBrandName()} + '&page=' + ${itemFetchJoin.getTotalPages()-1} + '&sort=' + ${sort}}">
                                             <i class="fa fa-angle-double-right"></i>
                                         </a>
-                                        <!--<div th:if="${condition.getBrandName() == null}">
-                                          &lt;!&ndash;  <div th:if="${end < itemFetchJoin.totalPages}">&ndash;&gt;
-                                            <div>
-                                                <a th:href="@{'/goods/category/'+ ${categoryId} + '?brandName=&page=' + ${itemFetchJoin.getTotalPages()-1}}">
-                                                    <i class="fa fa-angle-double-right"></i>
-                                                </a>
-                                            </div>
-
-                                        </div>
-                                        <div th:if="${condition.getBrandName() != null}">
-                                            <a th:href="@{'/goods/category/'+ ${categoryId} + '?brandName=' + ${condition.getBrandName()} + '&page=' + ${itemFetchJoin.getTotalPages()-1}}">
-                                                <i class="fa fa-angle-double-right"></i>
-                                            </a>
-                                        </div>-->
                                     </li>
                                 </ul>
                             </div><!--상품 페이지 끝-->
@@ -197,7 +120,7 @@
                                                <b><span th:text="${itemlist.getBrand().getBrandName()}"></span></b>
                                                <span th:text="${itemlist.getItemName()}"></span>
                                                <b><span th:text="${itemlist.getItemPrice()}"></span><span>원</span></b>
-                                               <span><i class="fa fa-heart"></i>{30000}</span>
+                                            <!--   <span><i class="fa fa-heart"></i>{30000}</span>-->
                                            </div>
 
                                        </div>
@@ -232,8 +155,10 @@
                        </li>
                    </ul>
                 </div>
+                <div th:replace="fragment.html :: footer"></div>
             </main>
         </div>
+
     </div>
 
     <script th:replace="fragment.html :: main-nav-category"></script>

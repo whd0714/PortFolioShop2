@@ -1,0 +1,13 @@
+
+
+.search-container {
+    padding: 10px 0;
+    margin-left: auto;
+}
+
+.search-header {
+    padding-left: 50px;
+    display: inline-block;
+    position: relative;
+    top: 10px;
+}

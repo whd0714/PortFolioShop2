@@ -292,6 +292,7 @@ header {
     right: 0;
     min-width: 1229px;
     border-left: 1px solid #ddd;
+    --border-bottom: 1px solid #ddd;
 }
 
 .main-box {
@@ -408,4 +409,10 @@ header {
 
 .header-member-block-username {
     padding: 5px 4px 4px 4px;
+}
+
+.footer {
+    padding: 10px 25px;
+    background: black;
+    color: white;
 }

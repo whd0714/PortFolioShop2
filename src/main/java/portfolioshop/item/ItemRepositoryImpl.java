@@ -107,7 +107,7 @@ public class ItemRepositoryImpl implements ItemSearchRepository{
     @Override
     public Page<Item> findItemFetchJoin(GoodsCategoryListSearchCondition condition, Long categoryId, Pageable pageable) {
 
-        OrderSpecifier orderSpecifier = getOrderSpecifier(condition);
+        OrderSpecifier orderSpecifier = getOrderSpecifier(condition.getSort());
 
         QueryResults<Item> results = queryFactory
                 .selectFrom(item)
@@ -127,7 +127,7 @@ public class ItemRepositoryImpl implements ItemSearchRepository{
     @Override
     public Page<Item> findItemFetchJoin2(GoodsCategoryListSearchCondition condition, Long categoryId, Pageable pageable) {
 
-        OrderSpecifier orderSpecifier = getOrderSpecifier(condition);
+        OrderSpecifier orderSpecifier = getOrderSpecifier(condition.getSort());
 
         QueryResults<Item> results = queryFactory
                 .selectFrom(item)
@@ -144,12 +144,12 @@ public class ItemRepositoryImpl implements ItemSearchRepository{
         return new PageImpl<>(contents, pageable, total);
     }
 
-    private OrderSpecifier getOrderSpecifier(GoodsCategoryListSearchCondition condition) {
+    private OrderSpecifier getOrderSpecifier(String sort) {
         OrderSpecifier orderSpecifier;
-        if (condition.getSort() != null) {
-            if (condition.getSort().equals("신상품순")) {
+        if (sort != null) {
+            if (sort.equals("신상품순")) {
                 orderSpecifier = new OrderSpecifier(Order.ASC, item.createItemTime);
-            } else if (condition.getSort().equals("낮은가격순")) {
+            } else if (sort.equals("낮은가격순")) {
                 orderSpecifier = new OrderSpecifier(Order.ASC, item.itemPrice);
             } else {
                 orderSpecifier = new OrderSpecifier(Order.DESC, item.itemPrice);
@@ -190,7 +190,7 @@ public class ItemRepositoryImpl implements ItemSearchRepository{
 
     @Override
     public Page<Item> findItemFromQuery(MainSearchDto mainSearchDto, Pageable pageable) {
-
+        OrderSpecifier orderSpecifier = getOrderSpecifier(mainSearchDto.getSort());
         QueryResults<Item> results;
         results = queryFactory
                 .selectFrom(item).distinct()
@@ -198,6 +198,7 @@ public class ItemRepositoryImpl implements ItemSearchRepository{
                 .where(itemNameOrBrandNameOrCategoryNameEq(mainSearchDto.getQuery()),tagNameEq(mainSearchDto.getTagName()))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
+                .orderBy(orderSpecifier)
                 .fetchResults();
 
         List<Item> contents = results.getResults();
@@ -237,7 +238,6 @@ public class ItemRepositoryImpl implements ItemSearchRepository{
         return fetch;
     }
 
-
     private BooleanExpression tagNameEq(String tagName) {
         return hasText(tagName) ? item.itemTags.any().tag.tagName.eq(tagName): null;
     }
@@ -247,8 +247,10 @@ public class ItemRepositoryImpl implements ItemSearchRepository{
         return categoryId != null ? item.itemCategories.any().category.id.eq(categoryId) : null;
     }
     private BooleanExpression itemNameOrBrandNameOrCategoryNameEq(String query) {
-        return hasText(query) ? item.itemName.contains(query).or(brand.brandName.contains(query)
-                .or(item.itemCategories.any().category.name.contains(query))) : null;
+        return hasText(query) ? item.itemName.contains(query)
+                .or(brand.brandName.contains(query)
+                .or(item.itemCategories.any().category.name.contains(query)
+                        .or(item.itemCategories.any().category.parent.name.contains(query)))) : null;
     }
 
     private BooleanExpression itemNameEq(String itemName) {

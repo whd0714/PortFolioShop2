@@ -169,3 +169,7 @@
     text-decoration: underline;
     font-weight: bold;
 }
+
+.sort-box-container {
+    padding-bottom: 30px;
+}

@@ -70,13 +70,29 @@ public class MainController {
                                  @CurrentUser Member member, Model model,
                                  @RequestParam(value = "page", defaultValue = "0") int page,
                                  @RequestParam(value = "tagName", defaultValue = "") String tagName,
-                                 @RequestParam(value = "query", defaultValue = "") String query) {
+                                 @RequestParam(value = "query", defaultValue = "") String query,
+                                 @RequestParam(value = "sort", defaultValue = "") String sort) {
         member(member, model);
 
-        PageRequest of = PageRequest.of(0, 10);
+        PageRequest of = PageRequest.of(page, 10);
         Page<Item> itemFromQueryAndTag = itemRepository.findItemFromQuery(mainSearchDto, of);
 
-        List<Item> content = itemFromQueryAndTag.getContent();
+
+        model.addAttribute("sortForm",new MainSearchDto());
+        model.addAttribute("allQuery",itemFromQueryAndTag);
+        model.addAttribute("nowPage", page);
+        model.addAttribute("maxPage", 10);
+        String regex = "#";
+        String replacement = "%23";
+        if(tagName != null) {
+            model.addAttribute("tagName", tagName.replace(regex, replacement));
+        }
+        if(query != null) {
+            model.addAttribute("queryData", query);
+        }
+        if(sort != null) {
+            model.addAttribute("sort", sort);
+        }
 
         category(model);
 

@@ -1878,10 +1878,10 @@ public class InitDb {
             String tag1 = "#로고#로고티#반팔티#오버핏#티셔츠";
             tagService.addNewTag(tag1, item);
 
-            String tag2 = "#기본티#라운드넥#루즈핏#면티셔츠#무지티#반팔티#홈웨어컬렉션#베이식";
+            String tag2 = "#기본티#라운드넥#루즈핏#면티셔츠#무지티#반팔티#베이식";
             tagService.addNewTag(tag2, item2);
 
-            String tag3 = "#기본티#라운드넥#루즈핏#면티셔츠#무지티#반팔티#홈웨어컬렉션";
+            String tag3 = "#기본티#라운드넥#루즈핏#면티셔츠#무지티#반팔티";
             tagService.addNewTag(tag3, item3);
 
             String tag4 = "#로고#반팔#반팔티#오버핏#반팔티셔츠#베이직티셔츠";
@@ -1906,10 +1906,10 @@ public class InitDb {
             tagService.addNewTag(tag10, item10);
 
             /*긴팔 티셔츠 태그*/
-            String tag11 = "#기본티#긴팔티#라운드넥#루즈핏#면티셔츠#무지티#홈웨어컬렉션";
+            String tag11 = "#기본티#긴팔티#라운드넥#루즈핏#면티셔츠#무지티";
             tagService.addNewTag(tag11, item11);
 
-            String tag12 = "#기본티#긴팔티#라운드넥#루즈핏#면티셔츠#무지티#홈웨어컬렉션";
+            String tag12 = "#기본티#긴팔티#라운드넥#루즈핏#면티셔츠#무지티";
             tagService.addNewTag(tag12, item12);
 
             String tag13 = "#긴팔티#롱슬리브#엔젤로고#체크#루즈핏#스트라이프";
@@ -1921,7 +1921,7 @@ public class InitDb {
             String tag15 = "#그래픽#긴팔티#오버핏#티셔츠#긴팔티셔츠#로고#루즈핏";
             tagService.addNewTag(tag15, item15);
 
-            String tag16 = "#긴팔티#오버핏#자수#프린팅#16수";
+            String tag16 = "#긴팔티#오버핏#자수#프린팅";
             tagService.addNewTag(tag16, item16);
 
             String tag17 = "#크루넥#롱슬리브#스트라이프";
@@ -1961,7 +1961,7 @@ public class InitDb {
             String tag28 = "#기본#베이직#옥스포드셔츠#긴팔셔츠";
             tagService.addNewTag(tag28, item28);
 
-            String tag29 = "#남자셔츠#미니멀#스트라이프#스트라이프셔츠#오버핏#커플셔츠#포켓셔츠";
+            String tag29 = "#남자셔츠#미니멀#스트라이프#스트라이프셔츠#오버핏#포켓셔츠";
             tagService.addNewTag(tag29, item29);
 
             String tag30 = "#남자셔츠#셔츠#스트라이프셔츠#줄무늬셔츠#캐쥬얼셔츠";
@@ -1971,10 +1971,10 @@ public class InitDb {
             String tag31 = "#맨투맨#오버핏#로고#스웨트셔츠";
             tagService.addNewTag(tag31, item31);
 
-            String tag32 = "#크루넥#맨투맨#헤리티지캐주얼";
+            String tag32 = "#크루넥#맨투맨";
             tagService.addNewTag(tag32, item32);
 
-            String tag33 = "#기본#베이직#스웨트셋업#스웨트컬렉션#이지웨어#트레이닝복#스쿨룩";
+            String tag33 = "#기본#베이직#스웨트컬렉션#이지웨어#트레이닝복#스쿨룩";
             tagService.addNewTag(tag33, item33);
 
             String tag34 = "#스웨트셔츠#크루넥#오버핏맨투맨#루즈핏#맨투맨";
@@ -2026,7 +2026,7 @@ public class InitDb {
             String tag49 = "#니트#목폴라#터틀넥";
             tagService.addNewTag(tag49, item49);
 
-            String tag50 = "=#니트#울니트#라운드니트#온유니트#워머니트#폴로넥#배색#캐리오버";
+            String tag50 = "#니트#울니트#라운드니트#워머니트#폴로넥#배색#캐리오버";
             tagService.addNewTag(tag50, item50);
 
             String tag51 = "#데님팬츠#와이드#와이드데님#와이드청바지#와이드팬츠#청바지#데일리룩";
@@ -2101,7 +2101,7 @@ public class InitDb {
             String tag73 = "#밴딩반바지#밴딩팬츠#쇼츠팬츠#추리닝반바지";
             tagService.addNewTag(tag73, item73);
 
-            String tag74 = "#경량반바지#경량쇼츠#운동복#트레이닝#트레이닝반바지#트레이닝쇼츠#피트니스쇼츠";
+            String tag74 = "#경량반바지#운동복#트레이닝#트레이닝반바지#트레이닝쇼츠#피트니스쇼츠";
             tagService.addNewTag(tag74, item74);
 
             String tag75 = "#반바지#쇼츠#카고반바지#카고쇼츠#나일론반바지#트레이닝반바지";
@@ -2158,11 +2158,11 @@ public class InitDb {
             String image3 = new String(encode3, "UTF-8");
             String image4 = new String(encode4, "UTF-8");
 
-            Brand brand0 = new Brand("무신사", "MUSINSA STANDARD", image0);
-            Brand brand1 = new Brand("엘엠씨", "LMC", image1);
-            Brand brand2 = new Brand("커버낫", "COVERNAT", image2);
-            Brand brand3 = new Brand("페이탈리즘", "FATALISM", image3);
-            Brand brand4 = new Brand("나이키", "NIKE", image4);
+            Brand brand0 = new Brand("하디다스", "HADIDAS", image0);
+            Brand brand1 = new Brand("삘라", "PPILLA", image1);
+            Brand brand2 = new Brand("올드발란스", "OLDBALANCE", image2);
+            Brand brand3 = new Brand("풀스", "FULLS", image3);
+            Brand brand4 = new Brand("나이스", "NICE", image4);
             brandRepository.save(brand0);
             brandRepository.save(brand1);
             brandRepository.save(brand2);

@@ -7,4 +7,5 @@ public class MainSearchDto {
 
     private String query;
     private String tagName;
+    private String sort;
 }

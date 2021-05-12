@@ -92,10 +92,7 @@ public class ItemController {
 
         PageRequest of = PageRequest.of(page, 10, Sort.by(Sort.Direction.DESC, "item.itemPrice"));
 
-
         Page<Item> itemFetchJoin = itemRepository.findItemFetchJoin2(condition, categoryId, of);
-
-        System.out.println("!!!!!!!!!!" + itemFetchJoin.getContent().size());
 
         model.addAttribute("itemFetchJoin", itemFetchJoin);
         model.addAttribute("maxPage", 10);

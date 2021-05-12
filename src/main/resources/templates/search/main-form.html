@@ -9,27 +9,165 @@
 
 <div>
     <div th:replace="fragment.html :: body-aside"></div>
-
     </div>
+    <div class="search-header">
+        <div class="nav-ol">
+            <div class="nav-home dir">
+                <a th:href="@{/}">포트폴리오 스토어</a>
+            </div>
+            <div class="nav-brand">
+                <span>검색</span>
+                (<span th:text="${queryData}"></span>)
+            </div>
+        </div>
+    </div>
+    <div class="main-box search-container">
+    <div class="sort-query-box">
+        <div class="sort-box">
+            <ul>
+                <li><span class="new-goods-value options-sort" onclick="sortFun2(this)">신상품순</span></li>
+                <div class="div">|</div>
+                <li><span class="low-price-goods-value options-sort" onclick="sortFun2(this)">낮은가격순</span></li>
+                <div class="div">|</div>
+                <li><span class="high-price-goods-value options-sort" onclick="sortFun2(this)">높은가격순</span></li>
+                <div class="div">|</div>
+            </ul>
+        </div>
+        <div> <!--상품 리스트, 페이지-->
+            <div class="goods-category-page"
+                 th:with="start=${(allQuery.getNumber()/maxPage)*maxPage + 1},
+                  end=(${(allQuery.getTotalPages() == 0) ? 1 : (start + (maxPage - 1) < allQuery.totalPages ? start + (maxPage - 1) : allQuery.totalPages)})">
+                <ul th:if="${!allQuery.isEmpty()}">
+                    <li>
+                        <a th:href="@{'/main/search/?query=' + ${queryData} + '&tagName=' + ${tagName} + '&page=' + 0 + '&sort=' + ${sort}}" >
+                            <i class="fa fa-angle-double-left"></i>
+                        </a>
+                    </li>
+
+                    <li>
+                        <div th:if="${nowPage > 0}">
+                            <a th:href="@{'/main/search/?query=' + ${queryData} + '&tagName=' + ${tagName} + '&page=' + ${nowPage- 1} + '&sort=' + ${sort}}">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        </div>
+                        <div th:if="${nowPage <= 0}">
+                            <span><i class="fa fa-angle-left"></i></span>
+                        </div>
+                    </li>
+
+                    <li th:each="page: ${#numbers.sequence(start, end)}">
+                        <a th:href="@{'/main/search/?query=' + ${queryData} + '&tagName=' + ${tagName} +'&page=' + ${page-1} + '&sort=' + ${sort}}" th:text="${page}"></a>
+                    </li>
+
+                    <li>
+                        <div th:if="${nowPage < allQuery.getTotalPages() - 1}">
+                            <a th:href="@{'/main/search/?query=' + ${queryData} + '&tagName=' + ${tagName} + '&page=' + ${nowPage+1} + '&sort=' + ${sort}}">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        </div>
+
+                        <div th:if="${nowPage >= allQuery.getTotalPages() - 1}">
+                            <i class="fa fa-angle-right"></i>
+                        </div>
+                    </li>
+
+                    <li>
+                        <a th:href="@{'/main/search/?query=' + ${queryData} + '&tagName=' + ${tagName} + '&page=' + ${allQuery.getTotalPages()-1} + '&sort=' + ${sort}}">
+                            <i class="fa fa-angle-double-right"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div><!--상품 페이지 끝-->
+
+        </div>
+    </div>
+
+    <ul class="goods-list-options-container" >
+        <li  class="wrong-data-box" th:if="${allQuery.isEmpty()}">
+            "<span class="wrong-data" th:text="${queryData}"></span>"에 대한 검색결과가 없습니다.
+        </li>
+        <li th:if="${!allQuery.isEmpty()}" th:each="itemlist : ${allQuery}" class="goods-list-options-box">
+            <div class="goods-list-container-box" >
+                <div class="goods-list-container" >
+                    <a th:href="@{'/goods/' + ${itemlist.getId()}}">
+                        <div class="goods-list-box">
+                            <img class="goods-list-box-img" th:src="@{'data:image/jpg;base64,'+ ${itemlist.getItemImage()}}" alt="#" />
+                            <div class="goods-list-text">
+                                <b><span th:text="${itemlist.getBrand().getBrandName()}"></span></b>
+                                <span th:text="${itemlist.getItemName()}"></span>
+                                <b><span th:text="${itemlist.getItemPrice()}"></span><span>원</span></b>
+                                <!--   <span><i class="fa fa-heart"></i>{30000}</span>-->
+                            </div>
+
+                        </div>
+
+                    </a>
+                    <div class="goods-list-bottom">
+                        <span class="goods-list-gender" th:text="${itemlist.getGender()}"></span>
+                        <span class="goods-list-option-box" >OPTION</span>
+                    </div>
+                </div>
+                <div class="good-option-container">
+                    <div class="good-option-box" th:each="option : ${itemlist.getGoods()}">
+                        <div th:if="${option.getCount() == 0}">
+                            <ul class="good-option-ul">
+                                <li class="good-option-list">
+                                    <span th:text="${option.getSize()}"></span>
+                                    <span>X</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div th:if="${option.getCount() != 0}">
+                            <ul class="good-option-ul">
+                                <li class="good-option-list">
+                                    <span th:text="${option.getSize()}"></span>
+                                    <span>O</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- 상품 리스트 끝-->
+        </li>
+
+    </ul>
+       <div class="search-footer">
+           <div th:replace="fragment.html :: footer"></div>
+       </div>
+
 </div>
+</div>
+
+
+<form hidden id="search-sort-form" th:object="${sortForm}" th:action="@{'/main/search'}" method="get">
+    <input type="text" th:field="*{query}" class="query-input-search">
+    <input type="text" th:field="*{tagName}" class="tag-name-input-search">
+    <input type="text" th:field="*{sort}" class="sort-input-search">
+    <input type="text" class="query-name-param" th:value="${queryData}">
+    <input type="text" class="tag-name-param" th:value="${tagName}">
+</form>
 
 <script th:replace="fragment.html :: main-nav-category"></script>
 
 <script>
+    function sortFun2(e) {
+        let searchSortForm = document.querySelector('#search-sort-form');
+        let sortInputSearch = document.querySelector('.sort-input-search');
+        let tagNameInputSearch = document.querySelector('.tag-name-input-search');
+        let queryInputSearch = document.querySelector('.query-input-search');
+        let queryNameParam = document.querySelector('.query-name-param');
+        let tagNameParam = document.querySelector('.tag-name-param');
+        queryInputSearch.value = queryNameParam.value;
+        tagNameInputSearch.value = tagNameParam.value.replace('%23',"#");
+        console.log(tagNameInputSearch.value);
+        sortInputSearch.value = e.textContent;
+        searchSortForm.submit();
+    }
+</script>
+<script>
     window.addEventListener("load" ,function () {
         let goodsListOptionsContainer = document.querySelector('.goods-list-options-container');
 
-        let gcfForm = document.querySelector('#gcf-form');
-
-        let goodsCategoryBrandContents = document.querySelector('.goods-category-brand-contents');
-
-        goodsCategoryBrandContents.onclick = function (e) {
-            if(!e.target.classList.contains('gcf-brand'))
-                return ;
-            let brandNameInput = document.querySelector('.brand-name-input');
-            brandNameInput.value = e.target.textContent;
-            gcfForm.submit();
-        }
 
         //상품 옵션바
         goodsListOptionsContainer.onclick = function (e) {

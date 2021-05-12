@@ -16,11 +16,9 @@
                         <div class="nav-home dir">
                             <a th:href="@{/}">포트폴리오 스토어</a>
                         </div>
-                        <div class="nav-brand-shop dir">
-                            <a th:href="@{/}">브랜드 숍</a>
-                        </div>
+
                         <div class="nav-brand">
-                            <a th:href="@{/}">
+                            <a th:href="@{'/main/search/?query=' + ${item.getBrand().getBrandName()}}">
                                 <span th:text="${item.getBrand().getBrandNameEng()}"></span>
                                 (<span th:text="${item.getBrand().getBrandName()}"></span>)
                             </a>
@@ -388,8 +386,11 @@
                         </div>
                     </div>
                 </div>
+                <div th:replace="fragment.html :: footer"></div>
             </div>
+
         </div>
+
     </div>
     <input sec:authorize="isAuthenticated()" type="hidden" th:value="${member.getUsername()}" class="review-username">
     <script th:replace="fragment.html :: main-nav-category"></script>

@@ -64,3 +64,19 @@
     font-weight: bold;
     color: black;
 }
+
+.new-item-box {
+    padding-top: 17px;
+}
+
+.wrong-data-box {
+    padding: 50px 40px;
+}
+
+.wrong-data {
+    color: #ff603e;
+}
+
+.search-footer {
+    margin-left: 269px;
+}

@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="/css/delivery.css" type="text/css">
     <link rel="stylesheet" href="/css/cart.css" type="text/css">
     <link rel="stylesheet" href="/css/review.css" type="text/css">
+    <link rel="stylesheet" href="/css/search.css" type="text/css">
 
 
     <script src="/node_modules/jquery/dist/jquery.min.js"></script>
@@ -118,7 +119,7 @@
                         <fieldset>
                             <legend class="blind">검색창</legend>
                             <label class="blind">입력창</label>
-                            <input id="search-query" type="text" onsubmit="mainSearchQuery()" th:field="*{query}" >
+                            <input id="search-query" type="text" onsubmit="mainSearchQuery()" th:field="*{query}">
                             <span id="search-button">
                                 <i class="fa fa-search"></i>
                             </span>
@@ -339,6 +340,10 @@
             <li><a href="">쪽지</a></li>
         </ul>
     </nav>
+
+    <footer class="footer" th:fragment="footer">
+        본 프로젝트는 MUSINSA STORE를 모델로 만든 포트폴리오입니다.
+    </footer>
 
     <script>
         function mainSearchQuery() {

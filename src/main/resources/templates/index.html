@@ -60,21 +60,21 @@
                         <h2 class="blind">신상품</h2>
                         <div class="main-rank-category">
                             <h2 class="main-txt">신상품</h2>
-                            <span class="txt-detail-link">
+                            <!--<span class="txt-detail-link">
                                 전체
-                            </span>
+                            </span>-->
                             <div class="renew-rank">
-                                <a href="javascript:void(0)"> <!-- 클릭시 상품랭킹 갱신 -->
+                               <!-- <a href="javascript:void(0)"> &lt;!&ndash; 클릭시 상품랭킹 갱신 &ndash;&gt;
                                     상품
-                                </a>
+                                </a>-->
                             </div>
                             <ul class="rank-menu-category">
-                                <li>
+                                <!--<li>
                                     <a href="">전체</a>
-                                </li>
-                                <div class="new-goods-sub-list" th:each="main : ${mainCategories}">
+                                </li>-->
+                                <!--<div class="new-goods-sub-list" th:each="main : ${mainCategories}">
 
-                                </div>
+                                </div>-->
                             </ul>
                         </div>
 
@@ -82,7 +82,7 @@
                         <div class="rank-item-box">
                             <div class="rank-item">
                                 <ul class="new-item">
-                                    <li class="rank-view" th:each="newItem : ${newItems}">
+                                    <li class="rank-view new-item-box" th:each="newItem : ${newItems}">
                                         <a th:href="@{'/goods/' + ${newItem.getId()}}"> <img class="rank-item-img" th:src="@{'data:image/jpg;base64,'+ ${newItem.getItemImage()}}" alt="#" /></a>
                                         <b><span th:text="${newItem.getBrand().getBrandName()}"></span></b>
                                         <a th:href="@{'/goods/' + ${newItem.getId()}}"><span th:text="${newItem.getItemName()}"></span></a>
@@ -91,13 +91,10 @@
                                 </ul>
                             </div>
                         </div>
-
-                        <div>
-                            <a th:href="@{/goods}">상품페이지</a>
-                        </div>
                     </div>
 
                 </div> <!--main-container끝-->
+                <div th:replace="fragment.html :: footer"></div>
             </main>
         </div>
     </div>
