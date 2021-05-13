@@ -86,6 +86,7 @@ public class MainController {
         String replacement = "%23";
         if(tagName != null) {
             model.addAttribute("tagName", tagName.replace(regex, replacement));
+            model.addAttribute("tagName2", tagName);
         }
         if(query != null) {
             model.addAttribute("queryData", query);

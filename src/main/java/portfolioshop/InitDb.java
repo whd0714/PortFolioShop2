@@ -8,8 +8,12 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import portfolioshop.brand.Brand;
 import portfolioshop.brand.BrandRepository;
+import portfolioshop.cart.Cart;
+import portfolioshop.cart.CartService;
 import portfolioshop.category.Category;
 import portfolioshop.category.CategoryRepository;
+import portfolioshop.comment.CommentService;
+import portfolioshop.comment.dto.ReviewCommentDto;
 import portfolioshop.goods.Goods;
 import portfolioshop.goods.GoodsRepository;
 import portfolioshop.goods.enumType.SaleStatus;
@@ -21,12 +25,17 @@ import portfolioshop.itemCategory.ItemCategory;
 import portfolioshop.itemCategory.ItemCategoryRepository;
 import portfolioshop.member.Member;
 import portfolioshop.member.MemberRepository;
+import portfolioshop.order.OrderService;
+import portfolioshop.order.dto.OptionValueDto;
+import portfolioshop.review.ReviewService;
+import portfolioshop.review.dto.NewReviewDto;
 import portfolioshop.tag.TagService;
 
 import javax.annotation.PostConstruct;
 import javax.imageio.ImageIO;
 import javax.persistence.EntityManager;
 import javax.swing.*;
+import javax.swing.text.html.Option;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
@@ -36,6 +45,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Base64;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -61,6 +71,10 @@ public class InitDb {
         private final ItemRepository itemRepository;
         private final GoodsRepository goodsRepository;
         private final TagService tagService;
+        private final OrderService orderService;
+        private final CartService cartService;
+        private final ReviewService reviewService;
+        private final CommentService commentService;
         public void db1() throws IOException {
 
             /*--------------------------------회원----------------------------------------*/
@@ -100,6 +114,10 @@ public class InitDb {
             Category category22 = new Category("맥시 원피스");
             Category category23 = new Category("백팩");
             Category category24 = new Category("메신저/크로스백");
+            Category category25 = new Category("캔버스/단화");
+            Category category26 = new Category("러닝화");
+            Category category27 = new Category("농구화");
+            Category category28 = new Category("구두");
 
 
             category7.changeCategory(category);
@@ -124,6 +142,11 @@ public class InitDb {
 
             category23.changeCategory(category4);
             category24.changeCategory(category4);
+
+            category25.changeCategory(category5);
+            category26.changeCategory(category5);
+            category27.changeCategory(category5);
+            category28.changeCategory(category5);
 
             categoryRepository.save(category);
             categoryRepository.save(category1);
@@ -150,14 +173,121 @@ public class InitDb {
             categoryRepository.save(category22);
             categoryRepository.save(category23);
             categoryRepository.save(category24);
+            categoryRepository.save(category25);
+            categoryRepository.save(category26);
+            categoryRepository.save(category27);
+            categoryRepository.save(category28);
 
             /*--------------------------------상품 이미지----------------------------------------*/
-            BufferedImage shortT1 = ImageIO.read(new File("src/main/resources/static/image/short/1.jpg"));
+            BufferedImage shortT1 = ImageIO.read(new File("src/main/resources/static/image/clothes/1.jpg"));
             ByteArrayOutputStream baosShort1 = new ByteArrayOutputStream();
             ImageIO.write(shortT1, "jpg", baosShort1);
             byte[] bytesShort = baosShort1.toByteArray();
             byte[] encodeShort = Base64.getEncoder().encode(bytesShort);
             String imageShort = new String(encodeShort, "UTF-8");
+
+            BufferedImage clothes2 = ImageIO.read(new File("src/main/resources/static/image/clothes/2.jpg"));
+            ByteArrayOutputStream baosClothes2 = new ByteArrayOutputStream();
+            ImageIO.write(clothes2, "jpg", baosClothes2);
+            byte[] bytesClothes2 = baosClothes2.toByteArray();
+            byte[] encodeClothes2 = Base64.getEncoder().encode(bytesClothes2);
+            String imageClothes2 = new String(encodeClothes2, "UTF-8");
+
+            BufferedImage clothes3 = ImageIO.read(new File("src/main/resources/static/image/clothes/3.jpg"));
+            ByteArrayOutputStream baosClothes3 = new ByteArrayOutputStream();
+            ImageIO.write(clothes3, "jpg", baosClothes3);
+            byte[] bytesClothes3 = baosClothes3.toByteArray();
+            byte[] encodeClothes3 = Base64.getEncoder().encode(bytesClothes3);
+            String imageClothes3 = new String(encodeClothes3, "UTF-8");
+
+
+            BufferedImage clothes4 = ImageIO.read(new File("src/main/resources/static/image/clothes/4.jpg"));
+            ByteArrayOutputStream baosClothes4 = new ByteArrayOutputStream();
+            ImageIO.write(clothes4, "jpg", baosClothes4);
+            byte[] bytesClothes4 = baosClothes4.toByteArray();
+            byte[] encodeClothes4 = Base64.getEncoder().encode(bytesClothes4);
+            String imageClothes4 = new String(encodeClothes4, "UTF-8");
+
+
+            BufferedImage clothes5 = ImageIO.read(new File("src/main/resources/static/image/clothes/5.jpg"));
+            ByteArrayOutputStream baosClothes5 = new ByteArrayOutputStream();
+            ImageIO.write(clothes5, "jpg", baosClothes5);
+            byte[] bytesClothes5 = baosClothes5.toByteArray();
+            byte[] encodeClothes5 = Base64.getEncoder().encode(bytesClothes5);
+            String imageClothes5 = new String(encodeClothes5, "UTF-8");
+
+            BufferedImage clothes6 = ImageIO.read(new File("src/main/resources/static/image/clothes/6.jpg"));
+            ByteArrayOutputStream baosClothes6 = new ByteArrayOutputStream();
+            ImageIO.write(clothes6, "jpg", baosClothes6);
+            byte[] bytesClothes6 = baosClothes6.toByteArray();
+            byte[] encodeClothes6 = Base64.getEncoder().encode(bytesClothes6);
+            String imageClothes6 = new String(encodeClothes6, "UTF-8");
+
+            BufferedImage clothes7 = ImageIO.read(new File("src/main/resources/static/image/clothes/7.jpg"));
+            ByteArrayOutputStream baosClothes7 = new ByteArrayOutputStream();
+            ImageIO.write(clothes7, "jpg", baosClothes7);
+            byte[] bytesClothes7 = baosClothes7.toByteArray();
+            byte[] encodeClothes7 = Base64.getEncoder().encode(bytesClothes7);
+            String imageClothes7 = new String(encodeClothes7, "UTF-8");
+
+            BufferedImage clothes8 = ImageIO.read(new File("src/main/resources/static/image/clothes/8.jpg"));
+            ByteArrayOutputStream baosClothes8 = new ByteArrayOutputStream();
+            ImageIO.write(clothes8, "jpg", baosClothes8);
+            byte[] bytesClothes8 = baosClothes8.toByteArray();
+            byte[] encodeClothes8 = Base64.getEncoder().encode(bytesClothes8);
+            String imageClothes8 = new String(encodeClothes8, "UTF-8");
+
+            BufferedImage clothes9 = ImageIO.read(new File("src/main/resources/static/image/clothes/9.jpg"));
+            ByteArrayOutputStream baosClothes9 = new ByteArrayOutputStream();
+            ImageIO.write(clothes9, "jpg", baosClothes9);
+            byte[] bytesClothes9 = baosClothes9.toByteArray();
+            byte[] encodeClothes9 = Base64.getEncoder().encode(bytesClothes9);
+            String imageClothes9 = new String(encodeClothes9, "UTF-8");
+
+            BufferedImage clothes10 = ImageIO.read(new File("src/main/resources/static/image/clothes/10.jpg"));
+            ByteArrayOutputStream baosClothes10 = new ByteArrayOutputStream();
+            ImageIO.write(clothes10, "jpg", baosClothes10);
+            byte[] bytesClothes10 = baosClothes10.toByteArray();
+            byte[] encodeClothes10 = Base64.getEncoder().encode(bytesClothes10);
+            String imageClothes10 = new String(encodeClothes10, "UTF-8");
+
+            BufferedImage clothes11 = ImageIO.read(new File("src/main/resources/static/image/clothes/11.jpg"));
+            ByteArrayOutputStream baosClothes11 = new ByteArrayOutputStream();
+            ImageIO.write(clothes11, "jpg", baosClothes11);
+            byte[] bytesClothes11 = baosClothes11.toByteArray();
+            byte[] encodeClothes11 = Base64.getEncoder().encode(bytesClothes11);
+            String imageClothes11 = new String(encodeClothes11, "UTF-8");
+
+            BufferedImage clothes12 = ImageIO.read(new File("src/main/resources/static/image/clothes/12.jpg"));
+            ByteArrayOutputStream baosClothes12 = new ByteArrayOutputStream();
+            ImageIO.write(clothes12, "jpg", baosClothes12);
+            byte[] bytesClothes12 = baosClothes12.toByteArray();
+            byte[] encodeClothes12 = Base64.getEncoder().encode(bytesClothes12);
+            String imageClothes12 = new String(encodeClothes12, "UTF-8");
+
+            BufferedImage clothes13 = ImageIO.read(new File("src/main/resources/static/image/clothes/13.jpg"));
+            ByteArrayOutputStream baosClothes13 = new ByteArrayOutputStream();
+            ImageIO.write(clothes13, "jpg", baosClothes13);
+            byte[] bytesClothes13 = baosClothes13.toByteArray();
+            byte[] encodeClothes13 = Base64.getEncoder().encode(bytesClothes13);
+            String imageClothes13 = new String(encodeClothes13, "UTF-8");
+
+            BufferedImage clothes14 = ImageIO.read(new File("src/main/resources/static/image/clothes/14.jpg"));
+            ByteArrayOutputStream baosClothes14 = new ByteArrayOutputStream();
+            ImageIO.write(clothes14, "jpg", baosClothes14);
+            byte[] bytesClothes14 = baosClothes14.toByteArray();
+            byte[] encodeClothes14 = Base64.getEncoder().encode(bytesClothes14);
+            String imageClothes14 = new String(encodeClothes14, "UTF-8");
+
+            BufferedImage clothes15 = ImageIO.read(new File("src/main/resources/static/image/clothes/15.jpg"));
+            ByteArrayOutputStream baosClothes15 = new ByteArrayOutputStream();
+            ImageIO.write(clothes15, "jpg", baosClothes15);
+            byte[] bytesClothes15 = baosClothes15.toByteArray();
+            byte[] encodeClothes15 = Base64.getEncoder().encode(bytesClothes15);
+            String imageClothes15 = new String(encodeClothes15, "UTF-8");
+
+
+
 
             /*--------------------------------상품 생성----------------------------------------*/
             /*상품생성 반팔*/
@@ -203,292 +333,313 @@ public class InitDb {
 
             /*상품생성 긴팔 티셔츠*/
             Item item11 = new Item("MISS11209-WH", "베식 긴팔 티셔츠 [화이트]", "Besik Long Sleeve T-Shirt [White]", 13500, Season.SPRING, Gender.MAN, "여유 있는 롱 슬리브 티셔츠", "촘촘하게 짜여진 면 100%을 사용해 편안한 착용감을 제공한다. 적당한 폭과 깊이의 원단을 바디 원단과 밸런스를 맞춰 사용했다.",
-                    imageShort);
+                    imageClothes2);
             itemRepository.save(item11);
 
             Item item12 = new Item("MISS11209-BK", "베식 긴팔 티셔츠 [블랙]", "Besik Long Sleeve T-Shirt [Black]", 13500, Season.SPRING, Gender.MAN, "여유 있는 롱 슬리브 티셔츠", "촘촘하게 짜여진 면 100%을 사용해 편안한 착용감을 제공한다. 적당한 폭과 깊이의 원단을 바디 원단과 밸런스를 맞춰 사용했다.",
-                    imageShort);
+                    imageClothes2);
             itemRepository.save(item12);
 
             Item item13 = new Item("MJJF0LT09BK", "스트라이프 롱 슬리브 블랙", "STRIPE LONG SLEEVE BLACK", 45000, Season.AUTUMN, Gender.WOMAN, "개성적인 스프라이트 티셔츠", "",
-                    imageShort);
+                    imageClothes2);
             itemRepository.save(item13);
 
             Item item14 = new Item("MN5S0001WH", "하이 레이어드 티셔츠", "HIGH LAYERED T-SHIRT", 39000, Season.AUTUMN, Gender.MAN, "실크의 부드러운 촉감과 고급스러운 광택을 느낄 수 있음", "",
-                    imageShort);
+                    imageClothes2);
             itemRepository.save(item14);
 
             Item item15 = new Item("R98920932", "포인트 서클 롱티셔츠", "POINT CIRCLE LONG T-SHIRT", 34000, Season.AUTUMN, Gender.WOMAN, "특수양면을 사용해 부드러운 촉감을 느낄수 있다", "",
-                    imageShort);
+                    imageClothes2);
             itemRepository.save(item15);
 
             Item item16 = new Item("AAM81233", "롱슬리브 헤비 오버핏 스크레치 로고R", "Long Sleeve Heavy Overfit Scratch Logo R", 49100, Season.AUTUMN, Gender.MAN, "이중 넥라인으로 퀄리티를 강화", "",
-                    imageShort);
+                    imageClothes2);
             itemRepository.save(item16);
 
             Item item17 = new Item("DDG2157A29", "스트라이프 코메 로고 롱슬리브 크림", "Stripe Comet Logo Long Sleeve Cream", 47000, Season.SPRING, Gender.WOMAN, "특수 재질로 세탁 후 원단 줄어듬을 방지", "",
-                    imageShort);
+                    imageClothes2);
             itemRepository.save(item17);
 
             Item item18 = new Item("DDG22GGA29", "스트라이프 와펜 로고 롱슬리브 네이비", "Striped Wapen Logo Long Sleeve Navy", 46000, Season.AUTUMN, Gender.WOMAN, "비침이 적은 원단을 사용", "",
-                    imageShort);
+                    imageClothes2);
             itemRepository.save(item18);
 
             Item item19 = new Item("FFE00145BK", "레이어드 어센틱 롱슬리브 블랙", "Layered Authentic Long Sleeve Black", 49000, Season.SPRING, Gender.MAN, "이중넥에 이중소매로 두툼한 소재", "",
-                    imageShort);
+                    imageClothes2);
             itemRepository.save(item19);
 
             Item item20 = new Item("FF0035EBK", "베츠 스트라이프 롱슬리브 블랙", "Betz Stripe Long Sleeve Black", 45000, Season.AUTUMN, Gender.MAN, "캐주얼 스트라이프", "",
-                    imageShort);
+                    imageClothes2);
             itemRepository.save(item20);
 
             /*상품생성 셔츠/블라우스*/
             Item item21 = new Item("AA0HF9001", "솔리드 옥스포드 오버셔츠(스카이블루)", "Solid Oxford Overshirt (Sky Blue)", 67000, Season.SPRING, Gender.MAN, "자연스러운 핏을 제공", "",
-                    imageShort);
+                    imageClothes3);
             itemRepository.save(item21);
 
             Item item22 = new Item("AA0HFNJ71", "루즈핏 오픈카라 텐셀 린넨 셔츠 [네이비]", "LOOSE-FIT OPEN COLLAR TENCEL LINEN SHIRTS [NAVY]", 60000, Season.SUMMER, Gender.MAN, "린넨과 천연면을 혼합하여 피부에 자극이 적고 뛰어난 보냉력으로 여름에 착용하기 적합", "",
-                    imageShort);
+                    imageClothes3);
             itemRepository.save(item22);
 
             Item item23 = new Item("BB0HFDG341", "울탄 체크 셔츠 (크림)", "Wooltan Check Shirts (Cream)", 33000, Season.SPRING, Gender.MAN, "두툼하고 부드러운 원단", "",
-                    imageShort);
+                    imageClothes3);
             itemRepository.save(item23);
 
             Item item24 = new Item("BB0HBNG258", "플러프 무드 체크 셔츠 네이비", "Fluff mood check shirt navy", 64000, Season.AUTUMN, Gender.MAN, "감각적인 체크무늬", "",
-                    imageShort);
+                    imageClothes3);
             itemRepository.save(item24);
 
             Item item25 = new Item("CC0CC0233", "솔리드 옥스포드 오버셔츠(화이트)", "Solid Oxford Overshirt (White)", 65000, Season.SPRING, Gender.MAN, "옥스포드원단에 깔끔한 디자인", "",
-                    imageShort);
+                    imageClothes3);
             itemRepository.save(item25);
 
             Item item26 = new Item("T20SJ001441", "루즈핏 오픈카라 텐셀 린넨 셔츠 [오트밀]", "LOOSE-FIT OPEN COLLAR TENCEL LINEN SHIRTS [OATMEAL]", 55000, Season.SUMMER, Gender.MAN, "린넨재질로 여름에 입기 적합", "",
-                    imageShort);
+                    imageClothes3);
             itemRepository.save(item26);
 
             Item item27 = new Item("DD0CCFF33", "빈티지 블랙 도트 스트라이프 셔츠 S22", "Layla endless love Vintage Black dot Stripe shirt S22", 65000, Season.SPRING, Gender.MAN, "베이지컬러에 스프라이트 포인트셔츠", "",
-                    imageShort);
+                    imageClothes3);
             itemRepository.save(item27);
 
             Item item28 = new Item("DD0CCF4453", "릴렉스 핏 옥스포드 셔츠 [화이트]", "RELAX FIT OXFORD SHIRT [WHITE]", 24500, Season.SPRING, Gender.MAN, "입기 편안한 재질과 핏한 셔츠", "",
-                    imageShort);
+                    imageClothes3);
             itemRepository.save(item28);
 
             Item item29 = new Item("FF0CCFF33", "로프 스트라이프 셔츠 S46 스카이 블루", "Layla blind for love Rope Stripe shirt S46 Sky Blue", 65000, Season.SPRING, Gender.MAN, "하늘색 스프라이트 포인트셔츠", "",
-                    imageShort);
+                    imageClothes3);
             itemRepository.save(item29);
 
             Item item30 = new Item("FF0CCF4453", "프렌치 스트라이프 셔츠", "French striped shirt", 56000, Season.SPRING, Gender.MAN, "차분한 회색에 내추럴한 룩을 연출하기 좋음", "",
-                    imageShort);
+                    imageClothes3);
             itemRepository.save(item30);
 
             /*상품생성 맨투맨/스웨트셔츠*/
             Item item31 = new Item("AAPSCRB801M", "NYC 위치 스웨트 셔츠", "NYC LOCATION SWEAT SHIRT", 55000, Season.SPRING, Gender.MAN, "부드러운 면100%에 안정감있는 두께를 느낄수 있음", "",
-                    imageShort);
+                    imageClothes4);
             itemRepository.save(item31);
 
             Item item32 = new Item("AAPS15B801M", "AAR 맨투맨 그레이", "AAR Sweatshirt Gray", 56000, Season.SPRING, Gender.MAN, "코튼100%에 차분한 그레이 컬러", "",
-                    imageShort);
+                    imageClothes4);
             itemRepository.save(item32);
 
             Item item33 = new Item("BB12PGGRB801M", "스웨트 셔츠 [블랙]", "SWEAT SHIRT [BLACK]", 21900, Season.SPRING, Gender.MAN, "여유 있는 레귤러 핏의 스웨트셔츠", "촘촘하게 짜여진 면 100% 프렌치 테리 원단을 사용하여 편안한 활동성을 제공한다.",
-                    imageShort);
+                    imageClothes4);
             itemRepository.save(item33);
 
             Item item34 = new Item("BB12PGGRBFF13", "UNIVERSITY 맨투맨 네이비", "UNIVERSITY SWEAT NAVY", 67000, Season.AUTUMN, Gender.MAN, "로고와 프린트가 적절히 들어감", "",
-                    imageShort);
+                    imageClothes4);
             itemRepository.save(item34);
 
             Item item35 = new Item("CC12PGGRBKKKM", "클럽 맨투맨 블랙", "Club Sweatshirt Black", 86000, Season.SPRING, Gender.MAN, "기본 로고티", "",
-                    imageShort);
+                    imageClothes4);
             itemRepository.save(item35);
 
             Item item36 = new Item("CC12PGGRBKKK2", "1999 맨투맨 네이비", "1999 sweatshirts navy", 67000, Season.AUTUMN, Gender.MAN, "심플한 디자인", "",
-                    imageShort);
+                    imageClothes4);
             itemRepository.save(item36);
 
             Item item37 = new Item("DD12PGGR334M", "바시티 피그먼트 스웨트셔츠 블루", "VARSITY PIGMENT SWEATSHIRT BLUE", 53000, Season.SPRING, Gender.MAN, "이중 넥으로 두께와 편안함을 두루 갖춤", "",
-                    imageShort);
+                    imageClothes4);
             itemRepository.save(item37);
 
             Item item38 = new Item("DD12PGGR334A", "쿠퍼 로고 맨투맨 네이비", "Cooper logo sweatshirt navy", 69000, Season.AUTUMN, Gender.WOMAN, "심플한 로고 디자인", "",
-                    imageShort);
+                    imageClothes4);
             itemRepository.save(item38);
 
             Item item39 = new Item("FF12PTGR34M", "F 로고 맨투맨 그레이", "F logo sweatshirt gray", 54000, Season.SPRING, Gender.MAN, "깔끔한 F로고 맨투맨", "",
-                    imageShort);
+                    imageClothes4);
             itemRepository.save(item39);
 
             Item item40 = new Item("FF12PTGR34K", "스몰 로고 풀기모 맨투맨 티셔츠", "Small logo full-brushed sweatshirt", 75000, Season.AUTUMN, Gender.MAN, "심플한 로고 디자인", "",
-                    imageShort);
+                    imageClothes4);
             itemRepository.save(item40);
 
             /*상품생성 니트/스웨터*/
             Item item41 = new Item("AAbhasnnri_1", "하프 폴라 니트 티셔츠", "Half Pola Knit T-Shirt", 77000, Season.AUTUMN, Gender.MAN, "부드러운 촉감에 신축성이 좋아 신체사이즈에 구애 받지 않음", "",
-                    imageShort);
+                    imageClothes5);
             itemRepository.save(item41);
 
             Item item42 = new Item("AAbhasnnri_2", "목폴라 스웨터 브라운", "NECK RIB KNIT SWEATER_BROWN", 61000, Season.AUTUMN, Gender.MAN, "부드러운 촉감에 실을 가득채워 밀도높은 니트 스웨터", "",
-                    imageShort);
+                    imageClothes5);
             itemRepository.save(item42);
 
             Item item43 = new Item("BBbh2sngg3", "화란 세미오버 니트 블랙", "Hwaran Semiover Knit Black", 77900, Season.AUTUMN, Gender.MAN, "천연 가공으로 더욱 부드러운 터치감", "",
-                    imageShort);
+                    imageClothes5);
             itemRepository.save(item43);
 
             Item item44 = new Item("BBbh2sggg2", "크루넥 오버니트(차콜)", "Crew Neck Over Knit (Charcoal)", 52000, Season.AUTUMN, Gender.MAN, "오버핏으로 여유있게 착용 가능", "",
-                    imageShort);
+                    imageClothes5);
             itemRepository.save(item44);
 
             Item item45 = new Item("CCbh2sngg43", "소프트코튼 드랍숄더 오버핏 와플 니트 BLACK", "Soft Cotton Drop Shoulder Overfit Waffle Knit BLACK", 55000, Season.SPRING, Gender.MAN, "기본 감성에 충실한 니트", "",
-                    imageShort);
+                    imageClothes5);
             itemRepository.save(item45);
 
             Item item46 = new Item("Cbh2sggg42", "브러쉬 아가일 니트 BLACK", "Brush Argyle Knit BLACK", 54000, Season.SPRING, Gender.MAN, "기본 감성에 충실한 니트", "",
-                    imageShort);
+                    imageClothes5);
             itemRepository.save(item46);
 
             Item item47 = new Item("DDh2s1n2gg43", "미니멀 크루 넥 니트 [블랙]", "MINIMAL CREW NECK KNIT [BLACK]", 55900, Season.SPRING, Gender.MAN, "여유 있는 실루엣의 미니멀 크루 넥 니트.", "미니멀한 디자인과 여유 있는 세미 오버 핏으로 편안하면서도 자연스러운 실루엣을 연출할 수 있다.",
-                    imageShort);
+                    imageClothes5);
             itemRepository.save(item47);
 
             Item item48 = new Item("DD2sg1g2g42", "부클 니트 롱 슬리브 블랙", "BOUCLE KNIT LONG SLEEVE BLACK", 54000, Season.AUTUMN, Gender.MAN, "독특한 패턴의 니트", "",
-                    imageShort);
+                    imageClothes5);
             itemRepository.save(item48);
 
             Item item49 = new Item("FFh2s1n2gg43", "소프트 베이직 터틀넥 니트 블랙", "SOFT BASIC TURTLENECK KNIT BLACK", 30900, Season.SPRING, Gender.MAN, "트렌디한 디자인의 니트", "",
-                    imageShort);
+                    imageClothes5);
             itemRepository.save(item49);
 
             Item item50 = new Item("FF2sg1g2g42", "울 배색 라운드 니트_Open Blue", "Wool Matching Round Knit_Open Blue", 55000, Season.AUTUMN, Gender.MAN, "부드러운 색감의 니트", "",
-                    imageShort);
+                    imageClothes5);
             itemRepository.save(item50);
 
             /*상품생성 데님 팬츠*/
             Item item51 = new Item("AAS-WDDP022", "와이드 데님 팬츠 (LIGHT BLUE)", "WIDE DENIM PANTS (LIGHT BLUE)", 46000, Season.AUTUMN, Gender.MAN, "와이드한 핏감과 탄탄한 데님소재", "",
-                    imageShort);
+                    imageClothes6);
             itemRepository.save(item51);
 
             Item item52 = new Item("AAS-WDDP023", "데님 [크롭 스트레이트]", "OBJECT JEANS [CROP STRAIGHT]", 77000, Season.SPRING, Gender.MAN, "면100% 네츄럴 옷감", "",
-                    imageShort);
+                    imageClothes6);
             itemRepository.save(item52);
 
             Item item53 = new Item("BBS-WDDP022", "와이드 데님 팬츠 (DEEP GREY)", "와이드 데님 팬츠 (DEEP GREY)", 47900, Season.AUTUMN, Gender.MAN, "총장이 넙고 자연스럽게 떨어지는 핏", "",
-                    imageShort);
+                    imageClothes6);
             itemRepository.save(item53);
 
             Item item54 = new Item("BBS-WDDP022", "펑크 타운-MOD", "Punk Town - MOD crop", 92000, Season.AUTUMN, Gender.MAN, "딱 떨어지는 자연스러운 핏", "",
-                    imageShort);
+                    imageClothes6);
             itemRepository.save(item54);
 
             Item item55 = new Item("CCS-WDDP022", "적당한 인디고 스트레이트 핏", "Moderation indigo straight fit", 88000, Season.SPRING, Gender.MAN, "적당한 핏", "",
-                    imageShort);
+                    imageClothes6);
             itemRepository.save(item55);
 
             Item item56 = new Item("CCS-WDDP022", "슬림 크롭 데님 팬츠 [라이트 인디고]", "SLIM CROP DENIM PANTS [LIGHT INDIGO]", 33000, Season.SPRING, Gender.MAN, "편안하면서도 슬림한 핏의 크롭 데님 팬츠.", "허벅지부터 발목까지 자연스럽게 좁아지는 슬림 핏에 발목까지 내려오는 크롭 기장으로 트렌디하게 착용할 수 있다.",
-                    imageShort);
+                    imageClothes6);
             itemRepository.save(item56);
 
             Item item57 = new Item("DDS-WDDP022", "와이드 스트레이트", "JET BLACK JEANS [WIDE STRAIGHT]", 77000, Season.SPRING, Gender.MAN, "면 100% 와이드 데님 팬츠", "",
-                    imageShort);
+                    imageClothes6);
             itemRepository.save(item57);
 
             Item item58 = new Item("DDS-WDDP022", "크롭 테이퍼드 핏 블랙", "BLACK NORMAL CHIP", 84000, Season.AUTUMN, Gender.MAN, "촘촘한 원단으로 내구성을 높임", "",
-                    imageShort);
+                    imageClothes6);
             itemRepository.save(item58);
 
             Item item59 = new Item("FFS-WDDP022", "페인트 진", "trabus paint jeans", 99600, Season.SPRING, Gender.MAN, "너무 밝지도 어둡지도 않은 적당한 컬러", "",
-                    imageShort);
+                    imageClothes6);
             itemRepository.save(item59);
 
             Item item60 = new Item("FFS-WDDP022", "스탠다드 진 블랙", "BLACK STANDARD3 JEANS", 77000, Season.AUTUMN, Gender.MAN, "두께감은 있지만 신축성이 좋음", "",
-                    imageShort);
+                    imageClothes6);
             itemRepository.save(item60);
 
             /*상품생성 코튼 팬츠*/
             Item item61 = new Item("AA1905667", "롱 와이드 코튼팬츠(베이지)", "Long Wide Cotton Pants (Beige)", 66000, Season.AUTUMN, Gender.WOMAN, "와이드한 핏감의 코튼 팬츠", "",
-                    imageShort);
+                    imageClothes7);
             itemRepository.save(item61);
 
             Item item62 = new Item("BB1905667", "린넨 9부 밴딩 팬츠", "Linen Banding Pants", 40000, Season.SUMMER, Gender.MAN, "여름에 맞는 코튼 팬츠", "",
-                    imageShort);
+                    imageClothes7);
             itemRepository.save(item62);
 
             Item item63 = new Item("CC1905667", "테이퍼드 치노 팬츠 [블랙]", "TAPERED CHINO PANTS [BLACK]", 37900, Season.AUTUMN, Gender.MAN, "스탠다드 코튼 팬츠", "",
-                    imageShort);
+                    imageClothes7);
             itemRepository.save(item63);
 
             Item item64 = new Item("DD1905667", "워싱 테이퍼드핏 면팬츠", "washing TaperedFit pants", 52000, Season.AUTUMN, Gender.MAN, "미니멀한 핏", "",
-                    imageShort);
+                    imageClothes7);
             itemRepository.save(item64);
 
             Item item65 = new Item("FF1905667", "크라우 와이드 카고 벌룬팬츠 카키", "크라우 와이드 카고 벌룬팬츠 카키", 31500, Season.SPRING, Gender.MAN, "클래식한 디자인과 핏", "",
-                    imageShort);
+                    imageClothes7);
             itemRepository.save(item65);
 
             /*상품생성 슈트 팬츠/슬랙스*/
             Item item66 = new Item("AAMIPS0001FI", "테이퍼드 히든 밴딩 크롭 슬랙스 [블랙]", "TAPERED HIDDEN BANDING CROP SLACKS [BLACK]", 32000, Season.AUTUMN, Gender.WOMAN, "편안하면서도 슬림한 테이퍼드 핏의 히든 밴딩 크롭 슬랙스.", "신축성이 뛰어나며 덕분에 자유로운 활동성을 보장한다. 적당한 두께와 중량으로 한여름을 제외한 사계절 내내 활용할 수 있다.",
-                    imageShort);
+                    imageClothes8);
             itemRepository.save(item66);
 
             Item item67 = new Item("BBIPS0001FI", "밴딩 와이드 슬랙스", "wide banding Slacks", 39000, Season.SUMMER, Gender.MAN, "미니멀한 와이드 슬랙스", "",
-                    imageShort);
+                    imageClothes8);
             itemRepository.save(item67);
 
             Item item68 = new Item("CCIPS0001FI", "세미 와이드 밴딩 슬랙스", "semi wide banding slacks", 50000, Season.SUMMER, Gender.MAN, "여름에 적당한 슬랙스", "",
-                    imageShort);
+                    imageClothes8);
             itemRepository.save(item68);
 
             Item item69 = new Item("DDIPS0001FI", "와이드 밴딩 슬랙스_블랙", "Wide Banding Slacks_Black", 33500, Season.AUTUMN, Gender.MAN, "신축성이 뛰어난 와이드 슬랙스", "",
-                    imageShort);
+                    imageClothes8);
             itemRepository.save(item69);
 
             Item item70 = new Item("FFIPS0001FI", "크롭 테이퍼드 슬랙스 [블랙]", "CROP TAPERED SLACKS [BLACK]", 29900, Season.SPRING, Gender.MAN, "자연스러운 핏감", "",
-                    imageShort);
+                    imageClothes8);
             itemRepository.save(item70);
 
             /*상품생성 숏 팬츠*/
             Item item71 = new Item("AAB55655-AB0", "로고 반바지 블랙", "Logo shorts black", 43000, Season.SUMMER, Gender.MAN, "편안한 기본 숏 팬츠", "",
-                    imageShort);
+                    imageClothes9);
             itemRepository.save(item71);
 
             Item item72 = new Item("BBB55655-AB0", "유틸리티 쇼츠 [블랙]", "UTILITY SHORTS [BLACK]", 21000, Season.SUMMER, Gender.MAN, "활용성이 높은 숏팬츠", "",
-                    imageShort);
+                    imageClothes9);
             itemRepository.save(item72);
 
             Item item73 = new Item("CCB55655-AB0", "팩 숏 팬츠 - 블랙", "FAC SHORT BLACK", 30000, Season.SUMMER, Gender.MAN, "시원한 느낌의 원단", "",
-                    imageShort);
+                    imageClothes9);
             itemRepository.save(item73);
 
             Item item74 = new Item("DDB55655-AB0", "유틸리티 숏 팬츠 - 블랙", "UTILITY SHORT BLACK", 22500, Season.SUMMER, Gender.MAN, "피트니스 라이프스타일", "",
-                    imageShort);
+                    imageClothes9);
             itemRepository.save(item74);
 
             Item item75 = new Item("FFB55655-AB0", "메탈 카고 쇼츠_라이트그레이", "METAL CARGO SHORTS_L.Grey", 29900, Season.SUMMER, Gender.MAN, "한여름에도 쾌적한 착용감", "",
-                    imageShort);
+                    imageClothes9);
             itemRepository.save(item75);
 
             /*상품생성 슈트/블레이저 재킷*/
             Item item76 = new Item("AAMIJKKKJ2-02", "베이식 블레이저 [블랙]", "BASIC BLAZER [BLACK]", 70000, Season.AUTUMN, Gender.MAN, "베이식한 디자인의 블레이저.", "신축성이 뛰어나며 덕분에 자유로운 활동성을 보장한다.",
-                    imageShort);
+                    imageClothes10);
             itemRepository.save(item76);
 
             Item item77 = new Item("BBMIJKKKJ2-02", "글렌체크 싱글 블레이져", "Glencheck single blazer", 130000, Season.SPRING, Gender.MAN, "모던하고 세련된 디자인", "",
-                    imageShort);
+                    imageClothes10);
             itemRepository.save(item77);
 
             Item item78 = new Item("CCMIJKKKJ2-02", "세미오버핏 싱글 블레이저 자켓", "Semi-over fit single blazer jacket", 159000, Season.SPRING, Gender.MAN, "세미오버핏 블레이저 자켓", "",
-                    imageShort);
+                    imageClothes10);
             itemRepository.save(item78);
 
             Item item79 = new Item("DDMIJKKKJ2-02", "오버사이즈 울 블레이져", "OVERSIZED WOOL BLAZER", 171000, Season.AUTUMN, Gender.MAN, "고급스러운 소재로 부드럽고 은은한 광택", "",
-                    imageShort);
+                    imageClothes10);
             itemRepository.save(item79);
 
             Item item80 = new Item("FFMIJKKKJ2-02", "루즈핏 멀티 체크 블레이저", "LOOSE FIT MULTI CHECK BLAZER", 110000, Season.AUTUMN, Gender.MAN, "고급스러운 패턴", "",
-                    imageShort);
+                    imageClothes10);
             itemRepository.save(item80);
+
+            /*상품생성 신발*/
+            Item item81 = new Item("AAHFSHOESHN01", "사인 단화 그린", "Sign Shoes green", 130000, Season.SPRING, Gender.MAN, "깔끔한 디자인에 봄에 어울리는 컬러", "",
+                    imageClothes11);
+            itemRepository.save(item81);
+
+            Item item82 = new Item("BBHFSHOESHN01", "레트로 로우 블랙", "Retro low black", 120000, Season.SPRING, Gender.MAN, "편안한 착화감과 다양한 스타일에 어울리는 신발", "",
+                    imageClothes12);
+            itemRepository.save(item82);
+
+            Item item83 = new Item("CCHFSHOESHN01", "히피 하이 03", "Hippie high 03", 210000, Season.SUMMER, Gender.MAN, "쿠션감을 한층 업한 뛰어난 착용감", "",
+                    imageClothes13);
+            itemRepository.save(item83);
+
+            Item item84 = new Item("DDHFSHOESHN01", "BB 하이 블루", "BB high blue", 190000, Season.AUTUMN, Gender.MAN, "시원한 색감과 편한 착용감", "",
+                    imageClothes14);
+            itemRepository.save(item84);
+
+            Item item85 = new Item("FFHFSHOESHN01", "더비 구두 블랙", "Derby shoe black", 150000, Season.SPRING, Gender.MAN, "대중적인 컬러에 심플한 디자인", "",
+                    imageClothes15);
+            itemRepository.save(item85);
 
             /*상품카테고리 반팔 티셔츠*/
             ItemCategory itemCategory = new ItemCategory();
@@ -899,6 +1050,32 @@ public class InitDb {
             itemCategory80.changeItem(item80);
             itemCategory80.changeCategory(category16);
             itemCategoryRepository.save(itemCategory80);
+
+            /*상품카테고리 신발*/
+            ItemCategory itemCategory81 = new ItemCategory();
+            itemCategory81.changeItem(item81);
+            itemCategory81.changeCategory(category25);
+            itemCategoryRepository.save(itemCategory81);
+
+            ItemCategory itemCategory82 = new ItemCategory();
+            itemCategory82.changeItem(item82);
+            itemCategory82.changeCategory(category25);
+            itemCategoryRepository.save(itemCategory82);
+
+            ItemCategory itemCategory83 = new ItemCategory();
+            itemCategory83.changeItem(item83);
+            itemCategory83.changeCategory(category26);
+            itemCategoryRepository.save(itemCategory83);
+
+            ItemCategory itemCategory84 = new ItemCategory();
+            itemCategory84.changeItem(item84);
+            itemCategory84.changeCategory(category27);
+            itemCategoryRepository.save(itemCategory84);
+
+            ItemCategory itemCategory85 = new ItemCategory();
+            itemCategory85.changeItem(item85);
+            itemCategory85.changeCategory(category28);
+            itemCategoryRepository.save(itemCategory85);
 
 
             /*--------------------------------옵션----------------------------------------*/
@@ -1844,7 +2021,7 @@ public class InitDb {
             goods78_2.changeItem(item78);
             goodsRepository.save(goods78_2);
 
-            Goods goods78_3 = new Goods("L", 0, SaleStatus.SALE);
+            Goods goods78_3 = new Goods("L", 10, SaleStatus.SALE);
             goods78_3.changeItem(item78);
             goodsRepository.save(goods78_3);
 
@@ -1872,6 +2049,82 @@ public class InitDb {
             goods80_3.changeItem(item80);
             goodsRepository.save(goods80_3);
 
+            /*신발 옵션*/
+            Goods goods81 = new Goods("220", 15, SaleStatus.SALE);
+            goods81.changeItem(item81);
+            goodsRepository.save(goods81);
+
+            Goods goods81_2 = new Goods("230", 5, SaleStatus.SALE);
+            goods81_2.changeItem(item81);
+            goodsRepository.save(goods81_2);
+
+            Goods goods81_3 = new Goods("240", 10, SaleStatus.SALE);
+            goods81_3.changeItem(item81);
+            goodsRepository.save(goods81_3);
+
+            Goods goods81_4 = new Goods("250", 0, SaleStatus.SALE);
+            goods81_4.changeItem(item81);
+            goodsRepository.save(goods81_4);
+
+            Goods goods81_5 = new Goods("260", 0, SaleStatus.SALE);
+            goods81_5.changeItem(item81);
+            goodsRepository.save(goods81_5);
+
+            Goods goods81_6 = new Goods("270", 0, SaleStatus.SALE);
+            goods81_6.changeItem(item81);
+            goodsRepository.save(goods81_6);
+
+            Goods goods81_7 = new Goods("280", 2, SaleStatus.SALE);
+            goods81_7.changeItem(item81);
+            goodsRepository.save(goods81_7);
+
+            Goods goods82 = new Goods("230", 0, SaleStatus.NOSALE);
+            goods82.changeItem(item82);
+            goodsRepository.save(goods82);
+
+            Goods goods82_2 = new Goods("240", 20, SaleStatus.SALE);
+            goods82_2.changeItem(item82);
+            goodsRepository.save(goods82_2);
+
+            Goods goods82_3 = new Goods("250", 30, SaleStatus.SALE);
+            goods82_3.changeItem(item82);
+            goodsRepository.save(goods82_3);
+
+            Goods goods83 = new Goods("240", 0, SaleStatus.SALE);
+            goods83.changeItem(item83);
+            goodsRepository.save(goods83);
+
+            Goods goods83_2 = new Goods("260", 20, SaleStatus.SALE);
+            goods83_2.changeItem(item83);
+            goodsRepository.save(goods83_2);
+
+            Goods goods83_3 = new Goods("270", 10, SaleStatus.SALE);
+            goods83_3.changeItem(item83);
+            goodsRepository.save(goods83_3);
+
+            Goods goods84 = new Goods("220", 5, SaleStatus.SALE);
+            goods84.changeItem(item84);
+            goodsRepository.save(goods84);
+
+            Goods goods84_2 = new Goods("240", 20, SaleStatus.SALE);
+            goods84_2.changeItem(item84);
+            goodsRepository.save(goods84_2);
+
+            Goods goods84_3 = new Goods("250", 0, SaleStatus.SALE);
+            goods84_3.changeItem(item84);
+            goodsRepository.save(goods84_3);
+
+            Goods goods85 = new Goods("260", 11, SaleStatus.SALE);
+            goods85.changeItem(item85);
+            goodsRepository.save(goods85);
+
+            Goods goods85_2 = new Goods("270", 20, SaleStatus.SALE);
+            goods85_2.changeItem(item85);
+            goodsRepository.save(goods85_2);
+
+            Goods goods85_3 = new Goods("280", 30, SaleStatus.SALE);
+            goods85_3.changeItem(item85);
+            goodsRepository.save(goods85_3);
 
             /*--------------------------------태그----------------------------------------*/
             /*반팔 티셔츠 태그*/
@@ -2122,12 +2375,28 @@ public class InitDb {
 
             String tag80 = "#블레이져#아우터#체크블레이져";
             tagService.addNewTag(tag80, item80);
+
+            /*신발 태그*/
+            String tag81 = "#단화#캐주얼#로고";
+            tagService.addNewTag(tag81, item81);
+
+            String tag82 = "#단화#캐주얼#로고#블랙";
+            tagService.addNewTag(tag82, item82);
+
+            String tag83 = "#러닝화#심플#캐주얼#하이";
+            tagService.addNewTag(tag83, item83);
+
+            String tag84 = "#농구화#블랙#블루#하이";
+            tagService.addNewTag(tag84, item84);
+
+            String tag85 = "#구두#더비#블랙";
+            tagService.addNewTag(tag85, item85);
             /*--------------------------------브랜드----------------------------------------*/
-            BufferedImage Banner1 = ImageIO.read(new File("src/main/resources/static/image/banner/banner0.png"));
-            BufferedImage Banner2 = ImageIO.read(new File("src/main/resources/static/image/banner/banner1.png"));
-            BufferedImage Banner3 = ImageIO.read(new File("src/main/resources/static/image/banner/banner2.png"));
-            BufferedImage Banner4 = ImageIO.read(new File("src/main/resources/static/image/banner/banner0.png"));
-            BufferedImage Banner5 = ImageIO.read(new File("src/main/resources/static/image/banner/banner1.png"));
+            BufferedImage Banner1 = ImageIO.read(new File("src/main/resources/static/image/banner/banner1.png"));
+            BufferedImage Banner2 = ImageIO.read(new File("src/main/resources/static/image/banner/banner2.png"));
+            BufferedImage Banner3 = ImageIO.read(new File("src/main/resources/static/image/banner/banner3.png"));
+            BufferedImage Banner4 = ImageIO.read(new File("src/main/resources/static/image/banner/banner4.png"));
+            BufferedImage Banner5 = ImageIO.read(new File("src/main/resources/static/image/banner/banner5.png"));
 
             ByteArrayOutputStream baos0 = new ByteArrayOutputStream();
             ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
@@ -2259,6 +2528,125 @@ public class InitDb {
             item78.changeBrand(brand2);
             item79.changeBrand(brand3);
             item80.changeBrand(brand4);
+            /*신발 브랜드*/
+            item81.changeBrand(brand0);
+            item82.changeBrand(brand1);
+            item83.changeBrand(brand2);
+            item84.changeBrand(brand3);
+            item85.changeBrand(brand4);
+
+            /*주문데이터*/
+            OptionValueDto optionValueDto1_2 = new OptionValueDto();
+            int[] count1_2 = new int[3];
+            count1_2[0] = 1;
+            count1_2[1] = 1;
+            count1_2[2] = 1;
+
+            Long[] itemId1_2 = new Long[3];
+            itemId1_2[0] = 113l;
+            itemId1_2[1] = 82l;
+            itemId1_2[2] = 94l;
+
+            String[] size1_2 = new String[3];
+            size1_2[0] = "230";
+            size1_2[1] = "L";
+            size1_2[2] = "L";
+
+            optionValueDto1_2.setCount(count1_2);
+            optionValueDto1_2.setItemId(itemId1_2);
+            optionValueDto1_2.setSize(size1_2);
+            Cart cart1 = cartService.createCart(member1);
+            cartService.processBasket(optionValueDto1_2, cart1);
+
+            OptionValueDto optionValueDto1 = new OptionValueDto();
+            int[] count1 = new int[5];
+            count1[0] = 1;
+            count1[1] = 1;
+            count1[2] = 1;
+            count1[3] = 1;
+            count1[4] = 1;
+            Long[] itemId1 = new Long[5];
+            itemId1[0] = 115l;
+            itemId1[1] = 116l;
+            itemId1[2] = 117l;
+            itemId1[3] = 111l;
+            itemId1[4] = 97l;
+            String[] size1 = new String[5];
+            size1[0] = "270";
+            size1[1] = "250";
+            size1[2] = "270";
+            size1[3] = "L";
+            size1[4] = "M";
+            optionValueDto1.setCount(count1);
+            optionValueDto1.setItemId(itemId1);
+            optionValueDto1.setSize(size1);
+            cartService.processBasket(optionValueDto1, cart1);
+            orderService.orderProcess(member1.getId(), optionValueDto1);
+
+            OptionValueDto optionValueDto2 = new OptionValueDto();
+            int[] count2 = new int[3];
+            count2[0] = 1;
+            count2[1] = 1;
+            count2[2] = 1;
+            Long[] itemId2 = new Long[3];
+            itemId2[0] = 115l;
+            itemId2[1] = 53l;
+            itemId2[2] = 70l;
+            String[] size2 = new String[3];
+            size2[0] = "270";
+            size2[1] = "M";
+            size2[2] = "M";
+            optionValueDto2.setCount(count2);
+            optionValueDto2.setItemId(itemId2);
+            optionValueDto2.setSize(size2);
+            Cart cart2 = cartService.createCart(member2);
+            cartService.processBasket(optionValueDto2, cart2);
+            orderService.orderProcess(member2.getId(), optionValueDto2);
+
+            OptionValueDto optionValueDto3 = new OptionValueDto();
+            int[] count3 = new int[2];
+            count3[0] = 1;
+            count3[1] = 1;
+            Long[] itemId3 = new Long[2];
+            itemId3[0] = 113l;
+            itemId3[1] = 114l;
+            String[] size3 = new String[2];
+            size3[0] = "220";
+            size3[1] = "240";
+            optionValueDto3.setCount(count3);
+            optionValueDto3.setItemId(itemId3);
+            optionValueDto3.setSize(size3);
+            Cart cart3 = cartService.createCart(member3);
+            cartService.processBasket(optionValueDto3, cart3);
+            orderService.orderProcess(member3.getId(), optionValueDto3);
+
+            item65.changeView(151);
+            item30.changeView(101);
+            item78.changeView(51);
+            item55.changeView(21);
+            item20.changeView(70);
+            item.changeView(60);
+            item82.changeView(60);
+            item83.changeView(90);
+            item84.changeView(60);
+            item41.changeView(10);
+
+            /*리뷰*/
+            NewReviewDto newReviewDto1 = new NewReviewDto(115l, "179", "75", "보통이에요", "밝아요", "보통이에요", "신어봤는데 굉장히 편해요!", "270");
+            reviewService.newReview(member1.getId(), newReviewDto1);
+
+            NewReviewDto newReviewDto1_2 = new NewReviewDto(97l, "179", "75", "보통이에요", "밝아요", "얇아요", "실제로 보니 더밝고 얇아요 참고하세요~", "L");
+            reviewService.newReview(member1.getId(), newReviewDto1_2);
+
+            NewReviewDto newReviewDto1_3 = new NewReviewDto(116l, "179", "75", "작아요", "밝아요", "두꺼워요", "사이즈 잘못 주문해서 너무 작아요ㅠㅠ", "250");
+            reviewService.newReview(member1.getId(), newReviewDto1_3);
+
+            ReviewCommentDto reviewCommentDto1 = new ReviewCommentDto(1172l, "사이즈 정사이즈인가 보네요 일단 장바구니에 담아둡니다~", "이찬복");
+            ReviewCommentDto reviewCommentDto2 = new ReviewCommentDto(1172l, "240사이즈는 언제 재입고되나요 ㅜㅜ", "이준택");
+
+            commentService.newComment(reviewCommentDto1);
+            commentService.newComment(reviewCommentDto2);
+
         }
     }
 }

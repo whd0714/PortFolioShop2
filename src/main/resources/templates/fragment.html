@@ -292,7 +292,7 @@
                 <em class="my-name">
                     <span th:text="${member.getUsername()}"></span>
                 </em>
-                <a th:href="@{/myPage/info}" class="link-my-info">회원정보변경</a>
+                <!--<a th:href="@{/myPage/info}" class="link-my-info">회원정보변경</a>-->
                 <div class="my-info-detail">
                     <em class="level">LV.1</em>
                     <span th:text="${#temporals.format(member.getJoinAt(),'yyyy-MM-dd')}"></span>
@@ -313,7 +313,7 @@
                 <a th:href="@{/}">
                     <i class="fa fa-copyright"></i>
                     쿠폰 >
-                    <em>10</em>
+                    <em>0</em>
                 </a>
                 <a th:href="@{/}">
                     <i class="fa fa-edit"></i>

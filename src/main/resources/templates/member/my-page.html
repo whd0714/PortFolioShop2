@@ -85,11 +85,11 @@
 
                                 <th>
                                     <div th:if="${member.getReviews().isEmpty() or orderItem.getItem().getReviews().isEmpty()}">
-                                        <span  th:onclick="'javascript:writeReview(\'' + ${orderItem.getId()} + '\');'" class="my-page-order-list-reviewBtn">후기작성하기a</span>
+                                        <span  th:onclick="'javascript:writeReview(\'' + ${orderItem.getId()} + '\');'" class="my-page-order-list-reviewBtn">후기작성하기</span>
                                     </div>
                                     <div th:unless="${member.getReviews().isEmpty() or orderItem.getItem().getReviews().isEmpty()}">
                                         <div class="zzz">
-                                            <span  th:onclick="'javascript:writeReview(\'' + ${orderItem.getId()} + '\');'" class="my-page-order-list-reviewBtn">후기작성하기a</span>
+                                            <span  th:onclick="'javascript:writeReview(\'' + ${orderItem.getId()} + '\');'" class="my-page-order-list-reviewBtn">후기작성하기</span>
                                         </div>
                                         <div th:each="review : ${orderItem.getItem().getReviews()}">
                                             <span th:if="${member.getReviews().contains(review)}">

@@ -131,4 +131,8 @@ public class Item {
     public void updateSaleRate() {
         this.saleRate++;
     }
+
+    public void changeView(int view) {
+        this.view = view;
+    }
 }

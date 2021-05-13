@@ -16,8 +16,9 @@
                 <a th:href="@{/}">포트폴리오 스토어</a>
             </div>
             <div class="nav-brand">
-                <span>검색</span>
-                (<span th:text="${queryData}"></span>)
+                <span>검색어 : </span>
+                <span th:if="${queryData != ''}"><span th:text="${queryData}"></span></span>
+                <span th:if="${tagName2 != ''}"><span th:text="${tagName2}"></span>(해시태그검색)</span>
             </div>
         </div>
     </div>
