@@ -2,6 +2,7 @@
 
 .order-top-box {
     padding: 15px 0 15px 25px;
+    border-bottom: 1px solid #ddd;
 }
 
 
@@ -183,5 +184,30 @@
 }
 
 .border-bottom {
-    border-bottom: 1px solie #ddd;
+    border-bottom: 1px solid #ddd;
+}
+
+.order-com-box {
+    padding: 0px 20px;
+}
+
+.order-com-content {
+    font-size: 20px;
+    padding: 30px 0px;
+}
+
+.order-com-btn {
+    margin-bottom: 30px;
+}
+
+.order-com-btn span {
+    margin-top: 20px;
+    border: 1px solid #ddd;
+    padding: 10px 10px;
+}
+
+.order-com-btn span:hover {
+    cursor: pointer;
+    background: black;
+    color: white;
 }

@@ -32,6 +32,20 @@
                         <span>주문 완료</span>
                     </div>
                 </div>
+
+                <div class="order-com-box">
+                   <div class="order-com-content">
+                       주문이 완료 되었습니다.
+                   </div>
+
+                    <div class="order-com-btn">
+                        <a th:href="@{/myPage}">
+                            <span>
+                            주문내역 확인
+                        </span>
+                        </a>
+                    </div>
+                </div>
             </div>
 
             <div th:replace="fragment.html :: footer"></div>

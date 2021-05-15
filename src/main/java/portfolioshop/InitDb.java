@@ -36,6 +36,7 @@ import javax.imageio.ImageIO;
 import javax.persistence.EntityManager;
 import javax.swing.*;
 import javax.swing.text.html.Option;
+import javax.validation.constraints.NotBlank;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;

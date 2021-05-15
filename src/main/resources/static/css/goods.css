@@ -132,6 +132,7 @@
     height: 622px;
     border: 1px solid #ddd;
     cursor: pointer;
+    padding: 10px 9px;
 }
 
 .sub-img-list {
